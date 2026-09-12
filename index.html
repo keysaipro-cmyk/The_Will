@@ -425,10 +425,40 @@ label{display:block;font-size:12.8px;font-weight:600;margin-bottom:7px;color:#26
 
 /* ============================================================
    تنسيق الطباعة — يُخفي كل شيء ما عدا ملف التركة
+   ويُصفّر جميع الفراغات العلوية
    ============================================================ */
 @media print {
+  /* إخفاء كل شيء افتراضيًا */
   body *{ visibility: hidden; }
 
+  /* تصفير الهوامش والحشوات في الجذر */
+  html, body{
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #fff !important;
+    width: 100% !important;
+  }
+
+  /* تصفير كل الحاويات الأب */
+  main, .screen, .panel, #appRoot{
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    max-width: none !important;
+    width: 100% !important;
+  }
+
+  /* إخفاء الهيدر والتذييل وبوابات الدخول */
+  .app-header,
+  .app-footer,
+  .login-gate,
+  .demo-note,
+  .screen-head{ display: none !important; }
+
+  /* إظهار ملف التركة فقط */
   #printArea, #printArea *{ visibility: visible; }
 
   #printArea{
@@ -445,20 +475,34 @@ label{display:block;font-size:12.8px;font-weight:600;margin-bottom:7px;color:#26
     border: none;
     box-shadow: none;
     background: #fff;
-    padding: 16px;
+    padding: 0;
     margin: 0;
     border-radius: 0;
   }
 
+  /* إخفاء الأزرار وعناصر التحكم داخل الملف */
   #printArea .btn,
   #printArea a.btn,
   #printArea button{ display: none !important; }
 
+  /* ضبط حجم الصفحة والهوامش */
   @page{
     size: A4;
-    margin: 12mm;
+    margin: 10mm 12mm;
   }
 
+  /* تصغير الخطوط لتقليل عدد الصفحات */
+  #printArea{ font-size: 11.5px; }
+  #printArea h4{ font-size: 12.5px !important; margin: 8px 0 5px !important; }
+  #printArea .mini-row{ padding: 4px 0 !important; font-size: 11.5px !important; }
+  #printArea .report-meta{ margin-bottom: 8px !important; gap: 6px !important; }
+  #printArea .meta-item{ padding: 5px 10px !important; font-size: 10.5px !important; }
+  #printArea .meta-item b{ font-size: 12px !important; }
+  #printArea .chip{ padding: 2px 8px !important; font-size: 10.5px !important; }
+  #printArea .exec-badge{ font-size: 9.5px !important; padding: 1px 6px !important; }
+  #printArea .note-box{ padding: 8px 10px !important; font-size: 10.5px !important; margin-top: 8px !important; }
+
+  /* ضمان طباعة الألوان */
   *{
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
