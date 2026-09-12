@@ -120,9 +120,6 @@ main{max-width:1180px;margin:0 auto;padding:24px 22px 40px}
 .card-head h3{margin:0;font-size:16px;font-weight:600}
 .card-head .sub{margin:1px 0 0;font-size:12px;color:var(--muted)}
 
-/* ============================================================
-   الأكورديون (Accordion)
-   ============================================================ */
 .card-head{
   cursor: pointer;
   user-select: none;
@@ -257,13 +254,103 @@ main{max-width:1180px;margin:0 auto;padding:24px 22px 40px}
   display:flex;align-items:flex-start;gap:6px;margin-top:3px;
 }
 .prop-addr .ic{width:13px;height:13px;color:var(--muted);margin-top:3px;flex:0 0 auto}
-.prop-meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
 .prop-tags{margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
 .prop-val{text-align:left;flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-start;gap:2px}
 .prop-val b{font-size:14px;color:var(--green-800)}
 .prop-val.late b{color:var(--red)}
 .prop-val.landlord b{color:var(--purple)}
 .prop-val span{font-size:10.5px;color:var(--muted)}
+
+/* ================= حسابات التواصل الاجتماعي ================= */
+.social-row{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:13px;border-radius:13px;background:#fcfdfd;
+  border:1px solid var(--line);margin-bottom:10px;
+  transition:border-color .2s, background .2s;
+}
+.social-row:hover{border-color:#d0ddd7;background:#fff}
+.social-ic{
+  width:42px;height:42px;border-radius:11px;flex:0 0 auto;
+  display:grid;place-items:center;color:#fff;font-weight:700;
+  font-size:15px;
+}
+.social-ic.x{background:#000}
+.social-ic.instagram{background:linear-gradient(135deg,#f58529,#dd2a7b,#8134af)}
+.social-ic.snapchat{background:#fffc00;color:#000}
+.social-ic.tiktok{background:#000}
+.social-ic.linkedin{background:#0a66c2}
+.social-ic.whatsapp{background:#25d366}
+.social-ic.telegram{background:#0088cc}
+.social-ic.youtube{background:#ff0000}
+.social-main{flex:1;min-width:0}
+.social-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:5px}
+.social-name{font-size:14px;font-weight:700}
+.social-cred{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  margin-top:6px;
+  font-size:12px;
+}
+.social-cred-line{
+  display:flex;align-items:center;gap:6px;
+  color:#4a5c56;
+}
+.social-cred-line .ic{width:13px;height:13px;color:var(--muted);flex:0 0 auto}
+.social-cred-line b{
+  font-family: 'Courier New', monospace;
+  font-weight:600;
+  color: var(--text);
+  letter-spacing: .5px;
+}
+.social-cred-line .pw{
+  background: #f1f4f3;
+  padding: 2px 8px;
+  border-radius: 6px;
+  letter-spacing: 2px;
+}
+.social-val{text-align:left;flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+
+.social-form{
+  margin-top: 16px;
+  padding: 16px;
+  background: #f7faf9;
+  border: 1px dashed var(--line);
+  border-radius: 12px;
+}
+.social-form-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.social-form-grid.wide{ grid-template-columns: 1fr; }
+@media (max-width: 640px){
+  .social-form-grid{ grid-template-columns: 1fr; }
+}
+.social-form label{
+  display:block;font-size:12.5px;font-weight:600;
+  margin-bottom:5px;color:#26382f;
+}
+
+.social-action-options{
+  display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;
+}
+.social-action-options label{
+  display:inline-flex;align-items:center;gap:6px;
+  background:#fff;border:1px solid var(--line);
+  padding:7px 12px;border-radius:9px;cursor:pointer;
+  font-size:12.5px;font-weight:500;margin:0;
+  transition:.2s;
+}
+.social-action-options label:hover{border-color:#c6d5cf}
+.social-action-options input{display:none}
+.social-action-options input:checked + span{
+  color:var(--green-900);font-weight:700;
+}
+.social-action-options label:has(input:checked){
+  background:#e9f7f0;border-color:#a8ddc4;color:var(--green-900);
+}
 
 .chip{
   display:inline-flex;align-items:center;gap:6px;padding:6px 13px;
@@ -444,9 +531,6 @@ label{display:block;font-size:12.8px;font-weight:600;margin-bottom:7px;color:#26
 }
 .deny-circle .ic{width:30px;height:30px}
 
-/* ============================================================
-   تنسيق الطباعة
-   ============================================================ */
 @media print {
   body *{ visibility: hidden; }
 
@@ -583,7 +667,6 @@ const ICONS = {
   car:'<path d="M3.5 16.8v-3.4L5.6 8h12.8l2.1 5.4v3.4"/><path d="M3.5 16.8h17"/><circle cx="7.3" cy="16.8" r="1.6"/><circle cx="16.7" cy="16.8" r="1.6"/><path d="M6.2 12.6h11.6"/>',
   tv:'<rect x="2.6" y="4.2" width="18.8" height="12.6" rx="2.2"/><path d="M8.5 20.5h7"/><path d="M12 16.8v3.7"/>',
   music:'<path d="M9 18V6.5l10-2V16"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/>',
-  scale:'<path d="M12 3.2v17.3"/><path d="M7 20.5h10"/><path d="M4.5 7.5h15"/><path d="m6.5 7.5-2.6 6h5.2l-2.6-6Z"/><path d="m17.5 7.5-2.6 6h5.2l-2.6-6Z"/><circle cx="12" cy="4" r="1.3"/>',
   file:'<path d="M14 3.2H7.4A2.2 2.2 0 0 0 5.2 5.4v13.2a2.2 2.2 0 0 0 2.2 2.2h9.2a2.2 2.2 0 0 0 2.2-2.2V8.2L14 3.2Z"/><path d="M13.8 3.4v4.6h4.8"/><path d="M9 13.5h6"/><path d="M9 17h3.6"/>',
   key:'<circle cx="8" cy="15.2" r="3.8"/><path d="m10.7 12.5 8.1-8.1"/><path d="m16.6 5.3 2.1 2.1"/><path d="m14.2 7.7 2.1 2.1"/>',
   check:'<path d="m4.5 12.6 4.8 4.8L19.5 7"/>',
@@ -592,8 +675,8 @@ const ICONS = {
   alert:'<path d="M10.3 4.2 2.6 17.6a1.9 1.9 0 0 0 1.7 2.9h15.4a1.9 1.9 0 0 0 1.7-2.9L13.7 4.2a1.9 1.9 0 0 0-3.4 0Z"/><path d="M12 9.4v4.2"/><path d="M12 17.2h.01"/>',
   lock:'<rect x="4.2" y="10.4" width="15.6" height="10.2" rx="2.4"/><path d="M8 10.4V7.8a4 4 0 0 1 8 0v2.6"/>',
   eye:'<path d="M2.4 12S5.9 5.6 12 5.6 21.6 12 21.6 12 18.1 18.4 12 18.4 2.4 12 2.4 12Z"/><circle cx="12" cy="12" r="3"/>',
+  eyeOff:'<path d="M9.9 4.5A10 10 0 0 1 12 4.3c6.1 0 9.6 6.4 9.6 6.4a17 17 0 0 1-2.3 3.1"/><path d="M6.1 6.1A17 17 0 0 0 2.4 10.7s3.5 6.4 9.6 6.4c1.7 0 3.2-.5 4.5-1.2"/><path d="m9.9 9.9 4.2 4.2"/><path d="m3 3 18 18"/>',
   userCheck:'<circle cx="9.4" cy="8" r="3.5"/><path d="M3 20.2a6.4 6.4 0 0 1 11.1-4.4"/><path d="m15.6 17.8 2 2 4-4.2"/>',
-  bell:'<path d="M18 8.4a6 6 0 1 0-12 0c0 6.6-2.6 8.6-2.6 8.6h17.2S18 15 18 8.4"/><path d="M13.8 20.6a2 2 0 0 1-3.6 0"/>',
   building:'<path d="M3 21h18"/><path d="M5.4 21V6.4L12 3.2l6.6 3.2V21"/><path d="M9.4 9.6h1.6M13 9.6h1.6M9.4 13.2h1.6M13 13.2h1.6"/><path d="M10.2 21v-4h3.6v4"/>',
   home:'<path d="M3.5 11 12 3.5 20.5 11"/><path d="M5.5 9.4V20.5h13V9.4"/><path d="M9.8 20.5v-5.4h4.4v5.4"/>',
   mapPin:'<path d="M12 21.5S5 15.4 5 10.2a7 7 0 1 1 14 0c0 5.2-7 11.3-7 11.3Z"/><circle cx="12" cy="10.2" r="2.6"/>',
@@ -609,6 +692,7 @@ const ICONS = {
   printer:'<path d="M6.5 9V3.5h11V9"/><rect x="3.5" y="9" width="17" height="8" rx="2"/><path d="M6.5 14.5h11V20.5h-11z"/>',
   chevronDown:'<path d="m6 9 6 6 6-6"/>',
   link:'<path d="M10.2 13.8a3.6 3.6 0 0 0 5.1 0l2.6-2.6a3.6 3.6 0 0 0-5.1-5.1l-1.5 1.5"/><path d="M13.8 10.2a3.6 3.6 0 0 0-5.1 0l-2.6 2.6a3.6 3.6 0 0 0 5.1 5.1l1.5-1.5"/>',
+  share:'<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4"/><path d="m15.4 6.5-6.8 4"/>',
   settings:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-2.7 1.1v.3a2 2 0 1 1-4 0v-.2a1.6 1.6 0 0 0-2.8-1.1l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1A1.6 1.6 0 0 0 3.5 15H3a2 2 0 1 1 0-4h.2A1.6 1.6 0 0 0 4.3 8.2l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1A1.6 1.6 0 0 0 9.9 4.3V4a2 2 0 1 1 4 0v.2a1.6 1.6 0 0 0 2.7 1.1l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0 1.1 2.7h.3a2 2 0 1 1 0 4h-.2a1.6 1.6 0 0 0-1.2 1.1Z"/>'
 };
 
@@ -619,9 +703,6 @@ function ic(name, cls){
          (ICONS[name]||'') + '</svg>';
 }
 
-/* ================================================================
-   دالة فتح/إغلاق الأكورديون
-   ================================================================ */
 function toggleCard(cardId){
   const card = document.getElementById(cardId);
   if(!card) return;
@@ -707,6 +788,26 @@ const PROPERTIES = [
   }
 ];
 
+/* ================================================================
+   حسابات التواصل الاجتماعي — بيانات وهمية
+   ================================================================ */
+const SOCIAL_PLATFORMS = [
+  { id:'x',         name:'X (تويتر)',       short:'X' },
+  { id:'instagram', name:'Instagram',       short:'IG' },
+  { id:'snapchat',  name:'Snapchat',        short:'SC' },
+  { id:'tiktok',    name:'TikTok',          short:'TT' },
+  { id:'linkedin',  name:'LinkedIn',        short:'in' },
+  { id:'whatsapp',  name:'WhatsApp Business', short:'WA' },
+  { id:'telegram',  name:'Telegram',        short:'TG' },
+  { id:'youtube',   name:'YouTube',         short:'YT' }
+];
+
+const ACTION_LABELS = {
+  close:    'إغلاق الحساب',
+  memorial: 'حفظ كذكرى',
+  delete:   'حذف المحتوى'
+};
+
 const SIMAH_DEBTS = [
   { name:'دين بنكي — مصرف الراجحي', ref:'SM-2025-4471902', amount:82500 },
   { name:'تمويل مركبة — البنك الأهلي السعودي', ref:'SM-2025-4471903', amount:42000 }
@@ -728,6 +829,21 @@ const state = {
   authorizedHeir:'h2',
   executor:'h3',
   report:'pending',
+
+  /* حسابات التواصل الاجتماعي */
+  socialAccounts:[
+    { id:1, platform:'x',         username:'@abdullah_m',      password:'Abc@1234',  action:'close',    showPassword:false },
+    { id:2, platform:'instagram', username:'abdullah.otaibi',  password:'Insta#2024', action:'memorial', showPassword:false },
+    { id:3, platform:'snapchat',  username:'abod_92',          password:'Snap$9922',  action:'close',    showPassword:false },
+    { id:4, platform:'linkedin',  username:'abdullah-otaibi',  password:'Link@Sa1',   action:'memorial', showPassword:false }
+  ],
+  socialForm:{
+    open:false,
+    platform:'x',
+    username:'',
+    password:'',
+    action:'close'
+  },
 
   gate:{ stage:'id', idValue: MOCK_DECEASED_ID },
 
@@ -792,6 +908,7 @@ function renderSetupScreen(){
       <div class="card" id="cardHeirs"></div>
       <div class="card" id="cardWasiyya"></div>
       <div class="card full" id="cardProperties"></div>
+      <div class="card full" id="cardSocial"></div>
       <div class="card full" id="cardAssets"></div>
       <div class="card span7" id="cardDebts"></div>
       <div class="card span5" id="cardPerms"></div>
@@ -802,6 +919,7 @@ function renderSetupScreen(){
   renderHeirs();
   renderWasiyya();
   renderProperties();
+  renderSocial();
   renderAssets();
   renderDebts();
   renderPerms();
@@ -1033,6 +1151,221 @@ function renderProperties(){
       </div>
     </div>
   `;
+}
+
+/* ================================================================
+   عرض بطاقة حسابات التواصل الاجتماعي
+   ================================================================ */
+function platformName(id){
+  const p = SOCIAL_PLATFORMS.find(p => p.id === id);
+  return p ? p.name : id;
+}
+function platformShort(id){
+  const p = SOCIAL_PLATFORMS.find(p => p.id === id);
+  return p ? p.short : '?';
+}
+
+function renderSocial(){
+  const el = document.getElementById('cardSocial');
+  const list = state.socialAccounts;
+  const f = state.socialForm;
+
+  const platformOptions = SOCIAL_PLATFORMS
+    .map(p => `<option value="${p.id}" ${f.platform===p.id?'selected':''}>${p.name}</option>`)
+    .join('');
+
+  el.innerHTML = `
+    <div class="card-head" onclick="toggleCard('cardSocial')">
+      <div class="card-icon">${ic('share')}</div>
+      <div>
+        <h3>حسابات التواصل الاجتماعي</h3>
+        <p class="sub">
+          ${list.length} حساب مسجَّل — تُحفظ كلمات المرور مشفّرة وتُسلَّم للوريث المخوّل فقط بعد الاعتماد
+        </p>
+      </div>
+      <span class="chevron">${ic('chevronDown')}</span>
+    </div>
+
+    <div class="card-body">
+
+      ${list.length ? list.map(a => {
+        const plat = platformName(a.platform);
+        const short = platformShort(a.platform);
+        return `
+          <div class="social-row">
+            <div class="social-ic ${a.platform}">${short}</div>
+            <div class="social-main">
+              <div class="social-top">
+                <span class="social-name">${plat}</span>
+                <span class="chip chip-ok chip-sm">${ic('checkCircle','ic-sm')} ${ACTION_LABELS[a.action] || '—'}</span>
+              </div>
+              <div class="social-cred">
+                <div class="social-cred-line">
+                  ${ic('person','ic-sm')}
+                  <span>اسم المستخدم:</span>
+                  <b>${a.username}</b>
+                </div>
+                <div class="social-cred-line">
+                  ${ic('lock','ic-sm')}
+                  <span>كلمة المرور:</span>
+                  <b class="pw" id="pw-${a.id}">${ a.showPassword ? a.password : '••••••••' }</b>
+                  <button type="button" class="btn btn-ghost btn-sm" data-toggle-pw="${a.id}" title="إظهار/إخفاء">
+                    ${ic(a.showPassword ? 'eyeOff' : 'eye','ic-sm')}
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="social-val">
+              <button type="button" class="btn btn-ghost btn-sm" data-remove-social="${a.id}" title="حذف">
+                ${ic('trash','ic-sm')} حذف
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('') : '<div class="note-box" style="margin-top:0">لا توجد حسابات مسجّلة حتى الآن. اضغط الزر أدناه لإضافة حساب.</div>'}
+
+      ${!f.open ? `
+        <button type="button" class="btn btn-primary" id="btnSocialAdd" style="margin-top:8px">
+          ${ic('plus','ic-sm')} إضافة حساب جديد
+        </button>
+      ` : `
+        <div class="social-form">
+          <label style="font-size:13px;font-weight:700;color:var(--green-900);margin-bottom:12px;display:block">
+            إضافة حساب تواصل جديد
+          </label>
+
+          <div class="social-form-grid">
+            <div>
+              <label>المنصة</label>
+              <select id="socialPlatform">${platformOptions}</select>
+            </div>
+            <div>
+              <label>اسم المستخدم</label>
+              <input id="socialUsername" value="${f.username}" placeholder="مثال: @abdullah_m" />
+            </div>
+          </div>
+
+          <div class="social-form-grid wide">
+            <div>
+              <label>كلمة المرور</label>
+              <input id="socialPassword" type="text" value="${f.password}" placeholder="••••••••" />
+            </div>
+          </div>
+
+          <label>الإجراء المطلوب بعد الوفاة</label>
+          <div class="social-action-options">
+            <label>
+              <input type="radio" name="socialAction" value="close" ${f.action==='close'?'checked':''} />
+              <span>${ic('lock','ic-sm')} إغلاق الحساب</span>
+            </label>
+            <label>
+              <input type="radio" name="socialAction" value="memorial" ${f.action==='memorial'?'checked':''} />
+              <span>${ic('sparkles','ic-sm')} حفظ كذكرى</span>
+            </label>
+            <label>
+              <input type="radio" name="socialAction" value="delete" ${f.action==='delete'?'checked':''} />
+              <span>${ic('trash','ic-sm')} حذف المحتوى</span>
+            </label>
+          </div>
+
+          <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
+            <button type="button" class="btn btn-primary btn-sm" id="btnSocialSave">
+              ${ic('check','ic-sm')} حفظ الحساب
+            </button>
+            <button type="button" class="btn btn-ghost btn-sm" id="btnSocialCancel">
+              إلغاء
+            </button>
+          </div>
+        </div>
+      `}
+
+      <div class="note-box note-warn">
+        ${ic('shield','ic-sm')}
+        <span>
+          <b>تنبيه أمني:</b> تُحفظ كلمات المرور بصيغة مشفّرة، ولا تُسلَّم لأي طرف ثالث.
+          عند التحقق من الوفاة، يتولّى النظام تنفيذ الإجراء المختار لكل حساب بالتنسيق مع المنصات.
+          بيانات الدخول تُسلَّم للوريث المخوّل بالاطلاع بعد اعتماد مكتب العدل فقط.
+        </span>
+      </div>
+
+    </div>
+  `;
+
+  bindSocialEvents();
+}
+
+function bindSocialEvents(){
+  const card = document.getElementById('cardSocial');
+  if(!card) return;
+
+  card.addEventListener('click', e => {
+
+    /* إظهار/إخفاء كلمة المرور */
+    const toggle = e.target.closest('[data-toggle-pw]');
+    if(toggle){
+      const id = Number(toggle.dataset.togglePw);
+      const acc = state.socialAccounts.find(a => a.id === id);
+      if(acc){
+        acc.showPassword = !acc.showPassword;
+        renderSocial();
+      }
+      return;
+    }
+
+    /* حذف حساب */
+    const rm = e.target.closest('[data-remove-social]');
+    if(rm){
+      const id = Number(rm.dataset.removeSocial);
+      state.socialAccounts = state.socialAccounts.filter(a => a.id !== id);
+      renderSocial();
+      return;
+    }
+
+    /* فتح نموذج الإضافة */
+    if(e.target.closest('#btnSocialAdd')){
+      state.socialForm = { open:true, platform:'x', username:'', password:'', action:'close' };
+      renderSocial();
+      return;
+    }
+
+    /* إلغاء */
+    if(e.target.closest('#btnSocialCancel')){
+      state.socialForm = { open:false, platform:'x', username:'', password:'', action:'close' };
+      renderSocial();
+      return;
+    }
+
+    /* حفظ */
+    if(e.target.closest('#btnSocialSave')){
+      const platform = document.getElementById('socialPlatform')?.value || 'x';
+      const username = (document.getElementById('socialUsername')?.value || '').trim();
+      const password = (document.getElementById('socialPassword')?.value || '').trim();
+      const actionInput = document.querySelector('input[name="socialAction"]:checked');
+      const action = actionInput ? actionInput.value : 'close';
+
+      if(!username || !password){
+        alert('يرجى إدخال اسم المستخدم وكلمة المرور.');
+        return;
+      }
+
+      state.socialAccounts.push({
+        id: Date.now(),
+        platform, username, password, action,
+        showPassword: false
+      });
+
+      state.socialForm = { open:false, platform:'x', username:'', password:'', action:'close' };
+      renderSocial();
+      return;
+    }
+  });
+
+  /* تغيير الراديو */
+  card.addEventListener('change', e => {
+    if(e.target.name === 'socialAction'){
+      state.socialForm.action = e.target.value;
+    }
+  });
 }
 
 function renderAssets(){
@@ -1607,6 +1940,22 @@ function fullFile(){
           </div>
         `;
       }).join('')}
+
+      <h4 style="font-size:13.5px;margin-top:18px">${ic('share','ic-sm')} حسابات التواصل الاجتماعي</h4>
+      ${state.socialAccounts.length ? state.socialAccounts.map(a=>`
+        <div class="mini-row" style="display:block;padding:8px 0">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+            <b style="font-size:12.5px">${platformName(a.platform)}</b>
+            <span class="chip chip-ok chip-sm">${ic('checkCircle','ic-sm')} ${ACTION_LABELS[a.action] || '—'}</span>
+          </div>
+          <div style="font-size:11.5px;color:var(--muted);margin-top:4px;line-height:1.7">
+            اسم المستخدم: <b style="color:var(--text)">${a.username}</b>
+            &nbsp;•&nbsp;
+            كلمة المرور: <b style="color:var(--text);font-family:'Courier New',monospace">••••••••</b>
+            <span style="font-size:10.5px">(تُسلَّم للوريث المخوّل)</span>
+          </div>
+        </div>
+      `).join('') : '<div class="mini-row"><span>لا توجد حسابات مسجّلة</span></div>'}
 
       <h4 style="font-size:13.5px;margin-top:18px">${ic('file','ic-sm')} وصية الثلث</h4>
       <div class="mini-row" style="display:block">
