@@ -1539,7 +1539,7 @@ function fullFile(){
       </div>
 
       <div style="display:flex;gap:10px;margin-top:18px;flex-wrap:wrap">
-        <button type="button" class="btn btn-ghost btn-sm" id="btnPrintEstate">
+        <button type="button" class="btn btn-ghost btn-sm" onclick="window.print()">
           ${ic('printer','ic-sm')} تحميل نسخة PDF
         </button>
 
@@ -1632,14 +1632,6 @@ function bindHeirEvents(){
     logout.onclick = () => {
       state.heir = { deceasedId:'', heirId:'', error:'', result:null, deniedHeir:null, fileOpen:false };
       renderHeirPanel();
-    };
-  }
-
-  /* زر تحميل ملف التركة كـ PDF عبر الطباعة الأصلية */
-  const printEstate = document.getElementById('btnPrintEstate');
-  if(printEstate){
-    printEstate.onclick = () => {
-      window.print();
     };
   }
 }
