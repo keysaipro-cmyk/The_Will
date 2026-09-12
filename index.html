@@ -5,15 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>الوصية الرقمية الذكية — نموذج أولي تفاعلي</title>
 
-<!-- خط عربي واضح واحترافي -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-/* ============================================================
-   الوصية الرقمية الذكية — نظام تصميم مبسّط
-   ============================================================ */
 :root{
   --green-950:#052318;
   --green-900:#0b3d2e;
@@ -51,7 +47,6 @@ button{font-family:inherit}
 ::selection{background:#cdece0}
 .hidden{display:none !important}
 
-/* ================= الهيدر الثابت ================= */
 .app-header{position:sticky;top:0;z-index:60;box-shadow:0 4px 22px rgba(6,35,24,.10)}
 
 .topbar{
@@ -88,7 +83,6 @@ button{font-family:inherit}
   display:grid;place-items:center;font-weight:700;font-size:12px;
 }
 
-/* ================= المحتوى ================= */
 main{max-width:1180px;margin:0 auto;padding:24px 22px 40px}
 .screen{animation:fadeIn .38s ease both}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
@@ -104,7 +98,6 @@ main{max-width:1180px;margin:0 auto;padding:24px 22px 40px}
 .screen-head h2{margin:0 0 4px;font-size:23px;font-weight:600;letter-spacing:-.3px}
 .screen-head p{margin:0;color:var(--muted);font-size:14px}
 
-/* ================= البطاقات ================= */
 .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}
 .card{
   background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
@@ -117,7 +110,8 @@ main{max-width:1180px;margin:0 auto;padding:24px 22px 40px}
   .card, .card.full, .card.span7, .card.span5{grid-column:span 12}
 }
 
-.card-head{display:flex;align-items:center;gap:11px;margin-bottom:16px;padding-bottom:14px;border-bottom:1px dashed var(--line)}
+.card-head{display:flex;align-items:center;gap:11px;margin-bottom:0;padding-bottom:14px;border-bottom:1px dashed transparent;}
+.card.open .card-head{border-bottom-color:var(--line);margin-bottom:16px;}
 .card-icon{
   width:38px;height:38px;border-radius:11px;flex:0 0 auto;
   background:#eef5f1;color:var(--green-700);display:grid;place-items:center;
@@ -126,7 +120,50 @@ main{max-width:1180px;margin:0 auto;padding:24px 22px 40px}
 .card-head h3{margin:0;font-size:16px;font-weight:600}
 .card-head .sub{margin:1px 0 0;font-size:12px;color:var(--muted)}
 
-/* ================= إحصائيات ================= */
+/* ============================================================
+   الأكورديون (Accordion)
+   ============================================================ */
+.card-head{
+  cursor: pointer;
+  user-select: none;
+  border-radius: 10px;
+  transition: background .2s ease;
+  margin: -6px;
+  padding: 6px 6px 14px;
+}
+.card.open .card-head{ padding-bottom: 14px; }
+.card-head:hover{ background: #f7faf9; }
+
+.card-head .chevron{
+  margin-inline-start: auto;
+  width: 22px;
+  height: 22px;
+  flex: 0 0 auto;
+  color: var(--muted);
+  transition: transform .35s ease, color .2s ease;
+}
+
+.card.open .card-head .chevron{
+  transform: rotate(180deg);
+  color: var(--green-700);
+}
+
+.card-body{
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: max-height .5s ease, opacity .3s ease, padding .3s ease;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.card.open .card-body{
+  max-height: 8000px;
+  opacity: 1;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
 .summary{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px}
 @media (max-width:760px){ .summary{grid-template-columns:1fr} }
 .stat{
@@ -141,7 +178,6 @@ main{max-width:1180px;margin:0 auto;padding:24px 22px 40px}
 .stat.net .label{color:#a9c9bd}
 .stat.net .value small{color:#a9c9bd}
 
-/* ================= الورثة ================= */
 .heir-row{
   display:flex;align-items:center;gap:12px;
   padding:11px 13px;border-radius:13px;background:#fafbfa;
@@ -167,7 +203,6 @@ main{max-width:1180px;margin:0 auto;padding:24px 22px 40px}
 .heir-val b{font-size:15px;color:var(--green-800)}
 .heir-val span{font-size:11.5px;color:var(--muted)}
 
-/* ================= الأصول ================= */
 .groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}
 .group{border:1px solid var(--line);border-radius:14px;padding:14px;background:#fcfdfd}
 .group-head{
@@ -195,7 +230,6 @@ main{max-width:1180px;margin:0 auto;padding:24px 22px 40px}
 .asset-amt{font-size:13px;font-weight:600;color:var(--green-800);white-space:nowrap;flex:0 0 auto}
 .asset-amt small{font-size:10.5px;color:var(--muted);font-weight:500}
 
-/* ================= العقارات ================= */
 .prop-row{
   display:flex;align-items:flex-start;gap:12px;
   padding:13px;border-radius:13px;background:#fcfdfd;
@@ -231,7 +265,6 @@ main{max-width:1180px;margin:0 auto;padding:24px 22px 40px}
 .prop-val.landlord b{color:var(--purple)}
 .prop-val span{font-size:10.5px;color:var(--muted)}
 
-/* ================= الشرائح (Chips) ================= */
 .chip{
   display:inline-flex;align-items:center;gap:6px;padding:6px 13px;
   border-radius:99px;font-size:12.5px;font-weight:600;border:1px solid transparent;
@@ -245,7 +278,6 @@ main{max-width:1180px;margin:0 auto;padding:24px 22px 40px}
 .chip-sm{padding:2px 9px;font-size:11px}
 .chip-sm .ic{width:12px;height:12px}
 
-/* ================= الشرائح / التبويب الفرعي ================= */
 .seg{display:flex;gap:4px;background:#f1f4f3;padding:4px;border-radius:12px;margin-bottom:14px}
 .seg button{
   flex:1;border:0;background:none;padding:9px;border-radius:9px;cursor:pointer;
@@ -254,7 +286,6 @@ main{max-width:1180px;margin:0 auto;padding:24px 22px 40px}
 }
 .seg button.active{background:#fff;color:var(--green-900);box-shadow:0 1px 3px rgba(0,0,0,.08)}
 
-/* ================= النماذج ================= */
 input,select,textarea{
   width:100%;font-family:inherit;font-size:13.8px;color:var(--text);
   padding:11px 13px;border-radius:11px;border:1px solid var(--line);
@@ -269,7 +300,6 @@ label{display:block;font-size:12.8px;font-weight:600;margin-bottom:7px;color:#26
 .form-row-3{display:grid;grid-template-columns:1fr 1fr auto auto;gap:10px;align-items:center;margin-bottom:10px}
 @media (max-width:560px){ .form-row,.form-row-3{grid-template-columns:1fr} }
 
-/* ================= الأزرار ================= */
 .btn{
   display:inline-flex;align-items:center;justify-content:center;gap:8px;
   font-size:14px;font-weight:600;padding:11px 19px;border-radius:11px;
@@ -284,7 +314,6 @@ label{display:block;font-size:12.8px;font-weight:600;margin-bottom:7px;color:#26
 .btn-sm{padding:8px 13px;font-size:12.8px;border-radius:9px}
 .btn-sm .ic{width:15px;height:15px}
 
-/* ================= صناديق تنبيه ================= */
 .note-box{
   display:flex;gap:9px;align-items:flex-start;
   background:#f6f9f8;border:1px solid var(--line);border-radius:12px;
@@ -299,7 +328,6 @@ label{display:block;font-size:12.8px;font-weight:600;margin-bottom:7px;color:#26
 .note-warn{background:var(--amber-bg);border-color:var(--amber-line);color:var(--amber)}
 .note-warn .ic{color:var(--amber)}
 
-/* ================= شبكة عمودين ================= */
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px}
 @media (max-width:820px){ .two-col{grid-template-columns:1fr} }
 .mini-card{border:1px solid var(--line);border-radius:14px;padding:16px;background:#fcfdfd}
@@ -310,7 +338,6 @@ label{display:block;font-size:12.8px;font-weight:600;margin-bottom:7px;color:#26
 .mini-row span{color:var(--muted)}
 .mini-row b{font-weight:600}
 
-/* ================= الملف الكامل ================= */
 .file-block{
   border:1px solid var(--line);border-radius:16px;padding:18px;
   margin-top:18px;background:#fcfdfd;animation:fadeUp .4s ease both;
@@ -330,7 +357,6 @@ label{display:block;font-size:12.8px;font-weight:600;margin-bottom:7px;color:#26
   font-size:10.5px;font-weight:600;padding:2px 9px;border-radius:99px;
 }
 
-/* ================= التذييل ================= */
 .app-footer{
   max-width:1180px;margin:0 auto;padding:0 22px 46px;
 }
@@ -342,13 +368,9 @@ label{display:block;font-size:12.8px;font-weight:600;margin-bottom:7px;color:#26
 }
 .footer-inner .ic{width:18px;height:18px;color:var(--green-700);flex:0 0 auto;margin-top:2px}
 
-/* أيقونة عامة */
 .ic{width:20px;height:20px;flex:0 0 auto;display:block}
 .ic-sm{width:16px;height:16px}
 
-/* ================================================================
-   بوابة تسجيل الدخول (نفاذ)
-   ================================================================ */
 .login-gate{
   min-height:100vh;display:flex;align-items:center;justify-content:center;
   padding:24px;
@@ -404,7 +426,6 @@ label{display:block;font-size:12.8px;font-weight:600;margin-bottom:7px;color:#26
 }
 .login-success .ok-circle .ic{width:32px;height:32px}
 
-/* ================= شاشة دخول الورثة ================= */
 .heir-gate-icon{
   width:52px;height:52px;border-radius:14px;margin-bottom:14px;
   background:#eef5f1;color:var(--green-700);display:grid;place-items:center;
@@ -424,14 +445,11 @@ label{display:block;font-size:12.8px;font-weight:600;margin-bottom:7px;color:#26
 .deny-circle .ic{width:30px;height:30px}
 
 /* ============================================================
-   تنسيق الطباعة — يُخفي كل شيء ما عدا ملف التركة
-   ويُصفّر جميع الفراغات العلوية
+   تنسيق الطباعة
    ============================================================ */
 @media print {
-  /* إخفاء كل شيء افتراضيًا */
   body *{ visibility: hidden; }
 
-  /* تصفير الهوامش والحشوات في الجذر */
   html, body{
     margin: 0 !important;
     padding: 0 !important;
@@ -439,7 +457,6 @@ label{display:block;font-size:12.8px;font-weight:600;margin-bottom:7px;color:#26
     width: 100% !important;
   }
 
-  /* تصفير كل الحاويات الأب */
   main, .screen, .panel, #appRoot{
     margin: 0 !important;
     padding: 0 !important;
@@ -451,14 +468,12 @@ label{display:block;font-size:12.8px;font-weight:600;margin-bottom:7px;color:#26
     width: 100% !important;
   }
 
-  /* إخفاء الهيدر والتذييل وبوابات الدخول */
   .app-header,
   .app-footer,
   .login-gate,
   .demo-note,
   .screen-head{ display: none !important; }
 
-  /* إظهار ملف التركة فقط */
   #printArea, #printArea *{ visibility: visible; }
 
   #printArea{
@@ -480,18 +495,15 @@ label{display:block;font-size:12.8px;font-weight:600;margin-bottom:7px;color:#26
     border-radius: 0;
   }
 
-  /* إخفاء الأزرار وعناصر التحكم داخل الملف */
   #printArea .btn,
   #printArea a.btn,
   #printArea button{ display: none !important; }
 
-  /* ضبط حجم الصفحة والهوامش */
   @page{
     size: A4;
     margin: 10mm 12mm;
   }
 
-  /* تصغير الخطوط لتقليل عدد الصفحات */
   #printArea{ font-size: 11.5px; }
   #printArea h4{ font-size: 12.5px !important; margin: 8px 0 5px !important; }
   #printArea .mini-row{ padding: 4px 0 !important; font-size: 11.5px !important; }
@@ -502,7 +514,6 @@ label{display:block;font-size:12.8px;font-weight:600;margin-bottom:7px;color:#26
   #printArea .exec-badge{ font-size: 9.5px !important; padding: 1px 6px !important; }
   #printArea .note-box{ padding: 8px 10px !important; font-size: 10.5px !important; margin-top: 8px !important; }
 
-  /* ضمان طباعة الألوان */
   *{
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
@@ -596,6 +607,7 @@ const ICONS = {
   wallet:'<rect x="2.8" y="6" width="18.4" height="13" rx="2.6"/><path d="M2.8 10.2h18.4"/><circle cx="16.8" cy="14.6" r="1.1" fill="currentColor" stroke="none"/>',
   download:'<path d="M12 3.6v11"/><path d="m7.6 10.4 4.4 4.4 4.4-4.4"/><path d="M4 19.6h16"/>',
   printer:'<path d="M6.5 9V3.5h11V9"/><rect x="3.5" y="9" width="17" height="8" rx="2"/><path d="M6.5 14.5h11V20.5h-11z"/>',
+  chevronDown:'<path d="m6 9 6 6 6-6"/>',
   link:'<path d="M10.2 13.8a3.6 3.6 0 0 0 5.1 0l2.6-2.6a3.6 3.6 0 0 0-5.1-5.1l-1.5 1.5"/><path d="M13.8 10.2a3.6 3.6 0 0 0-5.1 0l-2.6 2.6a3.6 3.6 0 0 0 5.1 5.1l1.5-1.5"/>',
   settings:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-2.7 1.1v.3a2 2 0 1 1-4 0v-.2a1.6 1.6 0 0 0-2.8-1.1l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1A1.6 1.6 0 0 0 3.5 15H3a2 2 0 1 1 0-4h.2A1.6 1.6 0 0 0 4.3 8.2l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1A1.6 1.6 0 0 0 9.9 4.3V4a2 2 0 1 1 4 0v.2a1.6 1.6 0 0 0 2.7 1.1l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0 1.1 2.7h.3a2 2 0 1 1 0 4h-.2a1.6 1.6 0 0 0-1.2 1.1Z"/>'
 };
@@ -605,6 +617,15 @@ function ic(name, cls){
   return '<svg class="'+cls+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" '+
          'stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'+
          (ICONS[name]||'') + '</svg>';
+}
+
+/* ================================================================
+   دالة فتح/إغلاق الأكورديون
+   ================================================================ */
+function toggleCard(cardId){
+  const card = document.getElementById(cardId);
+  if(!card) return;
+  card.classList.toggle('open');
 }
 
 /* ================================================================
@@ -634,12 +655,6 @@ const DIGITAL_SUBS = [
   { name:'Spotify Premium', note:'اشتراك شهري 21 ر.س — يُلغى تلقائيًا بعد الوفاة', icon:'music' }
 ];
 
-/* ================================================================
-   العقارات — الأدوار الثلاثة:
-   - owner    : أنا المالك (أسكنه/أستخدمه)          → قيمة العقار أصل
-   - tenant   : أنا المستأجر من الغير               → الإيجار المتأخر التزام
-   - landlord : أنا المالك وأؤجّره للغير            → قيمة العقار أصل + المتأخر على المستأجر أصل
-   ================================================================ */
 const PROPERTIES = [
   {
     id:'p1',
@@ -768,7 +783,7 @@ function renderSetupScreen(){
 
     <div class="screen-head">
       <h2>لوحة التحكم الشخصية</h2>
-      <p>مسجّل الدخول عبر النفاذ الوطني الموحد: <b>عبدالله محمد العتيبي</b> — آخر تحديث للبيانات: 1446/07/14هـ</p>
+      <p>مسجّل الدخول عبر النفاذ الوطني الموحد: <b>عبدالله محمد العتيبي</b> — اضغط على أي قسم لعرض محتواه.</p>
     </div>
 
     <div class="summary" id="summaryStrip"></div>
@@ -814,38 +829,41 @@ function renderSummary(){
 function renderHeirs(){
   const el = document.getElementById('cardHeirs');
   el.innerHTML = `
-    <div class="card-head">
+    <div class="card-head" onclick="toggleCard('cardHeirs')">
       <div class="card-icon">${ic('users')}</div>
       <div>
         <h3>الورثة والأنصبة</h3>
         <p class="sub">محسوبة آليًا وفق أحكام الفرائض الشرعية</p>
       </div>
+      <span class="chevron">${ic('chevronDown')}</span>
     </div>
 
-    ${HEIRS.map(h => `
-      <div class="heir-row">
-        <div class="heir-av">${ic('person','ic-sm')}</div>
-        <div class="heir-main">
-          <div class="heir-top">
-            <span class="heir-name">${h.name}</span>
-            <span class="tag">${h.rel}</span>
+    <div class="card-body">
+      ${HEIRS.map(h => `
+        <div class="heir-row">
+          <div class="heir-av">${ic('person','ic-sm')}</div>
+          <div class="heir-main">
+            <div class="heir-top">
+              <span class="heir-name">${h.name}</span>
+              <span class="tag">${h.rel}</span>
+            </div>
+            <div class="bar"><i style="width:${h.pct}%"></i></div>
           </div>
-          <div class="bar"><i style="width:${h.pct}%"></i></div>
+          <div class="heir-val">
+            <b>${h.pct}%</b>
+            <span>${h.frac}</span>
+          </div>
         </div>
-        <div class="heir-val">
-          <b>${h.pct}%</b>
-          <span>${h.frac}</span>
-        </div>
-      </div>
-    `).join('')}
+      `).join('')}
 
-    <div class="note-box">
-      ${ic('alert','ic-sm')}
-      <span>
-        <b>مثال توضيحي:</b> الزوجة فرضها الثمن (12.5%) لوجود الفرع الوارث، والباقي (87.5%)
-        يُعصَّب للأبناء والابنة «للذكر مثل حظ الأنثيين»، فيكون لكل ابن 35% وللابنة 17.5%.
-        هذا عرض توضيحي فقط — الحساب النهائي والاعتماد يتمّان من مكتب العدل.
-      </span>
+      <div class="note-box">
+        ${ic('alert','ic-sm')}
+        <span>
+          <b>مثال توضيحي:</b> الزوجة فرضها الثمن (12.5%) لوجود الفرع الوارث، والباقي (87.5%)
+          يُعصَّب للأبناء والابنة «للذكر مثل حظ الأنثيين»، فيكون لكل ابن 35% وللابنة 17.5%.
+          هذا عرض توضيحي فقط — الحساب النهائي والاعتماد يتمّان من مكتب العدل.
+        </span>
+      </div>
     </div>
   `;
 }
@@ -853,26 +871,29 @@ function renderHeirs(){
 function renderWasiyya(){
   const el = document.getElementById('cardWasiyya');
   el.innerHTML = `
-    <div class="card-head">
+    <div class="card-head" onclick="toggleCard('cardWasiyya')">
       <div class="card-icon">${ic('file')}</div>
       <div>
         <h3>وصية الثلث</h3>
         <p class="sub">نصّ الوصية الاختيارية — لا يتجاوز ثلث صافي التركة</p>
       </div>
+      <span class="chevron">${ic('chevronDown')}</span>
     </div>
 
-    <label for="wasiyyaText">نص الوصية</label>
-    <textarea id="wasiyyaText" maxlength="300"
-      placeholder="مثال: أوصي بثلث مالي لصالح وقف تعليمي لأبناء العائلة...">${state.wasiyya}</textarea>
+    <div class="card-body">
+      <label for="wasiyyaText">نص الوصية</label>
+      <textarea id="wasiyyaText" maxlength="300"
+        placeholder="مثال: أوصي بثلث مالي لصالح وقف تعليمي لأبناء العائلة...">${state.wasiyya}</textarea>
 
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;font-size:12px;color:var(--muted)">
-      <span>الحد الأقصى شرعًا ≈ <b style="color:var(--green-800)">${fmt(netEstate()/3)} ر.س</b></span>
-      <span id="wasiyyaCount">${state.wasiyya.length} / 300 حرف</span>
-    </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;font-size:12px;color:var(--muted)">
+        <span>الحد الأقصى شرعًا ≈ <b style="color:var(--green-800)">${fmt(netEstate()/3)} ر.س</b></span>
+        <span id="wasiyyaCount">${state.wasiyya.length} / 300 حرف</span>
+      </div>
 
-    <div class="note-box note-warn">
-      ${ic('alert','ic-sm')}
-      <span>لا تُنفَّذ الوصية إلا بعد سداد الالتزامات، وتتوقف صحة الزيادة على إجازة الورثة.</span>
+      <div class="note-box note-warn">
+        ${ic('alert','ic-sm')}
+        <span>لا تُنفَّذ الوصية إلا بعد سداد الالتزامات، وتتوقف صحة الزيادة على إجازة الورثة.</span>
+      </div>
     </div>
   `;
 }
@@ -888,7 +909,7 @@ function renderProperties(){
   const landlordsCount = PROPERTIES.filter(p => p.role === 'landlord').length;
 
   el.innerHTML = `
-    <div class="card-head">
+    <div class="card-head" onclick="toggleCard('cardProperties')">
       <div class="card-icon">${ic('home')}</div>
       <div>
         <h3>العقارات — الأراضي والمباني</h3>
@@ -898,114 +919,117 @@ function renderProperties(){
           ${lateTotal > 0 ? `&nbsp;•&nbsp; إيجارات متأخرة عليك <b style="color:var(--red)">${fmt(lateTotal)}</b> ر.س` : ''}
         </p>
       </div>
+      <span class="chevron">${ic('chevronDown')}</span>
     </div>
 
-    <div class="groups" style="grid-template-columns:1fr;">
+    <div class="card-body">
+      <div class="groups" style="grid-template-columns:1fr;">
 
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px">
-        <span class="chip chip-ok">${ic('home','ic-sm')} ${ownersCount} عقار أملكه وأستخدمه</span>
-        <span class="chip chip-purple">${ic('key','ic-sm')} ${landlordsCount} عقار أملكه وأؤجّره</span>
-        <span class="chip chip-info">${ic('building','ic-sm')} ${tenantsCount} عقار أستأجره من الغير</span>
-        ${dueTotal > 0
-          ? `<span class="chip chip-ok">${ic('arrowRight','ic-sm')} دين لك على المستأجرين: ${fmt(dueTotal)} ر.س</span>`
-          : ''}
-        ${lateTotal > 0
-          ? `<span class="chip chip-warn">${ic('alert','ic-sm')} متأخرات عليك: ${fmt(lateTotal)} ر.س</span>`
-          : ''}
-      </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px">
+          <span class="chip chip-ok">${ic('home','ic-sm')} ${ownersCount} عقار أملكه وأستخدمه</span>
+          <span class="chip chip-purple">${ic('key','ic-sm')} ${landlordsCount} عقار أملكه وأؤجّره</span>
+          <span class="chip chip-info">${ic('building','ic-sm')} ${tenantsCount} عقار أستأجره من الغير</span>
+          ${dueTotal > 0
+            ? `<span class="chip chip-ok">${ic('arrowRight','ic-sm')} دين لك على المستأجرين: ${fmt(dueTotal)} ر.س</span>`
+            : ''}
+          ${lateTotal > 0
+            ? `<span class="chip chip-warn">${ic('alert','ic-sm')} متأخرات عليك: ${fmt(lateTotal)} ر.س</span>`
+            : ''}
+        </div>
 
-      ${PROPERTIES.map(p => {
+        ${PROPERTIES.map(p => {
 
-        if(p.role === 'owner'){
-          return `
-            <div class="prop-row owner">
-              <div class="prop-ic">${ic('home')}</div>
-              <div class="prop-main">
-                <div class="prop-top">
-                  <span class="prop-name">${p.type}</span>
-                  <span class="chip chip-ok chip-sm">${ic('home','ic-sm')} أنا المالك</span>
-                  <span class="chip chip-ok chip-sm">${ic('checkCircle','ic-sm')} مملوك بالكامل</span>
+          if(p.role === 'owner'){
+            return `
+              <div class="prop-row owner">
+                <div class="prop-ic">${ic('home')}</div>
+                <div class="prop-main">
+                  <div class="prop-top">
+                    <span class="prop-name">${p.type}</span>
+                    <span class="chip chip-ok chip-sm">${ic('home','ic-sm')} أنا المالك</span>
+                    <span class="chip chip-ok chip-sm">${ic('checkCircle','ic-sm')} مملوك بالكامل</span>
+                  </div>
+                  <div class="prop-addr">${ic('mapPin','ic-sm')}<span>${p.address}</span></div>
+                  <div class="prop-tags">
+                    <span class="chip chip-sm" style="background:#f1f4f3;color:#4a5c56">${p.note}</span>
+                  </div>
                 </div>
-                <div class="prop-addr">${ic('mapPin','ic-sm')}<span>${p.address}</span></div>
-                <div class="prop-tags">
-                  <span class="chip chip-sm" style="background:#f1f4f3;color:#4a5c56">${p.note}</span>
+                <div class="prop-val">
+                  <b>${fmt(p.value)} ر.س</b>
+                  <span>قيمة تقديرية — تُضاف للأصول</span>
                 </div>
-              </div>
-              <div class="prop-val">
-                <b>${fmt(p.value)} ر.س</b>
-                <span>قيمة تقديرية — تُضاف للأصول</span>
-              </div>
-            </div>`;
-        }
+              </div>`;
+          }
 
-        if(p.role === 'landlord'){
-          const hasDue = (p.dueFromTenant || 0) > 0;
-          return `
-            <div class="prop-row landlord">
-              <div class="prop-ic landlord">${ic('key')}</div>
-              <div class="prop-main">
-                <div class="prop-top">
-                  <span class="prop-name">${p.type}</span>
-                  <span class="chip chip-purple chip-sm">${ic('key','ic-sm')} أنا المالك والمؤجِّر</span>
+          if(p.role === 'landlord'){
+            const hasDue = (p.dueFromTenant || 0) > 0;
+            return `
+              <div class="prop-row landlord">
+                <div class="prop-ic landlord">${ic('key')}</div>
+                <div class="prop-main">
+                  <div class="prop-top">
+                    <span class="prop-name">${p.type}</span>
+                    <span class="chip chip-purple chip-sm">${ic('key','ic-sm')} أنا المالك والمؤجِّر</span>
+                    ${hasDue
+                      ? `<span class="chip chip-warn chip-sm">${ic('alert','ic-sm')} مستأجر متأخر</span>`
+                      : `<span class="chip chip-ok chip-sm">${ic('checkCircle','ic-sm')} مستأجر منتظم</span>`}
+                  </div>
+                  <div class="prop-addr">${ic('mapPin','ic-sm')}<span>${p.address}</span></div>
+                  <div class="prop-tags">
+                    ${p.tenantName
+                      ? `<span class="chip chip-purple chip-sm">${ic('person','ic-sm')} المستأجر: ${p.tenantName}</span>`
+                      : ''}
+                    <span class="chip chip-sm" style="background:#f1f4f3;color:#4a5c56">${p.note}</span>
+                  </div>
+                </div>
+                <div class="prop-val ${hasDue?'late':'landlord'}">
+                  <b>${fmt(p.value)} ر.س</b>
+                  <span>قيمة العقار — تُضاف للأصول</span>
+                  <span style="font-size:10.5px;color:var(--muted)">إيجار شهري: ${fmt(p.rentIncome)} ر.س</span>
                   ${hasDue
-                    ? `<span class="chip chip-warn chip-sm">${ic('alert','ic-sm')} مستأجر متأخر</span>`
-                    : `<span class="chip chip-ok chip-sm">${ic('checkCircle','ic-sm')} مستأجر منتظم</span>`}
+                    ? `<span style="font-size:10.5px;color:var(--red)">متأخر على المستأجر: ${fmt(p.dueFromTenant)} ر.س</span>`
+                    : ''}
+                </div>
+              </div>`;
+          }
+
+          const isLate = p.commitment === 'late';
+          return `
+            <div class="prop-row tenant ${isLate?'late':''}">
+              <div class="prop-ic ${isLate?'late':'tenant'}">${ic('building')}</div>
+              <div class="prop-main">
+                <div class="prop-top">
+                  <span class="prop-name">${p.type}</span>
+                  <span class="chip chip-info chip-sm">${ic('building','ic-sm')} أنا المستأجر</span>
+                  ${isLate
+                    ? `<span class="chip chip-warn chip-sm">${ic('alert','ic-sm')} غير ملتزم بالسداد</span>`
+                    : `<span class="chip chip-ok chip-sm">${ic('checkCircle','ic-sm')} ملتزم بالسداد</span>`}
                 </div>
                 <div class="prop-addr">${ic('mapPin','ic-sm')}<span>${p.address}</span></div>
                 <div class="prop-tags">
-                  ${p.tenantName
-                    ? `<span class="chip chip-purple chip-sm">${ic('person','ic-sm')} المستأجر: ${p.tenantName}</span>`
-                    : ''}
                   <span class="chip chip-sm" style="background:#f1f4f3;color:#4a5c56">${p.note}</span>
                 </div>
               </div>
-              <div class="prop-val ${hasDue?'late':'landlord'}">
-                <b>${fmt(p.value)} ر.س</b>
-                <span>قيمة العقار — تُضاف للأصول</span>
-                <span style="font-size:10.5px;color:var(--muted)">إيجار شهري: ${fmt(p.rentIncome)} ر.س</span>
-                ${hasDue
-                  ? `<span style="font-size:10.5px;color:var(--red)">متأخر على المستأجر: ${fmt(p.dueFromTenant)} ر.س</span>`
-                  : ''}
+              <div class="prop-val ${isLate?'late':''}">
+                ${isLate
+                  ? `<b>${fmt(p.dueAmount)} ر.س</b>
+                     <span>متأخرات — تُضاف للالتزامات</span>
+                     <span style="font-size:10.5px;color:var(--muted)">إيجار شهري: ${fmt(p.rentAmount)} ر.س</span>`
+                  : `<b>${fmt(p.rentAmount)} ر.س</b>
+                     <span>إيجار شهري (ملتزم — لا يُحتسب)</span>`}
               </div>
             </div>`;
-        }
+        }).join('')}
 
-        const isLate = p.commitment === 'late';
-        return `
-          <div class="prop-row tenant ${isLate?'late':''}">
-            <div class="prop-ic ${isLate?'late':'tenant'}">${ic('building')}</div>
-            <div class="prop-main">
-              <div class="prop-top">
-                <span class="prop-name">${p.type}</span>
-                <span class="chip chip-info chip-sm">${ic('building','ic-sm')} أنا المستأجر</span>
-                ${isLate
-                  ? `<span class="chip chip-warn chip-sm">${ic('alert','ic-sm')} غير ملتزم بالسداد</span>`
-                  : `<span class="chip chip-ok chip-sm">${ic('checkCircle','ic-sm')} ملتزم بالسداد</span>`}
-              </div>
-              <div class="prop-addr">${ic('mapPin','ic-sm')}<span>${p.address}</span></div>
-              <div class="prop-tags">
-                <span class="chip chip-sm" style="background:#f1f4f3;color:#4a5c56">${p.note}</span>
-              </div>
-            </div>
-            <div class="prop-val ${isLate?'late':''}">
-              ${isLate
-                ? `<b>${fmt(p.dueAmount)} ر.س</b>
-                   <span>متأخرات — تُضاف للالتزامات</span>
-                   <span style="font-size:10.5px;color:var(--muted)">إيجار شهري: ${fmt(p.rentAmount)} ر.س</span>`
-                : `<b>${fmt(p.rentAmount)} ر.س</b>
-                   <span>إيجار شهري (ملتزم — لا يُحتسب)</span>`}
-            </div>
-          </div>`;
-      }).join('')}
-
-      <div class="note-box">
-        ${ic('alert','ic-sm')}
-        <span>
-          <b>الأدوار الثلاثة للعقار:</b>
-          &nbsp;•&nbsp;<b>أنا المالك</b> — العقار يُحتسب ضمن أصول التركة بقيمته التقديرية.
-          &nbsp;•&nbsp;<b>أنا المالك والمؤجِّر</b> — قيمة العقار أصل + الإيجار <u>المتأخر على المستأجر</u> يُحتسب دَينًا لك.
-          &nbsp;•&nbsp;<b>أنا المستأجر</b> — يُحتسب الإيجار <u>المتأخر فقط</u> ضمن التزاماتك، ولا تُحتسب الإيجارات الملتزم بها.
-        </span>
+        <div class="note-box">
+          ${ic('alert','ic-sm')}
+          <span>
+            <b>الأدوار الثلاثة للعقار:</b>
+            &nbsp;•&nbsp;<b>أنا المالك</b> — العقار يُحتسب ضمن أصول التركة بقيمته التقديرية.
+            &nbsp;•&nbsp;<b>أنا المالك والمؤجِّر</b> — قيمة العقار أصل + الإيجار <u>المتأخر على المستأجر</u> يُحتسب دَينًا لك.
+            &nbsp;•&nbsp;<b>أنا المستأجر</b> — يُحتسب الإيجار <u>المتأخر فقط</u> ضمن التزاماتك، ولا تُحتسب الإيجارات الملتزم بها.
+          </span>
+        </div>
       </div>
     </div>
   `;
@@ -1014,62 +1038,65 @@ function renderProperties(){
 function renderAssets(){
   const el = document.getElementById('cardAssets');
   el.innerHTML = `
-    <div class="card-head">
+    <div class="card-head" onclick="toggleCard('cardAssets')">
       <div class="card-icon">${ic('wallet')}</div>
       <div>
         <h3>الأصول والموجودات</h3>
         <p class="sub">مُجمَّعة آليًا من المصارف، المرور، والخدمات الرقمية المرتبطة</p>
       </div>
+      <span class="chevron">${ic('chevronDown')}</span>
     </div>
 
-    <div class="groups">
-      <div class="group">
-        <div class="group-head">
-          ${ic('bank','ic-sm')} حسابات بنكية
-          <span class="group-total">${fmt(banksTotal())} ر.س</span>
-        </div>
-        ${BANKS.map(b=>`
-          <div class="asset-row">
-            <div class="asset-ic">${ic('bank','ic-sm')}</div>
-            <div class="asset-main"><b>${b.name}</b><span>${b.note}</span></div>
-            <div class="asset-amt">${fmt(b.amount)} <small>ر.س</small></div>
+    <div class="card-body">
+      <div class="groups">
+        <div class="group">
+          <div class="group-head">
+            ${ic('bank','ic-sm')} حسابات بنكية
+            <span class="group-total">${fmt(banksTotal())} ر.س</span>
           </div>
-        `).join('')}
-      </div>
-
-      <div class="group">
-        <div class="group-head">
-          ${ic('car','ic-sm')} مركبات
-          <span class="group-total">${fmt(vehiclesTotal())} ر.س</span>
-        </div>
-        ${VEHICLES.map(v=>`
-          <div class="asset-row ${v.financed?'warn':''}">
-            <div class="asset-ic">${ic('car','ic-sm')}</div>
-            <div class="asset-main">
-              <b>${v.name}</b>
-              <span>${v.note}</span>
-              ${v.financed ? '<span class="chip chip-warn" style="margin-top:6px">'+ic('alert','ic-sm')+' ممولة — تُدرج ضمن الالتزامات</span>' : ''}
+          ${BANKS.map(b=>`
+            <div class="asset-row">
+              <div class="asset-ic">${ic('bank','ic-sm')}</div>
+              <div class="asset-main"><b>${b.name}</b><span>${b.note}</span></div>
+              <div class="asset-amt">${fmt(b.amount)} <small>ر.س</small></div>
             </div>
-            <div class="asset-amt">${fmt(v.amount)} <small>ر.س</small></div>
-          </div>
-        `).join('')}
-      </div>
-
-      <div class="group">
-        <div class="group-head">
-          ${ic('link','ic-sm')} اشتراكات رقمية
-          <span class="group-total" style="color:var(--muted)">لا تُحتسب</span>
+          `).join('')}
         </div>
-        ${DIGITAL_SUBS.map(s=>`
-          <div class="asset-row">
-            <div class="asset-ic">${ic(s.icon,'ic-sm')}</div>
-            <div class="asset-main"><b>${s.name}</b><span>${s.note}</span></div>
-            <div class="asset-amt" style="color:var(--muted);font-size:11.5px">إلغاء تلقائي</div>
+
+        <div class="group">
+          <div class="group-head">
+            ${ic('car','ic-sm')} مركبات
+            <span class="group-total">${fmt(vehiclesTotal())} ر.س</span>
           </div>
-        `).join('')}
-        <div class="note-box" style="margin-top:10px;font-size:11.5px">
-          ${ic('alert','ic-sm')}
-          <span>لا تُحتسب الاشتراكات الرقمية ضمن قيمة التركة لعدم وجود قيمة مادية قابلة للتوزيع، وتُلغى تلقائيًا بعد التفعيل.</span>
+          ${VEHICLES.map(v=>`
+            <div class="asset-row ${v.financed?'warn':''}">
+              <div class="asset-ic">${ic('car','ic-sm')}</div>
+              <div class="asset-main">
+                <b>${v.name}</b>
+                <span>${v.note}</span>
+                ${v.financed ? '<span class="chip chip-warn" style="margin-top:6px">'+ic('alert','ic-sm')+' ممولة — تُدرج ضمن الالتزامات</span>' : ''}
+              </div>
+              <div class="asset-amt">${fmt(v.amount)} <small>ر.س</small></div>
+            </div>
+          `).join('')}
+        </div>
+
+        <div class="group">
+          <div class="group-head">
+            ${ic('link','ic-sm')} اشتراكات رقمية
+            <span class="group-total" style="color:var(--muted)">لا تُحتسب</span>
+          </div>
+          ${DIGITAL_SUBS.map(s=>`
+            <div class="asset-row">
+              <div class="asset-ic">${ic(s.icon,'ic-sm')}</div>
+              <div class="asset-main"><b>${s.name}</b><span>${s.note}</span></div>
+              <div class="asset-amt" style="color:var(--muted);font-size:11.5px">إلغاء تلقائي</div>
+            </div>
+          `).join('')}
+          <div class="note-box" style="margin-top:10px;font-size:11.5px">
+            ${ic('alert','ic-sm')}
+            <span>لا تُحتسب الاشتراكات الرقمية ضمن قيمة التركة لعدم وجود قيمة مادية قابلة للتوزيع، وتُلغى تلقائيًا بعد التفعيل.</span>
+          </div>
         </div>
       </div>
     </div>
@@ -1081,7 +1108,7 @@ function renderDebts(){
   const lateRent = propertiesLateTotal();
 
   el.innerHTML = `
-    <div class="card-head">
+    <div class="card-head" onclick="toggleCard('cardDebts')">
       <div class="card-icon">${ic('file')}</div>
       <div>
         <h3>الالتزامات والديون</h3>
@@ -1092,14 +1119,17 @@ function renderDebts(){
           ${lateRent > 0 ? ` &nbsp;|&nbsp; <span style="color:var(--red)">إيجارات متأخرة: ${fmt(lateRent)} ر.س</span>` : ''}
         </p>
       </div>
+      <span class="chevron">${ic('chevronDown')}</span>
     </div>
 
-    <div class="seg">
-      <button type="button" data-tab="simah" class="${state.tab==='simah'?'active':''}">من سمة</button>
-      <button type="button" data-tab="ledger" class="${state.tab==='ledger'?'active':''}">دفتر الإقرارات الرقمي</button>
-    </div>
+    <div class="card-body">
+      <div class="seg">
+        <button type="button" data-tab="simah" class="${state.tab==='simah'?'active':''}">من سمة</button>
+        <button type="button" data-tab="ledger" class="${state.tab==='ledger'?'active':''}">دفتر الإقرارات الرقمي</button>
+      </div>
 
-    <div id="debtsBody">${ state.tab==='simah' ? simahBody() : ledgerBody() }</div>
+      <div id="debtsBody">${ state.tab==='simah' ? simahBody() : ledgerBody() }</div>
+    </div>
   `;
 }
 
@@ -1235,55 +1265,58 @@ function renderPerms(){
   ).join('');
 
   el.innerHTML = `
-    <div class="card-head">
+    <div class="card-head" onclick="toggleCard('cardPerms')">
       <div class="card-icon">${ic('key')}</div>
       <div>
         <h3>الصلاحيات بعد الوفاة</h3>
         <p class="sub">أذونات محددة النطاق تُفعَّل تلقائيًا</p>
       </div>
+      <span class="chevron">${ic('chevronDown')}</span>
     </div>
 
-    <div style="margin-bottom:18px">
-      <label for="selHeir">${ic('eye','ic-sm')} الوريث المخوّل بالاطلاع</label>
-      <select id="selHeir">${opts(state.authorizedHeir)}</select>
-      <p style="font-size:12px;color:var(--muted);margin:7px 0 0;line-height:1.6">
-        صلاحية <b>اطلاع فقط</b> على تقرير التركة والملف الكامل بعد الوفاة — لا تمنح أي حق في التصرف أو السداد.
-      </p>
-    </div>
-
-    <div style="margin-bottom:18px">
-      <label for="selExec">${ic('userCheck','ic-sm')} منفّذ سداد الدين</label>
-      <select id="selExec">${opts(state.executor)}</select>
-      <p style="font-size:12px;color:var(--muted);margin:7px 0 0;line-height:1.6">
-        صلاحية <b>تنفيذ سداد الالتزامات فقط</b> من صافي التركة قبل التوزيع — ولا تمنح أي حق في التصرف بباقي التركة.
-      </p>
-    </div>
-
-    <div class="note-box note-warn">
-      ${ic('alert','ic-sm')}
-      <span>
-        هذه الصلاحيات <b>ليست توكيلًا شرعيًا</b>، بل أذونات محددة النطاق تُفعَّل تلقائيًا
-        بعد تسجيل الوفاة فقط، وتبقى تحت رقابة مكتب العدل.
-      </span>
-    </div>
-
-    <div class="note-box note-legal" style="margin-top:12px">
-      ${ic('shield','ic-sm')}
-      <span>
-        <b>النظام لا يوزّع الإرث بنفسه</b>، بل يجهّز ويسرّع البيانات لمكتب العدل
-        الذي يعتمد التوزيع النهائي رسميًا.
-      </span>
-    </div>
-
-    <div style="margin-top:18px;padding-top:16px;border-top:1px dashed var(--line)">
-      <label>${ic('building','ic-sm')} حالة اعتماد مكتب العدل (أداة عرض تجريبية)</label>
-      <div class="seg">
-        <button type="button" data-report="pending" class="${state.report==='pending'?'active':''}">${ic('clock','ic-sm')} بانتظار الاعتماد</button>
-        <button type="button" data-report="approved" class="${state.report==='approved'?'active':''}">${ic('checkCircle','ic-sm')} معتمد</button>
+    <div class="card-body">
+      <div style="margin-bottom:18px">
+        <label for="selHeir">${ic('eye','ic-sm')} الوريث المخوّل بالاطلاع</label>
+        <select id="selHeir">${opts(state.authorizedHeir)}</select>
+        <p style="font-size:12px;color:var(--muted);margin:7px 0 0;line-height:1.6">
+          صلاحية <b>اطلاع فقط</b> على تقرير التركة والملف الكامل بعد الوفاة — لا تمنح أي حق في التصرف أو السداد.
+        </p>
       </div>
-      <p style="font-size:11.5px;color:var(--muted);margin:7px 0 0;line-height:1.7">
-        غيّر الحالة هنا لتجربة ظهورها في ملف "دخول الورثة" — في الواقع هذا الاعتماد يصدر فعليًا من مكتب العدل.
-      </p>
+
+      <div style="margin-bottom:18px">
+        <label for="selExec">${ic('userCheck','ic-sm')} منفّذ سداد الدين</label>
+        <select id="selExec">${opts(state.executor)}</select>
+        <p style="font-size:12px;color:var(--muted);margin:7px 0 0;line-height:1.6">
+          صلاحية <b>تنفيذ سداد الالتزامات فقط</b> من صافي التركة قبل التوزيع — ولا تمنح أي حق في التصرف بباقي التركة.
+        </p>
+      </div>
+
+      <div class="note-box note-warn">
+        ${ic('alert','ic-sm')}
+        <span>
+          هذه الصلاحيات <b>ليست توكيلًا شرعيًا</b>، بل أذونات محددة النطاق تُفعَّل تلقائيًا
+          بعد تسجيل الوفاة فقط، وتبقى تحت رقابة مكتب العدل.
+        </span>
+      </div>
+
+      <div class="note-box note-legal" style="margin-top:12px">
+        ${ic('shield','ic-sm')}
+        <span>
+          <b>النظام لا يوزّع الإرث بنفسه</b>، بل يجهّز ويسرّع البيانات لمكتب العدل
+          الذي يعتمد التوزيع النهائي رسميًا.
+        </span>
+      </div>
+
+      <div style="margin-top:18px;padding-top:16px;border-top:1px dashed var(--line)">
+        <label>${ic('building','ic-sm')} حالة اعتماد مكتب العدل (أداة عرض تجريبية)</label>
+        <div class="seg">
+          <button type="button" data-report="pending" class="${state.report==='pending'?'active':''}">${ic('clock','ic-sm')} بانتظار الاعتماد</button>
+          <button type="button" data-report="approved" class="${state.report==='approved'?'active':''}">${ic('checkCircle','ic-sm')} معتمد</button>
+        </div>
+        <p style="font-size:11.5px;color:var(--muted);margin:7px 0 0;line-height:1.7">
+          غيّر الحالة هنا لتجربة ظهورها في ملف "دخول الورثة" — في الواقع هذا الاعتماد يصدر فعليًا من مكتب العدل.
+        </p>
+      </div>
     </div>
   `;
 }
