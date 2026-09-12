@@ -10,6 +10,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
+<!-- مكتبة توليد PDF من HTML (تدعم العربية و RTL) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
 <style>
 /* ============================================================
    الوصية الرقمية الذكية — نظام تصميم مبسّط
@@ -1325,12 +1328,10 @@ function fullFile(){
       <div style="display:flex;gap:10px;margin-top:18px;flex-wrap:wrap">
         <button type="button" class="btn btn-ghost btn-sm">${ic('download','ic-sm')} تحميل نسخة PDF</button>
 
-        <!-- زر تنزيل نموذج حصر الورثة (ملف p.pdf بجانب index.html) -->
-        <a href="p.pdf" download="حصر_الورثة.pdf"
-           class="btn btn-ghost btn-sm"
-           style="text-decoration:none">
+        <!-- زر توليد وتنزيل نموذج حصر الورثة ديناميكيًا -->
+        <button type="button" class="btn btn-ghost btn-sm" id="btnPrintHeirs">
           ${ic('file','ic-sm')} تنزيل حصر الورثة
-        </a>
+        </button>
 
         <button type="button" class="btn btn-ghost btn-sm" id="btnHeirLogout">${ic('refresh','ic-sm')} تسجيل خروج / تجربة هوية أخرى</button>
       </div>
@@ -1341,6 +1342,148 @@ function fullFile(){
       </div>
     </div>
   `;
+}
+
+/* ================================================================
+   توليد ملف "حصر الورثة" PDF ديناميكيًا وتنزيله
+   ================================================================ */
+function generateHeirsPDF(){
+  /* بيانات المتوفى (وهمية في النموذج الأولي) */
+  const deceased = {
+    name: MOCK_DECEASED_NAME,
+    gender: 'ذكر',
+    idType: 'هوية وطنية',
+    idNumber: MOCK_DECEASED_ID,
+    deathDate: '1446/07/14هـ — 2025/01/13م',
+    certificateNumber: 'WAF-1446-0092831'
+  };
+
+  /* بناء جدول الورثة */
+  const heirsRows = HEIRS.map((h, i) => `
+    <tr>
+      <td style="text-align:center">${i + 1}</td>
+      <td>${h.name}</td>
+      <td style="text-align:center">${h.rel}</td>
+      <td style="text-align:center">سعودي</td>
+      <td style="text-align:center">${h.nationalId}</td>
+      <td style="text-align:center">${h.birthDate || '—'}</td>
+      <td style="text-align:center">${h.pct}% — ${h.frac}</td>
+    </tr>
+  `).join('');
+
+  /* قالب HTML للملف (يُحوَّل إلى PDF) */
+  const html = `
+    <div style="font-family:'IBM Plex Sans Arabic', Arial, sans-serif;
+                direction:rtl; color:#0f1f1a; padding:28px 24px; background:#fff;">
+
+      <!-- الترويسة الرسمية -->
+      <div style="text-align:center;border-bottom:2px solid #0b3d2e;padding-bottom:14px;margin-bottom:22px;">
+        <div style="font-size:13px;color:#6d7d78;letter-spacing:.5px;">المملكة العربية السعودية</div>
+        <h1 style="margin:6px 0 4px;font-size:22px;color:#0b3d2e;">الوصية الرقمية الذكية</h1>
+        <div style="font-size:12px;color:#6d7d78;">منصة معتمدة حكوميًا لتصفية التركات الرقمية</div>
+        <div style="margin-top:12px;font-size:18px;font-weight:700;color:#0b3d2e;">
+          نموذج حصر الورثة
+        </div>
+      </div>
+
+      <!-- بيانات المتوفى -->
+      <h2 style="font-size:15px;color:#0b3d2e;margin:0 0 10px;border-right:4px solid #1a7a58;padding-right:10px;">
+        بيانات المتوفى
+      </h2>
+      <table style="width:100%;border-collapse:collapse;margin-bottom:22px;font-size:12.5px;">
+        <tr>
+          <td style="border:1px solid #d9e2df;padding:8px;background:#f6f9f8;width:20%;font-weight:600;">اسم المتوفى</td>
+          <td style="border:1px solid #d9e2df;padding:8px;width:30%;">${deceased.name}</td>
+          <td style="border:1px solid #d9e2df;padding:8px;background:#f6f9f8;width:20%;font-weight:600;">جنس المتوفى</td>
+          <td style="border:1px solid #d9e2df;padding:8px;width:30%;">${deceased.gender}</td>
+        </tr>
+        <tr>
+          <td style="border:1px solid #d9e2df;padding:8px;background:#f6f9f8;font-weight:600;">نوع الهوية</td>
+          <td style="border:1px solid #d9e2df;padding:8px;">${deceased.idType}</td>
+          <td style="border:1px solid #d9e2df;padding:8px;background:#f6f9f8;font-weight:600;">رقم الهوية</td>
+          <td style="border:1px solid #d9e2df;padding:8px;">${deceased.idNumber}</td>
+        </tr>
+        <tr>
+          <td style="border:1px solid #d9e2df;padding:8px;background:#f6f9f8;font-weight:600;">تاريخ الوفاة</td>
+          <td style="border:1px solid #d9e2df;padding:8px;">${deceased.deathDate}</td>
+          <td style="border:1px solid #d9e2df;padding:8px;background:#f6f9f8;font-weight:600;">رقم شهادة الوفاة</td>
+          <td style="border:1px solid #d9e2df;padding:8px;">${deceased.certificateNumber}</td>
+        </tr>
+      </table>
+
+      <!-- الورثة -->
+      <h2 style="font-size:15px;color:#0b3d2e;margin:0 0 10px;border-right:4px solid #1a7a58;padding-right:10px;">
+        قائمة الورثة المحصورين
+      </h2>
+      <table style="width:100%;border-collapse:collapse;font-size:12.5px;">
+        <thead>
+          <tr style="background:#0b3d2e;color:#fff;">
+            <th style="border:1px solid #0b3d2e;padding:9px 6px;width:6%;">م</th>
+            <th style="border:1px solid #0b3d2e;padding:9px 6px;">الاسم</th>
+            <th style="border:1px solid #0b3d2e;padding:9px 6px;width:11%;">صلة القرابة</th>
+            <th style="border:1px solid #0b3d2e;padding:9px 6px;width:11%;">الجنسية</th>
+            <th style="border:1px solid #0b3d2e;padding:9px 6px;width:16%;">رقم الهوية</th>
+            <th style="border:1px solid #0b3d2e;padding:9px 6px;width:14%;">تاريخ الميلاد</th>
+            <th style="border:1px solid #0b3d2e;padding:9px 6px;width:16%;">النصيب الشرعي</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${heirsRows}
+        </tbody>
+      </table>
+
+      <!-- ملاحظات -->
+      <div style="margin-top:22px;padding:12px 14px;background:#f6f9f8;
+                  border:1px solid #d9e2df;border-radius:8px;font-size:11.5px;
+                  color:#4a5c56;line-height:1.8;">
+        <b style="color:#0b3d2e;">ملاحظات:</b>
+        <ul style="margin:6px 18px 0 0;padding:0;">
+          <li>هذا النموذج صادر آليًا من منصة الوصية الرقمية الذكية بناءً على البيانات المسجّلة.</li>
+          <li>الأنصبة المعروضة تقديرية، وتصبح نهائية بعد اعتماد مكتب العدل المختص.</li>
+          <li>النظام لا يوزّع الإرث بنفسه، بل يجهّز ويسرّع البيانات لمكتب العدل الذي يعتمد التوزيع النهائي رسميًا.</li>
+        </ul>
+      </div>
+
+      <!-- التوقيعات -->
+      <table style="width:100%;margin-top:34px;font-size:12px;">
+        <tr>
+          <td style="width:50%;text-align:center;padding-top:34px;">
+            <div style="border-top:1px solid #999;width:70%;margin:0 auto;padding-top:6px;">
+              توقيع الوريث المخوّل بالاطلاع
+            </div>
+          </td>
+          <td style="width:50%;text-align:center;padding-top:34px;">
+            <div style="border-top:1px solid #999;width:70%;margin:0 auto;padding-top:6px;">
+              ختم مكتب العدل المختص
+            </div>
+          </td>
+        </tr>
+      </table>
+
+      <!-- تاريخ الإصدار -->
+      <div style="text-align:center;margin-top:30px;font-size:11px;color:#8a9a94;">
+        صدر آليًا بتاريخ: ${new Date().toLocaleDateString('ar-SA')} — رقم المستند: HRZ-${Date.now().toString().slice(-8)}
+      </div>
+
+    </div>
+  `;
+
+  /* إعدادات التوليد */
+  const opt = {
+    margin:       0,
+    filename:     `حصر_الورثة_${MOCK_DECEASED_NAME.replace(/\s+/g,'_')}.pdf`,
+    image:        { type: 'jpeg', quality: 0.98 },
+    html2canvas:  { scale: 2, useCORS: true, backgroundColor: '#ffffff' },
+    jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
+    pagebreak:    { mode: ['avoid-all', 'css'] }
+  };
+
+  /* التوليد والتنزيل */
+  if(typeof html2pdf === 'undefined'){
+    alert('تعذّر تحميل مكتبة توليد PDF. يرجى التحقق من الاتصال بالإنترنت ثم المحاولة مرة أخرى.');
+    return;
+  }
+  html2pdf().from(html).set(opt).save();
 }
 
 /* --- ربط أحداث شاشة دخول الورثة --- */
@@ -1414,6 +1557,12 @@ function bindHeirEvents(){
       state.heir = { deceasedId:'', heirId:'', error:'', result:null, deniedHeir:null, fileOpen:false };
       renderHeirPanel();
     };
+  }
+
+  /* زر تنزيل حصر الورثة (توليد ديناميكي) */
+  const printHeirs = document.getElementById('btnPrintHeirs');
+  if(printHeirs){
+    printHeirs.onclick = () => generateHeirsPDF();
   }
 }
 
