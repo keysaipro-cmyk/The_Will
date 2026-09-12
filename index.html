@@ -33,6 +33,7 @@
   --red:#b42318;        --red-bg:#fef3f2;     --red-line:#f5c6c2;
   --ok:#0f7b4f;         --ok-bg:#e9f7f0;      --ok-line:#a8ddc4;
   --blue:#1d4e79;       --blue-bg:#eef4fb;    --blue-line:#cfe1f3;
+  --purple:#5b3d8a;     --purple-bg:#f4eefb;  --purple-line:#ddcdf3;
 
   --radius:16px;
   --shadow:0 1px 2px rgba(10,40,30,.04), 0 10px 26px rgba(10,40,30,.06);
@@ -87,19 +88,6 @@ button{font-family:inherit}
   width:26px;height:26px;border-radius:50%;background:#8fe0bd;color:#052318;
   display:grid;place-items:center;font-weight:700;font-size:12px;
 }
-
-/* التبويبات */
-.tabsbar{background:#fff;border-bottom:1px solid var(--line)}
-.tabs{max-width:1180px;margin:0 auto;padding:0 22px;display:flex;gap:4px;overflow-x:auto}
-.tab{
-  border:0;background:none;cursor:pointer;white-space:nowrap;
-  padding:14px 18px;font-size:14.5px;font-weight:500;color:var(--muted);
-  border-bottom:3px solid transparent;display:flex;align-items:center;gap:8px;
-  transition:color .2s, border-color .2s;
-}
-.tab:hover{color:var(--green-700)}
-.tab.active{color:var(--green-900);border-bottom-color:var(--green-600)}
-.tab .ic{width:17px;height:17px}
 
 /* ================= المحتوى ================= */
 main{max-width:1180px;margin:0 auto;padding:24px 22px 40px}
@@ -208,6 +196,53 @@ main{max-width:1180px;margin:0 auto;padding:24px 22px 40px}
 .asset-amt{font-size:13px;font-weight:600;color:var(--green-800);white-space:nowrap;flex:0 0 auto}
 .asset-amt small{font-size:10.5px;color:var(--muted);font-weight:500}
 
+/* ================= العقارات ================= */
+.prop-row{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:13px;border-radius:13px;background:#fcfdfd;
+  border:1px solid var(--line);margin-bottom:10px;
+  transition:border-color .2s, background .2s;
+}
+.prop-row:hover{border-color:#d0ddd7;background:#fff}
+.prop-row.owner{background:#f3faf6;border-color:#c8e6d5}
+.prop-row.tenant{background:#fdf7ef;border-color:#f0dda6}
+.prop-row.tenant.late{background:#fef3f2;border-color:#f5c6c2}
+.prop-ic{
+  width:42px;height:42px;border-radius:11px;flex:0 0 auto;
+  display:grid;place-items:center;background:#e3f4eb;color:var(--ok);
+}
+.prop-ic.tenant{background:#fdf0dd;color:#a9761a}
+.prop-ic.late{background:#fde0de;color:var(--red)}
+.prop-ic .ic{width:20px;height:20px}
+.prop-main{flex:1;min-width:0}
+.prop-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:5px}
+.prop-name{font-size:14px;font-weight:700}
+.prop-addr{
+  font-size:11.8px;color:#4a5c56;line-height:1.6;
+  display:flex;align-items:flex-start;gap:6px;margin-top:3px;
+}
+.prop-addr .ic{width:13px;height:13px;color:var(--muted);margin-top:3px;flex:0 0 auto}
+.prop-meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.prop-tags{margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.prop-val{text-align:left;flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-start;gap:2px}
+.prop-val b{font-size:14px;color:var(--green-800)}
+.prop-val.late b{color:var(--red)}
+.prop-val span{font-size:10.5px;color:var(--muted)}
+
+/* ================= الشرائح (Chips) ================= */
+.chip{
+  display:inline-flex;align-items:center;gap:6px;padding:6px 13px;
+  border-radius:99px;font-size:12.5px;font-weight:600;border:1px solid transparent;
+}
+.chip .ic{width:14px;height:14px}
+.chip-pending{background:var(--amber-bg);color:var(--amber);border-color:var(--amber-line)}
+.chip-ok{background:var(--ok-bg);color:var(--ok);border-color:var(--ok-line)}
+.chip-warn{background:var(--red-bg);color:var(--red);border-color:var(--red-line)}
+.chip-info{background:var(--blue-bg);color:var(--blue);border-color:var(--blue-line)}
+.chip-purple{background:var(--purple-bg);color:var(--purple);border-color:var(--purple-line)}
+.chip-sm{padding:2px 9px;font-size:11px}
+.chip-sm .ic{width:12px;height:12px}
+
 /* ================= الشرائح / التبويب الفرعي ================= */
 .seg{display:flex;gap:4px;background:#f1f4f3;padding:4px;border-radius:12px;margin-bottom:14px}
 .seg button{
@@ -246,17 +281,6 @@ label{display:block;font-size:12.8px;font-weight:600;margin-bottom:7px;color:#26
 .btn-ghost:hover{border-color:#c6d5cf;background:#fafbfa}
 .btn-sm{padding:8px 13px;font-size:12.8px;border-radius:9px}
 .btn-sm .ic{width:15px;height:15px}
-
-/* ================= الشرائح (Chips) ================= */
-.chip{
-  display:inline-flex;align-items:center;gap:6px;padding:6px 13px;
-  border-radius:99px;font-size:12.5px;font-weight:600;border:1px solid transparent;
-}
-.chip .ic{width:14px;height:14px}
-.chip-pending{background:var(--amber-bg);color:var(--amber);border-color:var(--amber-line)}
-.chip-ok{background:var(--ok-bg);color:var(--ok);border-color:var(--ok-line)}
-.chip-warn{background:var(--red-bg);color:var(--red);border-color:var(--red-line)}
-.chip-info{background:var(--blue-bg);color:var(--blue);border-color:var(--blue-line)}
 
 /* ================= صناديق تنبيه ================= */
 .note-box{
@@ -396,6 +420,61 @@ label{display:block;font-size:12.8px;font-weight:600;margin-bottom:7px;color:#26
   border:2px solid var(--red-line);
 }
 .deny-circle .ic{width:30px;height:30px}
+
+/* شريط خطوات المحاكاة */
+.stepper{display:flex;margin-bottom:24px;overflow-x:auto;padding:4px 0 8px}
+.step{flex:1;min-width:132px;text-align:center;position:relative;padding:0 6px}
+.step .dot{
+  width:40px;height:40px;border-radius:50%;margin:0 auto 9px;
+  display:grid;place-items:center;font-size:14px;font-weight:700;
+  background:#fff;border:2px solid var(--line);color:var(--muted);
+  position:relative;z-index:2;transition:.3s;
+}
+.step .dot .ic{width:18px;height:18px}
+.step.active .dot{
+  background:var(--green-700);border-color:var(--green-700);color:#fff;
+  box-shadow:0 0 0 5px rgba(20,102,74,.14);transform:scale(1.05);
+}
+.step.done .dot{background:var(--ok-bg);border-color:#9ed3ba;color:var(--green-700)}
+.step .t{font-size:12.3px;color:var(--muted);font-weight:500;line-height:1.45}
+.step.active .t{color:var(--green-900);font-weight:700}
+.step.done .t{color:var(--green-700)}
+.step:not(:last-child)::after{
+  content:'';position:absolute;top:20px;left:-50%;width:100%;height:2px;
+  background:var(--line);z-index:1;
+}
+.step.done:not(:last-child)::after{background:#9ed3ba}
+
+.panel{
+  background:#fff;border:1px solid var(--line);border-radius:18px;
+  box-shadow:var(--shadow);padding:26px;animation:fadeUp .45s ease both;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.panel-head{margin-bottom:18px}
+.panel-head h3{margin:10px 0 4px;font-size:19px;font-weight:600}
+.panel-head p{margin:0;color:var(--muted);font-size:13.5px}
+
+.sim-nav{display:flex;justify-content:space-between;gap:12px;margin-top:20px;flex-wrap:wrap}
+
+.loading-wrap{display:flex;flex-direction:column;align-items:center;text-align:center;padding:22px 0 8px}
+.spinner{
+  width:46px;height:46px;border-radius:50%;
+  border:3px solid #dfeae5;border-top-color:var(--green-600);
+  animation:spin .9s linear infinite;margin-bottom:18px;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.load-list{list-style:none;padding:0;margin:16px auto 0;max-width:400px;width:100%;text-align:right}
+.load-list li{
+  display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted);
+  padding:8px 12px;border-radius:10px;margin-bottom:6px;transition:.3s;
+}
+.load-list li.active{background:#f4faf7;color:var(--green-800);font-weight:600}
+.load-list li.done{color:var(--green-700)}
+.load-list li .ic{width:16px;height:16px;flex:0 0 auto}
+.load-list li .mini-dot{width:8px;height:8px;border-radius:50%;background:#d3ddd9;flex:0 0 auto}
+.load-list li.active .mini-dot{background:var(--green-600);animation:pulse 1s infinite}
+.load-list li.done .mini-dot{background:#9ed3ba}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 </style>
 </head>
 
@@ -481,6 +560,8 @@ const ICONS = {
   userCheck:'<circle cx="9.4" cy="8" r="3.5"/><path d="M3 20.2a6.4 6.4 0 0 1 11.1-4.4"/><path d="m15.6 17.8 2 2 4-4.2"/>',
   bell:'<path d="M18 8.4a6 6 0 1 0-12 0c0 6.6-2.6 8.6-2.6 8.6h17.2S18 15 18 8.4"/><path d="M13.8 20.6a2 2 0 0 1-3.6 0"/>',
   building:'<path d="M3 21h18"/><path d="M5.4 21V6.4L12 3.2l6.6 3.2V21"/><path d="M9.4 9.6h1.6M13 9.6h1.6M9.4 13.2h1.6M13 13.2h1.6"/><path d="M10.2 21v-4h3.6v4"/>',
+  home:'<path d="M3.5 11 12 3.5 20.5 11"/><path d="M5.5 9.4V20.5h13V9.4"/><path d="M9.8 20.5v-5.4h4.4v5.4"/>',
+  mapPin:'<path d="M12 21.5S5 15.4 5 10.2a7 7 0 1 1 14 0c0 5.2-7 11.3-7 11.3Z"/><circle cx="12" cy="10.2" r="2.6"/>',
   paperclip:'<path d="M20.2 11.6 12.6 19a4.8 4.8 0 0 1-6.8-6.8l7.6-7.4a3.2 3.2 0 1 1 4.5 4.5l-7.5 7.4a1.6 1.6 0 0 1-2.3-2.3l6.9-6.8"/>',
   plus:'<path d="M12 5.2v13.6"/><path d="M5.2 12h13.6"/>',
   trash:'<path d="M4 7h16"/><path d="M9.5 7V4.8h5V7"/><path d="M6.5 7l1 13h9l1-13"/><path d="M10.5 11v6M13.5 11v6"/>',
@@ -505,13 +586,7 @@ function ic(name, cls){
    2) البيانات الوهمية (Mock Data) — كل الأرقام افتراضية للعرض فقط
    ================================================================ */
 
-/* الورثة — مثال توضيحي وفق الفرائض:
-   - الزوجة: فرضها الثمن (1/8 = 12.5%) لوجود الفرع الوارث.
-   - الباقي (87.5%) تعصيب للأبناء والابنة: للذكر مثل حظ الأنثيين.
-     عدد الأسهم = 2 (ابن) + 2 (ابن) + 1 (ابنة) = 5 أسهم
-     قيمة السهم = 87.5 ÷ 5 = 17.5%
-     → كل ابن = 35% ، الابنة = 17.5%
-   المجموع = 12.5 + 35 + 35 + 17.5 = 100% */
+/* الورثة */
 const HEIRS = [
   { id:'h1', name:'نورة خالد العتيبي', rel:'زوجة', pct:12.5, frac:'1/8 (فرض)',        nationalId:'1026548574', birthDate:'1984/05/20' },
   { id:'h2', name:'محمد عبدالله العتيبي', rel:'ابن',  pct:35,   frac:'تعصيب — سهمان',    nationalId:'1045823190', birthDate:'2006/04/15' },
@@ -519,7 +594,7 @@ const HEIRS = [
   { id:'h4', name:'سارة عبدالله العتيبي', rel:'ابنة', pct:17.5, frac:'تعصيب — سهم واحد', nationalId:'1154872267', birthDate:'2001/06/12' }
 ];
 
-/* هوية المتوفى (المستخدم صاحب الحساب) — لأغراض العرض التجريبي فقط */
+/* هوية المتوفى (المستخدم صاحب الحساب) */
 const MOCK_DECEASED_ID = '1023456789';
 const MOCK_DECEASED_NAME = 'عبدالله محمد العتيبي';
 
@@ -537,6 +612,51 @@ const DIGITAL_SUBS = [
   { name:'Spotify Premium', note:'اشتراك شهري 21 ر.س — يُلغى تلقائيًا بعد الوفاة', icon:'music' }
 ];
 
+/* ================================================================
+   العقارات — الحقول:
+   - role: 'owner' (أنا المالك) | 'tenant' (أنا المستأجر)
+   - commitment: 'committed' | 'late' (فقط للمستأجر)
+   - rentAmount: قيمة الإيجار (فقط للمستأجر)
+   - value: القيمة التقديرية (فقط للمالك)
+   ================================================================ */
+const PROPERTIES = [
+  {
+    id:'p1',
+    type:'مبنى سكني',
+    address:'الرياض — حي النرجس — الرمز البريدي 13327 — قطعة 4521 — مبنى 12',
+    role:'owner',
+    value:1200000,
+    note:'ملك كامل — مؤجَّر حاليًا بعقد سكني'
+  },
+  {
+    id:'p2',
+    type:'أرض سكنية',
+    address:'الرياض — حي القيروان — الرمز البريدي 13521 — قطعة 2210',
+    role:'owner',
+    value:850000,
+    note:'أرض فضاء — مخصصة سكني'
+  },
+  {
+    id:'p3',
+    type:'شقة سكنية',
+    address:'جدة — حي الشاطئ — الرمز البريدي 23611 — مبنى 7832 — الدور 3',
+    role:'tenant',
+    commitment:'committed',
+    rentAmount:3500,
+    note:'إيجار شهري — العقد ساري حتى 1447/01/01'
+  },
+  {
+    id:'p4',
+    type:'مستودع تجاري',
+    address:'الدمام — حي الفيصلية — الرمز البريدي 32241 — مستودع 1187',
+    role:'tenant',
+    commitment:'late',
+    rentAmount:7000,
+    dueAmount:28000,
+    note:'متأخرات إيجار — 4 أشهر غير مسددة'
+  }
+];
+
 /* ديون سمة (وهمية) */
 const SIMAH_DEBTS = [
   { name:'دين بنكي — مصرف الراجحي', ref:'SM-2025-4471902', amount:82500 },
@@ -548,34 +668,28 @@ const SIMAH_DEBTS = [
    ================================================================ */
 const state = {
   screen:'setup',
-  tab:'simah',                         // التبويب الفرعي في بطاقة الديون
-
-  /* دفتر الإقرارات الرقمي — حقل type يميّز:
-     - debit : دين على المتوفى (لصالح دائن) — التزام
-     - credit: دين للمتوفى على الغير (مدين) — أصل */
+  tab:'simah',
   ledger:[
     { id:1, creditor:'سعد الحربي',   amount:20000, date:'1445/03/12', proof:true, type:'debit'  },
     { id:2, creditor:'أحمد الغامدي', amount:35000, date:'1445/05/20', proof:true, type:'credit' }
   ],
-  ledgerType:'debit',                  // النوع المختار حاليًا في نموذج الإضافة
+  ledgerType:'debit',
   proofAttached:false,
   wasiyya:'',
-  authorizedHeir:'h2',                 // الوريث المخوّل بالاطلاع
-  executor:'h3',                       // منفّذ سداد الدين
-  report:'pending',                    // pending | approved — حالة اعتماد مكتب العدل (تجريبي)
+  authorizedHeir:'h2',
+  executor:'h3',
+  report:'pending',
 
-  /* بوابة تسجيل الدخول (محاكاة نفاذ) */
   gate:{
-    stage:'id',                        // id | waiting | approved
+    stage:'id',
     idValue: MOCK_DECEASED_ID
   },
 
-  /* شاشة دخول الورثة */
   heir:{
     deceasedId:'',
     heirId:'',
     error:'',
-    result:null,                      // null | 'granted' | 'denied'
+    result:null,
     deniedHeir:null,
     fileOpen:false
   }
@@ -588,10 +702,19 @@ let nafathTimer = null;
    ================================================================ */
 const fmt = n => Math.round(n).toLocaleString('en-US');
 
-const banksTotal    = () => BANKS.reduce((s,b)=>s+b.amount,0);              // 373,500
-const vehiclesTotal = () => VEHICLES.reduce((s,v)=>s+v.amount,0);           // 275,000
+const banksTotal    = () => BANKS.reduce((s,b)=>s+b.amount,0);
+const vehiclesTotal = () => VEHICLES.reduce((s,v)=>s+v.amount,0);
 
-/* فصل إقرارات الدفتر إلى: عليه (التزام) / له (أصل) */
+/* العقارات: ما أملكه (يُضاف للأصول) + ما عليّ من إيجارات متأخرة (يُضاف للالتزامات) */
+const propertiesOwnedTotal = () => PROPERTIES
+  .filter(p => p.role === 'owner')
+  .reduce((s,p) => s + (p.value || 0), 0);
+
+const propertiesLateTotal = () => PROPERTIES
+  .filter(p => p.role === 'tenant' && p.commitment === 'late')
+  .reduce((s,p) => s + (p.dueAmount || 0), 0);
+
+/* إقرارات الدفتر: عليه (التزام) / له (أصل) */
 const ledgerDebitTotal  = () => state.ledger
   .filter(e => e.type === 'debit')
   .reduce((s,e)=>s+e.amount,0);
@@ -600,12 +723,14 @@ const ledgerCreditTotal = () => state.ledger
   .filter(e => e.type === 'credit')
   .reduce((s,e)=>s+e.amount,0);
 
-/* الأصول = بنوك + مركبات + ديون له (حقوق على الغير) */
-const assetsTotal   = () => banksTotal() + vehiclesTotal() + ledgerCreditTotal();
+/* الأصول = بنوك + مركبات + ديون له + عقارات مملوكة */
+const assetsTotal   = () =>
+  banksTotal() + vehiclesTotal() + ledgerCreditTotal() + propertiesOwnedTotal();
 
-/* الالتزامات = سمة + ديون عليه (التزامات على المتوفى) */
+/* الالتزامات = سمة + ديون عليه + إيجارات متأخرة */
 const simahTotal    = () => SIMAH_DEBTS.reduce((s,d)=>s+d.amount,0);
-const debtsTotal    = () => simahTotal() + ledgerDebitTotal();
+const debtsTotal    = () =>
+  simahTotal() + ledgerDebitTotal() + propertiesLateTotal();
 
 const netEstate     = () => assetsTotal() - debtsTotal();
 const heirAmount    = pct => netEstate() * pct / 100;
@@ -633,6 +758,7 @@ function renderSetupScreen(){
       <div class="card" id="cardHeirs"></div>
       <div class="card" id="cardWasiyya"></div>
       <div class="card full" id="cardAssets"></div>
+      <div class="card full" id="cardProperties"></div>
       <div class="card span7" id="cardDebts"></div>
       <div class="card span5" id="cardPerms"></div>
     </div>
@@ -642,6 +768,7 @@ function renderSetupScreen(){
   renderHeirs();
   renderWasiyya();
   renderAssets();
+  renderProperties();
   renderDebts();
   renderPerms();
 }
@@ -805,15 +932,115 @@ function renderAssets(){
   `;
 }
 
+/* --- بطاقة العقارات (جديدة) --- */
+function renderProperties(){
+  const el = document.getElementById('cardProperties');
+  const ownedTotal = propertiesOwnedTotal();
+  const lateTotal  = propertiesLateTotal();
+
+  el.innerHTML = `
+    <div class="card-head">
+      <div class="card-icon">${ic('home')}</div>
+      <div>
+        <h3>العقارات — الأراضي والمباني</h3>
+        <p class="sub">
+          مملوكة بقيمة <b>${fmt(ownedTotal)}</b> ر.س
+          &nbsp;•&nbsp;
+          إيجارات متأخرة <b style="color:var(--red)">${fmt(lateTotal)}</b> ر.س
+        </p>
+      </div>
+    </div>
+
+    <div class="groups" style="grid-template-columns:1fr;">
+
+      <!-- ملخص سريع -->
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px">
+        <span class="chip chip-ok">${ic('home','ic-sm')} ${PROPERTIES.filter(p=>p.role==='owner').length} عقار مملوك</span>
+        <span class="chip chip-info">${ic('key','ic-sm')} ${PROPERTIES.filter(p=>p.role==='tenant').length} عقار مستأجر</span>
+        ${lateTotal > 0
+          ? `<span class="chip chip-warn">${ic('alert','ic-sm')} متأخرات إيجار: ${fmt(lateTotal)} ر.س</span>`
+          : ''}
+      </div>
+
+      ${PROPERTIES.map(p => {
+        const isOwner = p.role === 'owner';
+        const isLate  = p.role === 'tenant' && p.commitment === 'late';
+        const rowCls  = isOwner ? 'owner' : ('tenant' + (isLate ? ' late' : ''));
+        const icCls   = isOwner ? '' : (isLate ? 'late' : 'tenant');
+        const icName  = isOwner ? 'home' : 'key';
+
+        return `
+          <div class="prop-row ${rowCls}">
+            <div class="prop-ic ${icCls}">${ic(icName)}</div>
+            <div class="prop-main">
+              <div class="prop-top">
+                <span class="prop-name">${p.type}</span>
+                ${isOwner
+                  ? '<span class="chip chip-ok chip-sm">'+ic('home','ic-sm')+' أنا المالك</span>'
+                  : '<span class="chip chip-info chip-sm">'+ic('key','ic-sm')+' أنا المستأجر</span>'}
+              </div>
+
+              <div class="prop-addr">
+                ${ic('mapPin','ic-sm')}
+                <span>${p.address}</span>
+              </div>
+
+              <div class="prop-tags">
+                ${isOwner
+                  ? `<span class="chip chip-ok chip-sm">${ic('checkCircle','ic-sm')} مملوك بالكامل</span>
+                     <span class="chip chip-sm" style="background:#f1f4f3;color:#4a5c56">${p.note}</span>`
+                  : (
+                      p.commitment === 'committed'
+                        ? `<span class="chip chip-ok chip-sm">${ic('checkCircle','ic-sm')} ملتزم بالسداد</span>
+                           <span class="chip chip-sm" style="background:#f1f4f3;color:#4a5c56">${p.note}</span>`
+                        : `<span class="chip chip-warn chip-sm">${ic('alert','ic-sm')} غير ملتزم — متأخرات</span>
+                           <span class="chip chip-sm" style="background:#f1f4f3;color:#4a5c56">${p.note}</span>`
+                    )}
+              </div>
+            </div>
+
+            <div class="prop-val ${isLate?'late':''}">
+              ${isOwner
+                ? `<b>${fmt(p.value)} ر.س</b><span>قيمة تقديرية (تُضاف للأصول)</span>`
+                : (
+                    isLate
+                      ? `<b>${fmt(p.dueAmount)} ر.س</b><span>متأخرات (تُضاف للالتزامات)</span>
+                         <span style="font-size:10.5px;color:var(--muted)">إيجار شهري: ${fmt(p.rentAmount)} ر.س</span>`
+                      : `<b>${fmt(p.rentAmount)} ر.س</b><span>إيجار شهري (ملتزم — لا يُحتسب)</span>`
+                  )}
+            </div>
+          </div>
+        `;
+      }).join('')}
+
+      <div class="note-box">
+        ${ic('alert','ic-sm')}
+        <span>
+          <b>الفرق بين المالك والمستأجر:</b>
+          &nbsp;•&nbsp;<b>أنا المالك</b> — العقار يُحتسب ضمن أصول التركة بقيمته التقديرية.
+          &nbsp;•&nbsp;<b>أنا المستأجر</b> — يُحتسب الإيجار <u>المتأخر فقط</u> ضمن الالتزامات، ولا تُحتسب الإيجارات الملتزم بها.
+        </span>
+      </div>
+    </div>
+  `;
+}
+
 /* --- بطاقة الديون --- */
 function renderDebts(){
   const el = document.getElementById('cardDebts');
+  const lateRent = propertiesLateTotal();
+
   el.innerHTML = `
     <div class="card-head">
       <div class="card-icon">${ic('file')}</div>
       <div>
         <h3>الالتزامات والديون</h3>
-        <p class="sub">دين عليّ: <b>${fmt(debtsTotal())}</b> ر.س &nbsp;|&nbsp; دين لي: <b>${fmt(ledgerCreditTotal())}</b> ر.س</p>
+        <p class="sub">
+          دين عليّ: <b>${fmt(debtsTotal())}</b> ر.س
+          &nbsp;|&nbsp;
+          دين لي: <b>${fmt(ledgerCreditTotal())}</b> ر.س
+          ${lateRent > 0 ? ` &nbsp;|&nbsp; <span style="color:var(--red)">إيجارات متأخرة: ${fmt(lateRent)} ر.س</span>` : ''}
+        </p>
       </div>
     </div>
 
@@ -827,6 +1054,7 @@ function renderDebts(){
 }
 
 function simahBody(){
+  const lateRent = propertiesLateTotal();
   return `
     <div class="mini-row" style="border:0;padding:0 0 10px">
       <span>آخر استعلام من شركة سمة: 1446/07/14 — 09:14 ص</span>
@@ -842,6 +1070,18 @@ function simahBody(){
         <div class="asset-amt">${fmt(d.amount)} <small>ر.س</small></div>
       </div>
     `).join('')}
+
+    ${lateRent > 0 ? `
+      <div class="asset-row warn">
+        <div class="asset-ic">${ic('home','ic-sm')}</div>
+        <div class="asset-main">
+          <b>إيجارات متأخرة — عقارات مستأجرة</b>
+          <span>مستخرجة آليًا من قسم العقارات (حالة: غير ملتزم)</span>
+        </div>
+        <div class="asset-amt" style="color:var(--red)">${fmt(lateRent)} <small>ر.س</small></div>
+      </div>
+    ` : ''}
+
     <div class="note-box">
       ${ic('alert','ic-sm')}
       <span>تُخصم الالتزامات الموثّقة من التركة <b>قبل</b> توزيع الأنصبة على الورثة.</span>
@@ -855,14 +1095,12 @@ function ledgerBody(){
   const isDebit     = state.ledgerType === 'debit';
 
   return `
-    <!-- شريط ملخص النوعين -->
     <div style="display:flex;gap:8px;flex-wrap:wrap;padding-bottom:12px;border-bottom:1px dashed var(--line);margin-bottom:12px">
       <span class="chip chip-warn">${ic('arrowLeft','ic-sm')} دين عليّ: ${fmt(debitTotal)} ر.س</span>
       <span class="chip chip-ok">${ic('arrowRight','ic-sm')} دين لي: ${fmt(creditTotal)} ر.س</span>
       <span class="chip chip-info" style="margin-inline-start:auto">${ic('link','ic-sm')} إقرار إلكتروني موثّق</span>
     </div>
 
-    <!-- قائمة الإقرارات -->
     ${state.ledger.length ? state.ledger.map(e => {
       const d = e.type === 'debit';
       return `
@@ -891,11 +1129,9 @@ function ledgerBody(){
       `;
     }).join('') : '<div class="note-box" style="margin-top:0">لا توجد إقرارات مسجّلة حتى الآن.</div>'}
 
-    <!-- نموذج الإضافة -->
     <div style="margin-top:16px;padding-top:16px;border-top:1px dashed var(--line)">
       <label>إضافة إقرار جديد</label>
 
-      <!-- مبدّل نوع الدين: عليه / له -->
       <div class="seg" style="margin-bottom:12px">
         <button type="button" data-ledger-type="debit" class="${isDebit?'active':''}">
           ${ic('arrowLeft','ic-sm')} دين عليّ (لصالح دائن)
@@ -996,7 +1232,6 @@ function renderPerms(){
    ================================================================ */
 function bindSetupEvents(){
 
-  /* نص الوصية — تحديث العدّاد فقط دون إعادة رسم */
   const wasiyyaCard = document.getElementById('cardWasiyya');
   wasiyyaCard.addEventListener('input', e => {
     if(e.target.id === 'wasiyyaText'){
@@ -1006,11 +1241,9 @@ function bindSetupEvents(){
     }
   });
 
-  /* بطاقة الديون — تفويض الأحداث */
   const debtsCard = document.getElementById('cardDebts');
   debtsCard.addEventListener('click', e => {
 
-    /* تبديل نوع الدين (عليه/له) — بدون إعادة رسم للحفاظ على مدخلات النموذج */
     const typeBtn = e.target.closest('[data-ledger-type]');
     if(typeBtn){
       state.ledgerType = typeBtn.dataset.ledgerType;
@@ -1028,7 +1261,6 @@ function bindSetupEvents(){
       return;
     }
 
-    /* التبويب الفرعي */
     const tabBtn = e.target.closest('[data-tab]');
     if(tabBtn){
       state.tab = tabBtn.dataset.tab;
@@ -1036,14 +1268,12 @@ function bindSetupEvents(){
       return;
     }
 
-    /* إرفاق إثبات (شكلي) */
     if(e.target.closest('#ledProof')){
       state.proofAttached = !state.proofAttached;
       renderDebts();
       return;
     }
 
-    /* إضافة إقرار */
     if(e.target.closest('#ledAdd')){
       const name   = (document.getElementById('ledName')?.value   || '').trim();
       const amount = parseFloat(document.getElementById('ledAmount')?.value || '0');
@@ -1071,7 +1301,6 @@ function bindSetupEvents(){
       return;
     }
 
-    /* حذف إقرار */
     const rm = e.target.closest('[data-remove]');
     if(rm){
       const id = Number(rm.dataset.remove);
@@ -1083,7 +1312,6 @@ function bindSetupEvents(){
     }
   });
 
-  /* قوائم الصلاحيات + أداة اعتماد مكتب العدل */
   const permsCard = document.getElementById('cardPerms');
   permsCard.addEventListener('change', e => {
     if(e.target.id === 'selHeir'){ state.authorizedHeir = e.target.value; }
@@ -1100,7 +1328,7 @@ function bindSetupEvents(){
 }
 
 /* ================================================================
-   7) شاشة "دخول الورثة" — التحقق من صلاحية الاطلاع بعد الوفاة
+   7) شاشة "دخول الورثة"
    ================================================================ */
 function renderHeirScreen(){
   document.getElementById('screen-heir').innerHTML = `
@@ -1128,7 +1356,6 @@ function renderHeirPanel(){
   bindHeirEvents();
 }
 
-/* --- نموذج إدخال الهويتين --- */
 function heirLoginForm(){
   return `
     <div class="panel" style="max-width:520px;margin:0 auto">
@@ -1167,7 +1394,6 @@ function heirLoginForm(){
   `;
 }
 
-/* --- حالة الرفض --- */
 function deniedPanel(){
   const who = state.heir.deniedHeir;
   return `
@@ -1193,7 +1419,6 @@ function deniedPanel(){
   `;
 }
 
-/* --- حالة القبول --- */
 function grantedPanel(){
   const auth = HEIRS.find(h => h.id === state.authorizedHeir);
   return `
@@ -1210,10 +1435,11 @@ function grantedPanel(){
   `;
 }
 
-/* --- الملف الكامل --- */
 function fullFile(){
   const approved = state.report === 'approved';
   const creditTotal = ledgerCreditTotal();
+  const ownedTotal  = propertiesOwnedTotal();
+  const lateRent    = propertiesLateTotal();
 
   return `
     <div class="file-block">
@@ -1243,8 +1469,38 @@ function fullFile(){
         ? `<div class="mini-row"><span>ديون لك على الآخرين (دفتر الإقرارات)</span>
              <b style="color:var(--ok)">${fmt(creditTotal)} ر.س</b></div>`
         : ''}
-      <div class="mini-row"><span>إجمالي الالتزامات (سمة + ديون عليّ)</span>
+      ${ownedTotal > 0
+        ? `<div class="mini-row"><span>عقارات مملوكة (أراضٍ ومبانٍ)</span>
+             <b style="color:var(--ok)">${fmt(ownedTotal)} ر.س</b></div>`
+        : ''}
+      <div class="mini-row"><span>إجمالي الالتزامات (سمة + ديون عليّ${lateRent>0?' + إيجارات متأخرة':''})</span>
         <b style="color:var(--red)">(${fmt(debtsTotal())}) ر.س</b></div>
+
+      <h4 style="font-size:13.5px;margin-top:18px">${ic('home','ic-sm')} العقارات بالتفصيل</h4>
+      ${PROPERTIES.map(p=>{
+        const isOwner = p.role === 'owner';
+        const isLate  = p.role === 'tenant' && p.commitment === 'late';
+        return `
+          <div class="mini-row" style="display:block;padding:10px 0">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+              <b style="font-size:13px">${p.type} —
+                ${isOwner
+                  ? '<span style="color:var(--ok)">أنا المالك</span>'
+                  : '<span style="color:var(--blue)">أنا المستأجر</span>'}
+              </b>
+              ${isOwner
+                ? `<b style="color:var(--ok)">${fmt(p.value)} ر.س</b>`
+                : (isLate
+                    ? `<b style="color:var(--red)">متأخرات: ${fmt(p.dueAmount)} ر.س</b>`
+                    : `<b style="color:var(--muted)">إيجار شهري: ${fmt(p.rentAmount)} ر.س (ملتزم)</b>`)}
+            </div>
+            <div style="font-size:11.5px;color:var(--muted);margin-top:4px;line-height:1.6">
+              ${ic('mapPin','ic-sm')} ${p.address}
+              <br>${p.note}
+            </div>
+          </div>
+        `;
+      }).join('')}
 
       <h4 style="font-size:13.5px;margin-top:18px">${ic('file','ic-sm')} وصية الثلث</h4>
       <div class="mini-row" style="display:block">
@@ -1256,8 +1512,7 @@ function fullFile(){
       <div style="display:flex;gap:10px;margin-top:18px;flex-wrap:wrap">
         <button type="button" class="btn btn-ghost btn-sm">${ic('download','ic-sm')} تحميل نسخة PDF</button>
 
-        <!-- زر تنزيل ملف حصر الورثة الجاهز (p.pdf في نفس المجلد) -->
-        <a href="p.pdf" download="p.pdf"
+        <a href="p.pdf" download="حصر_الورثة.pdf"
            class="btn btn-ghost btn-sm"
            style="text-decoration:none">
           ${ic('file','ic-sm')} تنزيل حصر الورثة
@@ -1274,7 +1529,6 @@ function fullFile(){
   `;
 }
 
-/* --- ربط أحداث شاشة دخول الورثة --- */
 function bindHeirEvents(){
   const verify = document.getElementById('btnHeirVerify');
   if(verify){
@@ -1487,7 +1741,6 @@ function revealApp(){
   document.getElementById('appRoot').classList.remove('hidden');
 }
 
-/* --- تسجيل الخروج والعودة لبوابة الدخول --- */
 function backToGate(){
   state.gate = { stage:'id', idValue: MOCK_DECEASED_ID };
   state.heir = { deceasedId:'', heirId:'', error:'', result:null, deniedHeir:null, fileOpen:false };
@@ -1505,21 +1758,18 @@ function backToGate(){
    ================================================================ */
 (function init(){
 
-  /* الأيقونات الثابتة في الهيدر والتذييل */
   document.getElementById('brandLogo').innerHTML = ic('shield');
   document.getElementById('footerIcon').innerHTML = ic('shield');
   document.getElementById('btnBackToGateIcon').innerHTML = ic('arrowLeft','ic-sm');
 
   document.getElementById('btnBackToGate').onclick = () => backToGate();
 
-  /* بناء الشاشات الداخلية (تبقى مخفية خلف بوابة الدخول حتى تسجيل الدخول) */
   renderSetupScreen();
   bindSetupEvents();
   renderHeirScreen();
 
   switchScreen('setup');
 
-  /* بوابة الدخول تظهر أولًا */
   renderLoginGate();
 })();
 </script>
