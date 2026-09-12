@@ -181,8 +181,7 @@ main{max-width:1180px;margin:0 auto;padding:24px 22px 40px}
 .heir-val span{font-size:11.5px;color:var(--muted)}
 
 /* ================= الأصول ================= */
-.groups{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-@media (max-width:900px){ .groups{grid-template-columns:1fr} }
+.groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}
 .group{border:1px solid var(--line);border-radius:14px;padding:14px;background:#fcfdfd}
 .group-head{
   display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;
@@ -214,6 +213,7 @@ main{max-width:1180px;margin:0 auto;padding:24px 22px 40px}
 .seg button{
   flex:1;border:0;background:none;padding:9px;border-radius:9px;cursor:pointer;
   font-size:13.5px;font-weight:500;color:var(--muted);transition:.2s;
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
 }
 .seg button.active{background:#fff;color:var(--green-900);box-shadow:0 1px 3px rgba(0,0,0,.08)}
 
@@ -286,63 +286,6 @@ label{display:block;font-size:12.8px;font-weight:600;margin-bottom:7px;color:#26
 .tl-item.muted .tl-dot{border-color:#c9d6d1}
 .tl-item b{display:block;font-size:13.8px;font-weight:600}
 .tl-item p{margin:2px 0 0;font-size:12.5px;color:var(--muted);line-height:1.6}
-
-/* ================= شريط الخطوات (Stepper) ================= */
-.stepper{display:flex;margin-bottom:24px;overflow-x:auto;padding:4px 0 8px}
-.step{flex:1;min-width:132px;text-align:center;position:relative;padding:0 6px}
-.step .dot{
-  width:40px;height:40px;border-radius:50%;margin:0 auto 9px;
-  display:grid;place-items:center;font-size:14px;font-weight:700;
-  background:#fff;border:2px solid var(--line);color:var(--muted);
-  position:relative;z-index:2;transition:.3s;
-}
-.step .dot .ic{width:18px;height:18px}
-.step.active .dot{
-  background:var(--green-700);border-color:var(--green-700);color:#fff;
-  box-shadow:0 0 0 5px rgba(20,102,74,.14);transform:scale(1.05);
-}
-.step.done .dot{background:var(--ok-bg);border-color:#9ed3ba;color:var(--green-700)}
-.step .t{font-size:12.3px;color:var(--muted);font-weight:500;line-height:1.45}
-.step.active .t{color:var(--green-900);font-weight:700}
-.step.done .t{color:var(--green-700)}
-.step:not(:last-child)::after{
-  content:'';position:absolute;top:20px;left:-50%;width:100%;height:2px;
-  background:var(--line);z-index:1;
-}
-.step.done:not(:last-child)::after{background:#9ed3ba}
-
-/* ================= لوحة الخطوة ================= */
-.panel{
-  background:#fff;border:1px solid var(--line);border-radius:18px;
-  box-shadow:var(--shadow);padding:26px;animation:fadeUp .45s ease both;
-}
-@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
-.panel-head{margin-bottom:18px}
-.panel-head h3{margin:10px 0 4px;font-size:19px;font-weight:600}
-.panel-head p{margin:0;color:var(--muted);font-size:13.5px}
-
-.sim-nav{display:flex;justify-content:space-between;gap:12px;margin-top:20px;flex-wrap:wrap}
-
-/* ================= التحميل ================= */
-.loading-wrap{display:flex;flex-direction:column;align-items:center;text-align:center;padding:22px 0 8px}
-.spinner{
-  width:46px;height:46px;border-radius:50%;
-  border:3px solid #dfeae5;border-top-color:var(--green-600);
-  animation:spin .9s linear infinite;margin-bottom:18px;
-}
-@keyframes spin{to{transform:rotate(360deg)}}
-.load-list{list-style:none;padding:0;margin:16px auto 0;max-width:400px;width:100%;text-align:right}
-.load-list li{
-  display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted);
-  padding:8px 12px;border-radius:10px;margin-bottom:6px;transition:.3s;
-}
-.load-list li.active{background:#f4faf7;color:var(--green-800);font-weight:600}
-.load-list li.done{color:var(--green-700)}
-.load-list li .ic{width:16px;height:16px;flex:0 0 auto}
-.load-list li .mini-dot{width:8px;height:8px;border-radius:50%;background:#d3ddd9;flex:0 0 auto}
-.load-list li.active .mini-dot{background:var(--green-600);animation:pulse 1s infinite}
-.load-list li.done .mini-dot{background:#9ed3ba}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 
 /* ================= شبكة عمودين ================= */
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px}
@@ -467,6 +410,61 @@ label{display:block;font-size:12.8px;font-weight:600;margin-bottom:7px;color:#26
   border:2px solid var(--red-line);
 }
 .deny-circle .ic{width:30px;height:30px}
+
+/* شريط خطوات المحاكاة */
+.stepper{display:flex;margin-bottom:24px;overflow-x:auto;padding:4px 0 8px}
+.step{flex:1;min-width:132px;text-align:center;position:relative;padding:0 6px}
+.step .dot{
+  width:40px;height:40px;border-radius:50%;margin:0 auto 9px;
+  display:grid;place-items:center;font-size:14px;font-weight:700;
+  background:#fff;border:2px solid var(--line);color:var(--muted);
+  position:relative;z-index:2;transition:.3s;
+}
+.step .dot .ic{width:18px;height:18px}
+.step.active .dot{
+  background:var(--green-700);border-color:var(--green-700);color:#fff;
+  box-shadow:0 0 0 5px rgba(20,102,74,.14);transform:scale(1.05);
+}
+.step.done .dot{background:var(--ok-bg);border-color:#9ed3ba;color:var(--green-700)}
+.step .t{font-size:12.3px;color:var(--muted);font-weight:500;line-height:1.45}
+.step.active .t{color:var(--green-900);font-weight:700}
+.step.done .t{color:var(--green-700)}
+.step:not(:last-child)::after{
+  content:'';position:absolute;top:20px;left:-50%;width:100%;height:2px;
+  background:var(--line);z-index:1;
+}
+.step.done:not(:last-child)::after{background:#9ed3ba}
+
+.panel{
+  background:#fff;border:1px solid var(--line);border-radius:18px;
+  box-shadow:var(--shadow);padding:26px;animation:fadeUp .45s ease both;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.panel-head{margin-bottom:18px}
+.panel-head h3{margin:10px 0 4px;font-size:19px;font-weight:600}
+.panel-head p{margin:0;color:var(--muted);font-size:13.5px}
+
+.sim-nav{display:flex;justify-content:space-between;gap:12px;margin-top:20px;flex-wrap:wrap}
+
+.loading-wrap{display:flex;flex-direction:column;align-items:center;text-align:center;padding:22px 0 8px}
+.spinner{
+  width:46px;height:46px;border-radius:50%;
+  border:3px solid #dfeae5;border-top-color:var(--green-600);
+  animation:spin .9s linear infinite;margin-bottom:18px;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.load-list{list-style:none;padding:0;margin:16px auto 0;max-width:400px;width:100%;text-align:right}
+.load-list li{
+  display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted);
+  padding:8px 12px;border-radius:10px;margin-bottom:6px;transition:.3s;
+}
+.load-list li.active{background:#f4faf7;color:var(--green-800);font-weight:600}
+.load-list li.done{color:var(--green-700)}
+.load-list li .ic{width:16px;height:16px;flex:0 0 auto}
+.load-list li .mini-dot{width:8px;height:8px;border-radius:50%;background:#d3ddd9;flex:0 0 auto}
+.load-list li.active .mini-dot{background:var(--green-600);animation:pulse 1s infinite}
+.load-list li.done .mini-dot{background:#9ed3ba}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 </style>
 </head>
 
@@ -584,10 +582,10 @@ function ic(name, cls){
      → كل ابن = 35% ، الابنة = 17.5%
    المجموع = 12.5 + 35 + 35 + 17.5 = 100% */
 const HEIRS = [
-  { id:'h1', name:'نورة عبدالله العتيبي', rel:'زوجة', pct:12.5, frac:'1/8 (فرض)',        nationalId:'1099887766' },
-  { id:'h2', name:'محمد عبدالله العتيبي', rel:'ابن',  pct:35,   frac:'تعصيب — سهمان',    nationalId:'1045823190' },
-  { id:'h3', name:'خالد عبدالله العتيبي', rel:'ابن',  pct:35,   frac:'تعصيب — سهمان',    nationalId:'1078912345' },
-  { id:'h4', name:'سارة عبدالله العتيبي', rel:'ابنة', pct:17.5, frac:'تعصيب — سهم واحد', nationalId:'1032165498' }
+  { id:'h1', name:'نورة عبدالله العتيبي', rel:'زوجة', pct:12.5, frac:'1/8 (فرض)',        nationalId:'1026548574', birthDate:'1984/05/20' },
+  { id:'h2', name:'محمد عبدالله العتيبي', rel:'ابن',  pct:35,   frac:'تعصيب — سهمان',    nationalId:'1045823190', birthDate:'2006/04/15' },
+  { id:'h3', name:'خالد عبدالله العتيبي', rel:'ابن',  pct:35,   frac:'تعصيب — سهمان',    nationalId:'1126485521', birthDate:'2008/02/17' },
+  { id:'h4', name:'سارة عبدالله العتيبي', rel:'ابنة', pct:17.5, frac:'تعصيب — سهم واحد', nationalId:'1154872267', birthDate:'2001/06/12' }
 ];
 
 /* هوية المتوفى (المستخدم صاحب الحساب) — لأغراض العرض التجريبي فقط */
@@ -620,9 +618,15 @@ const SIMAH_DEBTS = [
 const state = {
   screen:'setup',
   tab:'simah',                         // التبويب الفرعي في بطاقة الديون
-  ledger:[                             // دفتر الإقرارات الرقمي
-    { id:1, creditor:'سعد الحربي', amount:20000, date:'1445/03/12', proof:true }
+
+  /* دفتر الإقرارات الرقمي — حقل type يميّز:
+     - debit : دين على المتوفى (لصالح دائن) — التزام
+     - credit: دين للمتوفى على الغير (مدين) — أصل */
+  ledger:[
+    { id:1, creditor:'سعد الحربي',   amount:20000, date:'1445/03/12', proof:true, type:'debit'  },
+    { id:2, creditor:'أحمد الغامدي', amount:35000, date:'1445/05/20', proof:true, type:'credit' }
   ],
+  ledgerType:'debit',                  // النوع المختار حاليًا في نموذج الإضافة
   proofAttached:false,
   wasiyya:'',
   authorizedHeir:'h2',                 // الوريث المخوّل بالاطلاع
@@ -655,11 +659,24 @@ const fmt = n => Math.round(n).toLocaleString('en-US');
 
 const banksTotal    = () => BANKS.reduce((s,b)=>s+b.amount,0);              // 373,500
 const vehiclesTotal = () => VEHICLES.reduce((s,v)=>s+v.amount,0);           // 275,000
-const assetsTotal   = () => banksTotal() + vehiclesTotal();                 // 648,500
-const simahTotal    = () => SIMAH_DEBTS.reduce((s,d)=>s+d.amount,0);        // 124,500
-const ledgerTotal   = () => state.ledger.reduce((s,e)=>s+e.amount,0);
-const debtsTotal    = () => simahTotal() + ledgerTotal();                   // 144,500
-const netEstate     = () => assetsTotal() - debtsTotal();                   // 504,000
+
+/* فصل إقرارات الدفتر إلى: عليه (التزام) / له (أصل) */
+const ledgerDebitTotal  = () => state.ledger
+  .filter(e => e.type === 'debit')
+  .reduce((s,e)=>s+e.amount,0);
+
+const ledgerCreditTotal = () => state.ledger
+  .filter(e => e.type === 'credit')
+  .reduce((s,e)=>s+e.amount,0);
+
+/* الأصول = بنوك + مركبات + ديون له (حقوق على الغير) */
+const assetsTotal   = () => banksTotal() + vehiclesTotal() + ledgerCreditTotal();
+
+/* الالتزامات = سمة + ديون عليه (التزامات على المتوفى) */
+const simahTotal    = () => SIMAH_DEBTS.reduce((s,d)=>s+d.amount,0);
+const debtsTotal    = () => simahTotal() + ledgerDebitTotal();
+
+const netEstate     = () => assetsTotal() - debtsTotal();
 const heirAmount    = pct => netEstate() * pct / 100;
 
 const demoNote =
@@ -865,13 +882,13 @@ function renderDebts(){
       <div class="card-icon">${ic('file')}</div>
       <div>
         <h3>الالتزامات والديون</h3>
-        <p class="sub">الإجمالي الحالي: <b>${fmt(debtsTotal())}</b> ر.س</p>
+        <p class="sub">دين عليّ: <b>${fmt(debtsTotal())}</b> ر.س &nbsp;|&nbsp; دين لي: <b>${fmt(ledgerCreditTotal())}</b> ر.س</p>
       </div>
     </div>
 
     <div class="seg">
-      <button data-tab="simah" class="${state.tab==='simah'?'active':''}">من سمة</button>
-      <button data-tab="ledger" class="${state.tab==='ledger'?'active':''}">دفتر الإقرارات الرقمي</button>
+      <button type="button" data-tab="simah" class="${state.tab==='simah'?'active':''}">من سمة</button>
+      <button type="button" data-tab="ledger" class="${state.tab==='ledger'?'active':''}">دفتر الإقرارات الرقمي</button>
     </div>
 
     <div id="debtsBody">${ state.tab==='simah' ? simahBody() : ledgerBody() }</div>
@@ -902,35 +919,81 @@ function simahBody(){
 }
 
 function ledgerBody(){
-  return `
-    ${state.ledger.length ? state.ledger.map(e=>`
-      <div class="asset-row">
-        <div class="asset-ic">${ic('file','ic-sm')}</div>
-        <div class="asset-main">
-          <b>${e.creditor}</b>
-          <span>تاريخ الإقرار: ${e.date} ${e.proof?'• ✅ مرفق إثبات':''}</span>
-        </div>
-        <div class="asset-amt">${fmt(e.amount)} <small>ر.س</small></div>
-        <button class="btn btn-ghost btn-sm" data-remove="${e.id}" title="حذف">${ic('trash','ic-sm')}</button>
-      </div>
-    `).join('') : '<div class="note-box">لا توجد إقرارات مسجّلة حتى الآن.</div>'}
+  const debitTotal  = ledgerDebitTotal();
+  const creditTotal = ledgerCreditTotal();
+  const isDebit     = state.ledgerType === 'debit';
 
+  return `
+    <!-- شريط ملخص النوعين -->
+    <div style="display:flex;gap:8px;flex-wrap:wrap;padding-bottom:12px;border-bottom:1px dashed var(--line);margin-bottom:12px">
+      <span class="chip chip-warn">${ic('arrowLeft','ic-sm')} دين عليّ: ${fmt(debitTotal)} ر.س</span>
+      <span class="chip chip-ok">${ic('arrowRight','ic-sm')} دين لي: ${fmt(creditTotal)} ر.س</span>
+      <span class="chip chip-info" style="margin-inline-start:auto">${ic('link','ic-sm')} إقرار إلكتروني موثّق</span>
+    </div>
+
+    <!-- قائمة الإقرارات -->
+    ${state.ledger.length ? state.ledger.map(e => {
+      const d = e.type === 'debit';
+      return `
+        <div class="asset-row" style="${ d
+          ? 'background:#fffaf1;border-color:#f5d3a8'
+          : 'background:#f3faf6;border-color:#c8e6d5' }">
+          <div class="asset-ic" style="${ d
+            ? 'background:#fdf0dd;color:#a9761a'
+            : 'background:#e3f4eb;color:var(--ok)' }">
+            ${ic(d ? 'arrowLeft' : 'arrowRight','ic-sm')}
+          </div>
+          <div class="asset-main">
+            <b>${e.creditor}</b>
+            <span style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:3px">
+              <span class="chip ${d?'chip-warn':'chip-ok'}" style="padding:1px 8px;font-size:10.5px">
+                ${d ? 'دين عليّ' : 'دين لي'}
+              </span>
+              <span>تاريخ الإقرار: ${e.date}${e.proof ? ' • ✅ مرفق إثبات' : ''}</span>
+            </span>
+          </div>
+          <div class="asset-amt" style="color:${d?'var(--red)':'var(--ok)'}">
+            ${d ? '−' : '+'}${fmt(e.amount)} <small>ر.س</small>
+          </div>
+          <button type="button" class="btn btn-ghost btn-sm" data-remove="${e.id}" title="حذف">${ic('trash','ic-sm')}</button>
+        </div>
+      `;
+    }).join('') : '<div class="note-box" style="margin-top:0">لا توجد إقرارات مسجّلة حتى الآن.</div>'}
+
+    <!-- نموذج الإضافة -->
     <div style="margin-top:16px;padding-top:16px;border-top:1px dashed var(--line)">
-      <label>إضافة إقرار دين جديد</label>
+      <label>إضافة إقرار جديد</label>
+
+      <!-- مبدّل نوع الدين: عليه / له -->
+      <div class="seg" style="margin-bottom:12px">
+        <button type="button" data-ledger-type="debit" class="${isDebit?'active':''}">
+          ${ic('arrowLeft','ic-sm')} دين عليّ (لصالح دائن)
+        </button>
+        <button type="button" data-ledger-type="credit" class="${!isDebit?'active':''}">
+          ${ic('arrowRight','ic-sm')} دين لي (على مدين)
+        </button>
+      </div>
+
       <div class="form-row">
-        <input id="ledName" placeholder="اسم الدائن" />
+        <input id="ledName" placeholder="${isDebit ? 'اسم الدائن (لك)' : 'اسم المدين (لك)'}" />
         <input id="ledAmount" type="number" min="1" placeholder="المبلغ (ر.س)" />
       </div>
       <div class="form-row-3">
         <input id="ledDate" placeholder="التاريخ (1446/07/14)" />
-        <button class="btn btn-ghost btn-sm" id="ledProof">
+        <button type="button" class="btn btn-ghost btn-sm" id="ledProof">
           ${ic('paperclip','ic-sm')} ${state.proofAttached?'تم إرفاق إثبات ✅':'إرفاق إثبات'}
         </button>
-        <button class="btn btn-primary btn-sm" id="ledAdd">${ic('plus','ic-sm')} إضافة</button>
+        <button type="button" class="btn btn-primary btn-sm" id="ledAdd">${ic('plus','ic-sm')} إضافة</button>
       </div>
+
       <div class="note-box" style="margin-top:4px">
         ${ic('alert','ic-sm')}
-        <span>الإقرارات المسجّلة هنا لا تُلزم الورثة تلقائيًا، وتُعرض على مكتب العدل للتحقق والاعتماد.</span>
+        <span>
+          <b>دين عليّ:</b> التزام مالي على المتوفى — يُخصم من التركة قبل التوزيع.
+          &nbsp;•&nbsp;
+          <b>دين لي:</b> حق مالي للمتوفى على الغير — يُضاف إلى أصول التركة.
+          كلاهما يُعرض على مكتب العدل للتحقق والاعتماد.
+        </span>
       </div>
     </div>
   `;
@@ -987,8 +1050,8 @@ function renderPerms(){
     <div style="margin-top:18px;padding-top:16px;border-top:1px dashed var(--line)">
       <label>${ic('building','ic-sm')} حالة اعتماد مكتب العدل (أداة عرض تجريبية)</label>
       <div class="seg">
-        <button data-report="pending" class="${state.report==='pending'?'active':''}">${ic('clock','ic-sm')} بانتظار الاعتماد</button>
-        <button data-report="approved" class="${state.report==='approved'?'active':''}">${ic('checkCircle','ic-sm')} معتمد</button>
+        <button type="button" data-report="pending" class="${state.report==='pending'?'active':''}">${ic('clock','ic-sm')} بانتظار الاعتماد</button>
+        <button type="button" data-report="approved" class="${state.report==='approved'?'active':''}">${ic('checkCircle','ic-sm')} معتمد</button>
       </div>
       <p style="font-size:11.5px;color:var(--muted);margin:7px 0 0;line-height:1.7">
         غيّر الحالة هنا لتجربة ظهورها في ملف "دخول الورثة" — في الواقع هذا الاعتماد يصدر فعليًا من مكتب العدل.
@@ -1016,7 +1079,25 @@ function bindSetupEvents(){
   const debtsCard = document.getElementById('cardDebts');
   debtsCard.addEventListener('click', e => {
 
-    /* تبويب فرعي */
+    /* تبديل نوع الدين (عليه/له) — بدون إعادة رسم للحفاظ على مدخلات النموذج */
+    const typeBtn = e.target.closest('[data-ledger-type]');
+    if(typeBtn){
+      state.ledgerType = typeBtn.dataset.ledgerType;
+
+      debtsCard.querySelectorAll('[data-ledger-type]').forEach(b => {
+        b.classList.toggle('active', b.dataset.ledgerType === state.ledgerType);
+      });
+
+      const nameInput = document.getElementById('ledName');
+      if(nameInput){
+        nameInput.placeholder = state.ledgerType === 'debit'
+          ? 'اسم الدائن (لك)'
+          : 'اسم المدين (لك)';
+      }
+      return;
+    }
+
+    /* التبويب الفرعي */
     const tabBtn = e.target.closest('[data-tab]');
     if(tabBtn){
       state.tab = tabBtn.dataset.tab;
@@ -1033,24 +1114,29 @@ function bindSetupEvents(){
 
     /* إضافة إقرار */
     if(e.target.closest('#ledAdd')){
-      const name = (document.getElementById('ledName')?.value || '').trim();
+      const name   = (document.getElementById('ledName')?.value   || '').trim();
       const amount = parseFloat(document.getElementById('ledAmount')?.value || '0');
-      const date = (document.getElementById('ledDate')?.value || '').trim() || '1446/07/14';
+      const date   = (document.getElementById('ledDate')?.value   || '').trim() || '1446/07/14';
+
       if(!name || !amount || amount <= 0){
-        alert('يرجى إدخال اسم الدائن والمبلغ بشكل صحيح.');
+        alert('يرجى إدخال الاسم والمبلغ بشكل صحيح.');
         return;
       }
+
       state.ledger.push({
         id: Date.now(),
         creditor: name,
         amount: amount,
         date: date,
-        proof: state.proofAttached
+        proof: state.proofAttached,
+        type: state.ledgerType
       });
+
       state.proofAttached = false;
+
       renderDebts();
       renderSummary();
-      renderWasiyya();     // لتحديث الحد الأقصى للثلث
+      renderWasiyya();
       return;
     }
 
@@ -1066,14 +1152,13 @@ function bindSetupEvents(){
     }
   });
 
-  /* قوائم الصلاحيات */
+  /* قوائم الصلاحيات + أداة اعتماد مكتب العدل */
   const permsCard = document.getElementById('cardPerms');
   permsCard.addEventListener('change', e => {
     if(e.target.id === 'selHeir'){ state.authorizedHeir = e.target.value; }
     if(e.target.id === 'selExec'){ state.executor = e.target.value; }
   });
 
-  /* أداة العرض التجريبية: تبديل حالة اعتماد مكتب العدل */
   permsCard.addEventListener('click', e => {
     const btn = e.target.closest('[data-report]');
     if(btn){
@@ -1133,7 +1218,7 @@ function heirLoginForm(){
 
       ${state.heir.error ? `<div class="note-box note-warn" style="margin-bottom:12px">${ic('alert','ic-sm')}<span>${state.heir.error}</span></div>` : ''}
 
-      <button class="btn btn-primary" id="btnHeirVerify">${ic('lock','ic-sm')} تحقّق واعرض النتيجة</button>
+      <button type="button" class="btn btn-primary" id="btnHeirVerify">${ic('lock','ic-sm')} تحقّق واعرض النتيجة</button>
 
       <div class="note-box" style="margin-top:16px">
         ${ic('alert','ic-sm')}
@@ -1170,7 +1255,7 @@ function deniedPanel(){
                يرجى التأكد من صحة الأرقام والمحاولة مرة أخرى.
              </p>`}
       </div>
-      <button class="btn btn-ghost" id="btnHeirRetry" style="width:100%;justify-content:center">
+      <button type="button" class="btn btn-ghost" id="btnHeirRetry" style="width:100%;justify-content:center">
         ${ic('refresh','ic-sm')} محاولة مرة أخرى
       </button>
     </div>
@@ -1188,7 +1273,7 @@ function grantedPanel(){
       </div>
 
       ${!state.heir.fileOpen ? `
-        <button class="btn btn-primary" id="btnOpenFile">${ic('eye','ic-sm')} فتح ملف التركة الكامل</button>
+        <button type="button" class="btn btn-primary" id="btnOpenFile">${ic('eye','ic-sm')} فتح ملف التركة الكامل</button>
       ` : fullFile()}
     </div>
   `;
@@ -1197,6 +1282,8 @@ function grantedPanel(){
 /* --- الملف الكامل --- */
 function fullFile(){
   const approved = state.report === 'approved';
+  const creditTotal = ledgerCreditTotal();
+
   return `
     <div class="file-block">
       <h4>${ic('file','ic-sm')} ملف التركة الرقمي — TRK-1446-019283</h4>
@@ -1221,7 +1308,12 @@ function fullFile(){
       <h4 style="font-size:13.5px;margin-top:18px">${ic('wallet','ic-sm')} الأصول والالتزامات</h4>
       <div class="mini-row"><span>حسابات بنكية</span><b>${fmt(banksTotal())} ر.س</b></div>
       <div class="mini-row"><span>مركبات (غير مثقلة بتمويل)</span><b>${fmt(vehiclesTotal())} ر.س</b></div>
-      <div class="mini-row"><span>إجمالي الالتزامات (سمة + الإقرارات)</span><b style="color:var(--red)">(${fmt(debtsTotal())}) ر.س</b></div>
+      ${creditTotal > 0
+        ? `<div class="mini-row"><span>ديون لك على الآخرين (دفتر الإقرارات)</span>
+             <b style="color:var(--ok)">${fmt(creditTotal)} ر.س</b></div>`
+        : ''}
+      <div class="mini-row"><span>إجمالي الالتزامات (سمة + ديون عليّ)</span>
+        <b style="color:var(--red)">(${fmt(debtsTotal())}) ر.س</b></div>
 
       <h4 style="font-size:13.5px;margin-top:18px">${ic('file','ic-sm')} وصية الثلث</h4>
       <div class="mini-row" style="display:block">
@@ -1231,8 +1323,16 @@ function fullFile(){
       </div>
 
       <div style="display:flex;gap:10px;margin-top:18px;flex-wrap:wrap">
-        <button class="btn btn-ghost btn-sm">${ic('download','ic-sm')} تحميل نسخة PDF</button>
-        <button class="btn btn-ghost btn-sm" id="btnHeirLogout">${ic('refresh','ic-sm')} تسجيل خروج / تجربة هوية أخرى</button>
+        <button type="button" class="btn btn-ghost btn-sm">${ic('download','ic-sm')} تحميل نسخة PDF</button>
+
+        <!-- زر تنزيل نموذج حصر الورثة (ملف p.pdf بجانب index.html) -->
+        <a href="p.pdf" download="حصر_الورثة.pdf"
+           class="btn btn-ghost btn-sm"
+           style="text-decoration:none">
+          ${ic('file','ic-sm')} تنزيل حصر الورثة
+        </a>
+
+        <button type="button" class="btn btn-ghost btn-sm" id="btnHeirLogout">${ic('refresh','ic-sm')} تسجيل خروج / تجربة هوية أخرى</button>
       </div>
 
       <div class="note-box note-legal" style="margin-top:16px">
@@ -1263,7 +1363,7 @@ function bindHeirEvents(){
       if(deceasedId !== MOCK_DECEASED_ID){
         state.heir.error = '';
         state.heir.result = 'denied';
-        state.heir.deniedHeir = null;   // رقم هوية المتوفى غير صحيح
+        state.heir.deniedHeir = null;
         renderHeirPanel();
         return;
       }
@@ -1273,7 +1373,7 @@ function bindHeirEvents(){
       if(!matchedHeir){
         state.heir.error = '';
         state.heir.result = 'denied';
-        state.heir.deniedHeir = null;   // ليس ضمن قائمة الورثة المسجّلين أصلًا
+        state.heir.deniedHeir = null;
         renderHeirPanel();
         return;
       }
@@ -1281,12 +1381,11 @@ function bindHeirEvents(){
       if(matchedHeir.id !== state.authorizedHeir){
         state.heir.error = '';
         state.heir.result = 'denied';
-        state.heir.deniedHeir = matchedHeir;   // وارث شرعي، لكن غير مخوّل بالاطلاع
+        state.heir.deniedHeir = matchedHeir;
         renderHeirPanel();
         return;
       }
 
-      /* تحقّق ناجح ومخوّل */
       state.heir.error = '';
       state.heir.result = 'granted';
       state.heir.fileOpen = false;
@@ -1337,7 +1436,6 @@ function switchScreen(name){
   updateUserChip(name);
 }
 
-/* --- تحديث شارة المستخدم في الشريط العلوي حسب وضع الدخول --- */
 function updateUserChip(name){
   const chip = document.getElementById('userChip');
   if(!chip) return;
@@ -1349,43 +1447,7 @@ function updateUserChip(name){
 }
 
 /* ================================================================
-   9) الإقلاع
-   ================================================================ */
-(function init(){
-
-  /* الأيقونات الثابتة في الهيدر والتذييل */
-  document.getElementById('brandLogo').innerHTML = ic('shield');
-  document.getElementById('footerIcon').innerHTML = ic('shield');
-  document.getElementById('btnBackToGateIcon').innerHTML = ic('arrowLeft','ic-sm');
-
-  document.getElementById('btnBackToGate').onclick = () => backToGate();
-
-  /* بناء الشاشات الداخلية (تبقى مخفية خلف بوابة الدخول حتى تسجيل الدخول) */
-  renderSetupScreen();
-  bindSetupEvents();
-  renderHeirScreen();
-
-  switchScreen('setup');
-
-  /* بوابة الدخول تظهر أولًا */
-  renderLoginGate();
-})();
-
-/* --- تسجيل الخروج والعودة لبوابة الدخول --- */
-function backToGate(){
-  state.gate = { stage:'id', idValue: MOCK_DECEASED_ID };
-  state.heir = { deceasedId:'', heirId:'', error:'', result:null, deniedHeir:null, fileOpen:false };
-
-  document.getElementById('appRoot').classList.add('hidden');
-  document.getElementById('loginGate').classList.remove('hidden');
-
-  switchScreen('setup');
-  renderHeirScreen();
-  renderLoginGate();
-}
-
-/* ================================================================
-   10) بوابة تسجيل الدخول (محاكاة نفاذ)
+   9) بوابة تسجيل الدخول (محاكاة نفاذ)
    ================================================================ */
 function renderLoginGate(){
   const el = document.getElementById('loginGate');
@@ -1403,11 +1465,11 @@ function renderLoginGate(){
         <label for="gateId">رقم الهوية الوطنية / الإقامة</label>
         <input id="gateId" value="${state.gate.idValue}" inputmode="numeric" placeholder="10XXXXXXXX" />
 
-        <button class="btn btn-primary" id="btnGateLogin" style="width:100%;justify-content:center;margin-top:14px">
+        <button type="button" class="btn btn-primary" id="btnGateLogin" style="width:100%;justify-content:center;margin-top:14px">
           ${ic('lock','ic-sm')} الدخول عبر نفاذ
         </button>
 
-        <button class="login-link" id="btnGoHeir">أنا أحد الورثة، وأريد الاطلاع على ملف تركة متوفى</button>
+        <button type="button" class="login-link" id="btnGoHeir">أنا أحد الورثة، وأريد الاطلاع على ملف تركة متوفى</button>
       </div>
     `;
   }
@@ -1425,14 +1487,14 @@ function renderLoginGate(){
             <li><span class="mini-dot" style="width:15px;height:15px;display:inline-block"></span><span>بانتظار موافقتك داخل التطبيق</span></li>
           </ul>
 
-          <button class="btn btn-ghost btn-sm" id="btnGateSkip" style="margin-top:18px">
+          <button type="button" class="btn btn-ghost btn-sm" id="btnGateSkip" style="margin-top:18px">
             ${ic('check','ic-sm')} تمت الموافقة الآن (محاكاة للعرض)
           </button>
         </div>
       </div>
     `;
   }
-  else { /* approved */
+  else {
     inner = `
       <div class="login-card">
         <div class="login-success">
@@ -1493,6 +1555,42 @@ function revealApp(){
   document.getElementById('loginGate').classList.add('hidden');
   document.getElementById('appRoot').classList.remove('hidden');
 }
+
+/* --- تسجيل الخروج والعودة لبوابة الدخول --- */
+function backToGate(){
+  state.gate = { stage:'id', idValue: MOCK_DECEASED_ID };
+  state.heir = { deceasedId:'', heirId:'', error:'', result:null, deniedHeir:null, fileOpen:false };
+
+  document.getElementById('appRoot').classList.add('hidden');
+  document.getElementById('loginGate').classList.remove('hidden');
+
+  switchScreen('setup');
+  renderHeirScreen();
+  renderLoginGate();
+}
+
+/* ================================================================
+   10) الإقلاع
+   ================================================================ */
+(function init(){
+
+  /* الأيقونات الثابتة في الهيدر والتذييل */
+  document.getElementById('brandLogo').innerHTML = ic('shield');
+  document.getElementById('footerIcon').innerHTML = ic('shield');
+  document.getElementById('btnBackToGateIcon').innerHTML = ic('arrowLeft','ic-sm');
+
+  document.getElementById('btnBackToGate').onclick = () => backToGate();
+
+  /* بناء الشاشات الداخلية (تبقى مخفية خلف بوابة الدخول حتى تسجيل الدخول) */
+  renderSetupScreen();
+  bindSetupEvents();
+  renderHeirScreen();
+
+  switchScreen('setup');
+
+  /* بوابة الدخول تظهر أولًا */
+  renderLoginGate();
+})();
 </script>
 </body>
 </html>
