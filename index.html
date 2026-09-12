@@ -13,7 +13,6 @@
 <style>
 /* ============================================================
    الوصية الرقمية الذكية — نظام تصميم مبسّط
-   ألوان: أخضر داكن حكومي + كحلي + رمادي فاتح
    ============================================================ */
 :root{
   --green-950:#052318;
@@ -207,12 +206,14 @@ main{max-width:1180px;margin:0 auto;padding:24px 22px 40px}
 .prop-row.owner{background:#f3faf6;border-color:#c8e6d5}
 .prop-row.tenant{background:#fdf7ef;border-color:#f0dda6}
 .prop-row.tenant.late{background:#fef3f2;border-color:#f5c6c2}
+.prop-row.landlord{background:#f4eefb;border-color:#ddcdf3}
 .prop-ic{
   width:42px;height:42px;border-radius:11px;flex:0 0 auto;
   display:grid;place-items:center;background:#e3f4eb;color:var(--ok);
 }
 .prop-ic.tenant{background:#fdf0dd;color:#a9761a}
 .prop-ic.late{background:#fde0de;color:var(--red)}
+.prop-ic.landlord{background:#ece2fa;color:var(--purple)}
 .prop-ic .ic{width:20px;height:20px}
 .prop-main{flex:1;min-width:0}
 .prop-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:5px}
@@ -227,6 +228,7 @@ main{max-width:1180px;margin:0 auto;padding:24px 22px 40px}
 .prop-val{text-align:left;flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-start;gap:2px}
 .prop-val b{font-size:14px;color:var(--green-800)}
 .prop-val.late b{color:var(--red)}
+.prop-val.landlord b{color:var(--purple)}
 .prop-val span{font-size:10.5px;color:var(--muted)}
 
 /* ================= الشرائح (Chips) ================= */
@@ -420,74 +422,13 @@ label{display:block;font-size:12.8px;font-weight:600;margin-bottom:7px;color:#26
   border:2px solid var(--red-line);
 }
 .deny-circle .ic{width:30px;height:30px}
-
-/* شريط خطوات المحاكاة */
-.stepper{display:flex;margin-bottom:24px;overflow-x:auto;padding:4px 0 8px}
-.step{flex:1;min-width:132px;text-align:center;position:relative;padding:0 6px}
-.step .dot{
-  width:40px;height:40px;border-radius:50%;margin:0 auto 9px;
-  display:grid;place-items:center;font-size:14px;font-weight:700;
-  background:#fff;border:2px solid var(--line);color:var(--muted);
-  position:relative;z-index:2;transition:.3s;
-}
-.step .dot .ic{width:18px;height:18px}
-.step.active .dot{
-  background:var(--green-700);border-color:var(--green-700);color:#fff;
-  box-shadow:0 0 0 5px rgba(20,102,74,.14);transform:scale(1.05);
-}
-.step.done .dot{background:var(--ok-bg);border-color:#9ed3ba;color:var(--green-700)}
-.step .t{font-size:12.3px;color:var(--muted);font-weight:500;line-height:1.45}
-.step.active .t{color:var(--green-900);font-weight:700}
-.step.done .t{color:var(--green-700)}
-.step:not(:last-child)::after{
-  content:'';position:absolute;top:20px;left:-50%;width:100%;height:2px;
-  background:var(--line);z-index:1;
-}
-.step.done:not(:last-child)::after{background:#9ed3ba}
-
-.panel{
-  background:#fff;border:1px solid var(--line);border-radius:18px;
-  box-shadow:var(--shadow);padding:26px;animation:fadeUp .45s ease both;
-}
-@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
-.panel-head{margin-bottom:18px}
-.panel-head h3{margin:10px 0 4px;font-size:19px;font-weight:600}
-.panel-head p{margin:0;color:var(--muted);font-size:13.5px}
-
-.sim-nav{display:flex;justify-content:space-between;gap:12px;margin-top:20px;flex-wrap:wrap}
-
-.loading-wrap{display:flex;flex-direction:column;align-items:center;text-align:center;padding:22px 0 8px}
-.spinner{
-  width:46px;height:46px;border-radius:50%;
-  border:3px solid #dfeae5;border-top-color:var(--green-600);
-  animation:spin .9s linear infinite;margin-bottom:18px;
-}
-@keyframes spin{to{transform:rotate(360deg)}}
-.load-list{list-style:none;padding:0;margin:16px auto 0;max-width:400px;width:100%;text-align:right}
-.load-list li{
-  display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted);
-  padding:8px 12px;border-radius:10px;margin-bottom:6px;transition:.3s;
-}
-.load-list li.active{background:#f4faf7;color:var(--green-800);font-weight:600}
-.load-list li.done{color:var(--green-700)}
-.load-list li .ic{width:16px;height:16px;flex:0 0 auto}
-.load-list li .mini-dot{width:8px;height:8px;border-radius:50%;background:#d3ddd9;flex:0 0 auto}
-.load-list li.active .mini-dot{background:var(--green-600);animation:pulse 1s infinite}
-.load-list li.done .mini-dot{background:#9ed3ba}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 </style>
 </head>
 
 <body>
 
-<!-- ============================================================
-     بوابة تسجيل الدخول (محاكاة نفاذ)
-     ============================================================ -->
 <div class="login-gate" id="loginGate"></div>
 
-<!-- ============================================================
-     التطبيق الرئيسي (مخفي حتى تسجيل الدخول)
-     ============================================================ -->
 <div id="appRoot" class="hidden">
 
 <header class="app-header">
@@ -515,9 +456,6 @@ label{display:block;font-size:12.8px;font-weight:600;margin-bottom:7px;color:#26
   </div>
 </header>
 
-<!-- ============================================================
-     الشاشات
-     ============================================================ -->
 <main>
   <section id="screen-setup" class="screen"></section>
   <section id="screen-heir" class="screen hidden"></section>
@@ -538,7 +476,7 @@ label{display:block;font-size:12.8px;font-weight:600;margin-bottom:7px;color:#26
 
 <script>
 /* ================================================================
-   1) الأيقونات (مسارات SVG بسيطة بأسلوب lucide)
+   1) الأيقونات
    ================================================================ */
 const ICONS = {
   shield:'<path d="M12 2.5 4.5 5.4v5.9c0 4.9 3.2 9.2 7.5 10.7 4.3-1.5 7.5-5.8 7.5-10.7V5.4L12 2.5Z"/><path d="m9 12 2 2 4-4.2"/>',
@@ -583,10 +521,9 @@ function ic(name, cls){
 }
 
 /* ================================================================
-   2) البيانات الوهمية (Mock Data) — كل الأرقام افتراضية للعرض فقط
+   2) البيانات الوهمية
    ================================================================ */
 
-/* الورثة */
 const HEIRS = [
   { id:'h1', name:'نورة خالد العتيبي', rel:'زوجة', pct:12.5, frac:'1/8 (فرض)',        nationalId:'1026548574', birthDate:'1984/05/20' },
   { id:'h2', name:'محمد عبدالله العتيبي', rel:'ابن',  pct:35,   frac:'تعصيب — سهمان',    nationalId:'1045823190', birthDate:'2006/04/15' },
@@ -594,11 +531,9 @@ const HEIRS = [
   { id:'h4', name:'سارة عبدالله العتيبي', rel:'ابنة', pct:17.5, frac:'تعصيب — سهم واحد', nationalId:'1154872267', birthDate:'2001/06/12' }
 ];
 
-/* هوية المتوفى (المستخدم صاحب الحساب) */
 const MOCK_DECEASED_ID = '1023456789';
 const MOCK_DECEASED_NAME = 'عبدالله محمد العتيبي';
 
-/* الأصول */
 const BANKS = [
   { name:'مصرف الراجحي', note:'حساب جاري + حساب استثماري • SA44 •••• 8821', amount:245000 },
   { name:'البنك الأهلي السعودي', note:'حساب توفير • SA03 •••• 4470', amount:128500 }
@@ -613,20 +548,22 @@ const DIGITAL_SUBS = [
 ];
 
 /* ================================================================
-   العقارات — الحقول:
-   - role: 'owner' (أنا المالك) | 'tenant' (أنا المستأجر)
-   - commitment: 'committed' | 'late' (فقط للمستأجر)
-   - rentAmount: قيمة الإيجار (فقط للمستأجر)
-   - value: القيمة التقديرية (فقط للمالك)
+   العقارات — الأدوار الثلاثة:
+   - owner    : أنا المالك (أسكنه/أستخدمه)          → قيمة العقار أصل
+   - tenant   : أنا المستأجر من الغير               → الإيجار المتأخر التزام
+   - landlord : أنا المالك وأؤجّره للغير            → قيمة العقار أصل + المتأخر على المستأجر أصل (دين لي)
    ================================================================ */
 const PROPERTIES = [
   {
     id:'p1',
     type:'مبنى سكني',
     address:'الرياض — حي النرجس — الرمز البريدي 13327 — قطعة 4521 — مبنى 12',
-    role:'owner',
+    role:'landlord',
     value:1200000,
-    note:'ملك كامل — مؤجَّر حاليًا بعقد سكني'
+    rentIncome:8500,
+    dueFromTenant:17000,
+    tenantName:'شركة سكن للعقارات',
+    note:'مؤجَّر بعقد سكني — متأخرات شهرين'
   },
   {
     id:'p2',
@@ -654,10 +591,20 @@ const PROPERTIES = [
     rentAmount:7000,
     dueAmount:28000,
     note:'متأخرات إيجار — 4 أشهر غير مسددة'
+  },
+  {
+    id:'p5',
+    type:'شقة سكنية',
+    address:'الرياض — حي الملقا — الرمز البريدي 13524 — مبنى 618 — الدور 7',
+    role:'landlord',
+    value:720000,
+    rentIncome:4200,
+    dueFromTenant:0,
+    tenantName:'فهد الشمري',
+    note:'مؤجَّر بعقد سكني — منتظم'
   }
 ];
 
-/* ديون سمة (وهمية) */
 const SIMAH_DEBTS = [
   { name:'دين بنكي — مصرف الراجحي', ref:'SM-2025-4471902', amount:82500 },
   { name:'تمويل مركبة — البنك الأهلي السعودي', ref:'SM-2025-4471903', amount:42000 }
@@ -680,60 +627,48 @@ const state = {
   executor:'h3',
   report:'pending',
 
-  gate:{
-    stage:'id',
-    idValue: MOCK_DECEASED_ID
-  },
+  gate:{ stage:'id', idValue: MOCK_DECEASED_ID },
 
-  heir:{
-    deceasedId:'',
-    heirId:'',
-    error:'',
-    result:null,
-    deniedHeir:null,
-    fileOpen:false
-  }
+  heir:{ deceasedId:'', heirId:'', error:'', result:null, deniedHeir:null, fileOpen:false }
 };
 
 let nafathTimer = null;
 
 /* ================================================================
-   4) حسابات مشتقة من البيانات
+   4) الحسابات
    ================================================================ */
 const fmt = n => Math.round(n).toLocaleString('en-US');
 
 const banksTotal    = () => BANKS.reduce((s,b)=>s+b.amount,0);
 const vehiclesTotal = () => VEHICLES.reduce((s,v)=>s+v.amount,0);
 
-/* العقارات: ما أملكه (يُضاف للأصول) + ما عليّ من إيجارات متأخرة (يُضاف للالتزامات) */
+/* العقارات - التصنيفات الثلاثة */
 const propertiesOwnedTotal = () => PROPERTIES
-  .filter(p => p.role === 'owner')
+  .filter(p => p.role === 'owner' || p.role === 'landlord')
   .reduce((s,p) => s + (p.value || 0), 0);
 
 const propertiesLateTotal = () => PROPERTIES
   .filter(p => p.role === 'tenant' && p.commitment === 'late')
   .reduce((s,p) => s + (p.dueAmount || 0), 0);
 
-/* إقرارات الدفتر: عليه (التزام) / له (أصل) */
-const ledgerDebitTotal  = () => state.ledger
-  .filter(e => e.type === 'debit')
-  .reduce((s,e)=>s+e.amount,0);
+/* المتأخرات على المستأجرين (دين لي) */
+const propertiesDueFromTenantsTotal = () => PROPERTIES
+  .filter(p => p.role === 'landlord')
+  .reduce((s,p) => s + (p.dueFromTenant || 0), 0);
 
-const ledgerCreditTotal = () => state.ledger
-  .filter(e => e.type === 'credit')
-  .reduce((s,e)=>s+e.amount,0);
+const ledgerDebitTotal  = () => state.ledger.filter(e=>e.type==='debit').reduce((s,e)=>s+e.amount,0);
+const ledgerCreditTotal = () => state.ledger.filter(e=>e.type==='credit').reduce((s,e)=>s+e.amount,0);
 
-/* الأصول = بنوك + مركبات + ديون له + عقارات مملوكة */
-const assetsTotal   = () =>
-  banksTotal() + vehiclesTotal() + ledgerCreditTotal() + propertiesOwnedTotal();
+/* الأصول = بنوك + مركبات + ديون له + عقارات مملوكة/مؤجّرة + متأخرات على المستأجرين */
+const assetsTotal = () =>
+  banksTotal() + vehiclesTotal() + ledgerCreditTotal() +
+  propertiesOwnedTotal() + propertiesDueFromTenantsTotal();
 
-/* الالتزامات = سمة + ديون عليه + إيجارات متأخرة */
-const simahTotal    = () => SIMAH_DEBTS.reduce((s,d)=>s+d.amount,0);
-const debtsTotal    = () =>
-  simahTotal() + ledgerDebitTotal() + propertiesLateTotal();
+const simahTotal = () => SIMAH_DEBTS.reduce((s,d)=>s+d.amount,0);
+const debtsTotal = () => simahTotal() + ledgerDebitTotal() + propertiesLateTotal();
 
-const netEstate     = () => assetsTotal() - debtsTotal();
-const heirAmount    = pct => netEstate() * pct / 100;
+const netEstate  = () => assetsTotal() - debtsTotal();
+const heirAmount = pct => netEstate() * pct / 100;
 
 const demoNote =
   '<div class="demo-note">'+ ic('alert','ic-sm') +
@@ -741,7 +676,7 @@ const demoNote =
   'ولا تمثل أي جهة أو شخص حقيقي.</span></div>';
 
 /* ================================================================
-   5) شاشة الإعداد — لوحة التحكم الشخصية
+   5) شاشة الإعداد
    ================================================================ */
 function renderSetupScreen(){
   document.getElementById('screen-setup').innerHTML = `
@@ -757,8 +692,8 @@ function renderSetupScreen(){
     <div class="grid">
       <div class="card" id="cardHeirs"></div>
       <div class="card" id="cardWasiyya"></div>
-      <div class="card full" id="cardAssets"></div>
       <div class="card full" id="cardProperties"></div>
+      <div class="card full" id="cardAssets"></div>
       <div class="card span7" id="cardDebts"></div>
       <div class="card span5" id="cardPerms"></div>
     </div>
@@ -767,13 +702,12 @@ function renderSetupScreen(){
   renderSummary();
   renderHeirs();
   renderWasiyya();
-  renderAssets();
   renderProperties();
+  renderAssets();
   renderDebts();
   renderPerms();
 }
 
-/* --- شريط الإحصائيات --- */
 function renderSummary(){
   const el = document.getElementById('summaryStrip');
   if(!el) return;
@@ -793,7 +727,6 @@ function renderSummary(){
   `;
 }
 
-/* --- بطاقة الورثة --- */
 function renderHeirs(){
   const el = document.getElementById('cardHeirs');
   el.innerHTML = `
@@ -833,7 +766,6 @@ function renderHeirs(){
   `;
 }
 
-/* --- بطاقة الثلث (الوصية) --- */
 function renderWasiyya(){
   const el = document.getElementById('cardWasiyya');
   el.innerHTML = `
@@ -861,7 +793,144 @@ function renderWasiyya(){
   `;
 }
 
-/* --- بطاقة الأصول --- */
+/* --- بطاقة العقارات (ثلاثة أدوار) --- */
+function renderProperties(){
+  const el = document.getElementById('cardProperties');
+  const ownedTotal  = propertiesOwnedTotal();
+  const lateTotal   = propertiesLateTotal();
+  const dueTotal    = propertiesDueFromTenantsTotal();
+
+  const ownersCount    = PROPERTIES.filter(p => p.role === 'owner').length;
+  const tenantsCount   = PROPERTIES.filter(p => p.role === 'tenant').length;
+  const landlordsCount = PROPERTIES.filter(p => p.role === 'landlord').length;
+
+  el.innerHTML = `
+    <div class="card-head">
+      <div class="card-icon">${ic('home')}</div>
+      <div>
+        <h3>العقارات — الأراضي والمباني</h3>
+        <p class="sub">
+          مملوكة بقيمة <b>${fmt(ownedTotal)}</b> ر.س
+          ${dueTotal > 0 ? `&nbsp;•&nbsp; متأخرات لصالحك <b style="color:var(--ok)">${fmt(dueTotal)}</b> ر.س` : ''}
+          ${lateTotal > 0 ? `&nbsp;•&nbsp; إيجارات متأخرة عليك <b style="color:var(--red)">${fmt(lateTotal)}</b> ر.س` : ''}
+        </p>
+      </div>
+    </div>
+
+    <div class="groups" style="grid-template-columns:1fr;">
+
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px">
+        <span class="chip chip-ok">${ic('home','ic-sm')} ${ownersCount} عقار أملكه وأستخدمه</span>
+        <span class="chip chip-purple">${ic('key','ic-sm')} ${landlordsCount} عقار أملكه وأؤجّره</span>
+        <span class="chip chip-info">${ic('building','ic-sm')} ${tenantsCount} عقار أستأجره من الغير</span>
+        ${dueTotal > 0
+          ? `<span class="chip chip-ok">${ic('arrowRight','ic-sm')} دين لك على المستأجرين: ${fmt(dueTotal)} ر.س</span>`
+          : ''}
+        ${lateTotal > 0
+          ? `<span class="chip chip-warn">${ic('alert','ic-sm')} متأخرات عليك: ${fmt(lateTotal)} ر.س</span>`
+          : ''}
+      </div>
+
+      ${PROPERTIES.map(p => {
+
+        /* ============ owner : أنا المالك (أستخدمه) ============ */
+        if(p.role === 'owner'){
+          return `
+            <div class="prop-row owner">
+              <div class="prop-ic">${ic('home')}</div>
+              <div class="prop-main">
+                <div class="prop-top">
+                  <span class="prop-name">${p.type}</span>
+                  <span class="chip chip-ok chip-sm">${ic('home','ic-sm')} أنا المالك</span>
+                  <span class="chip chip-ok chip-sm">${ic('checkCircle','ic-sm')} مملوك بالكامل</span>
+                </div>
+                <div class="prop-addr">${ic('mapPin','ic-sm')}<span>${p.address}</span></div>
+                <div class="prop-tags">
+                  <span class="chip chip-sm" style="background:#f1f4f3;color:#4a5c56">${p.note}</span>
+                </div>
+              </div>
+              <div class="prop-val">
+                <b>${fmt(p.value)} ر.س</b>
+                <span>قيمة تقديرية — تُضاف للأصول</span>
+              </div>
+            </div>`;
+        }
+
+        /* ============ landlord : أنا المالك وأؤجّره للغير ============ */
+        if(p.role === 'landlord'){
+          const hasDue = (p.dueFromTenant || 0) > 0;
+          return `
+            <div class="prop-row landlord">
+              <div class="prop-ic landlord">${ic('key')}</div>
+              <div class="prop-main">
+                <div class="prop-top">
+                  <span class="prop-name">${p.type}</span>
+                  <span class="chip chip-purple chip-sm">${ic('key','ic-sm')} أنا المالك والمؤجِّر</span>
+                  ${hasDue
+                    ? `<span class="chip chip-warn chip-sm">${ic('alert','ic-sm')} مستأجر متأخر</span>`
+                    : `<span class="chip chip-ok chip-sm">${ic('checkCircle','ic-sm')} مستأجر منتظم</span>`}
+                </div>
+                <div class="prop-addr">${ic('mapPin','ic-sm')}<span>${p.address}</span></div>
+                <div class="prop-tags">
+                  ${p.tenantName
+                    ? `<span class="chip chip-purple chip-sm">${ic('person','ic-sm')} المستأجر: ${p.tenantName}</span>`
+                    : ''}
+                  <span class="chip chip-sm" style="background:#f1f4f3;color:#4a5c56">${p.note}</span>
+                </div>
+              </div>
+              <div class="prop-val ${hasDue?'late':'landlord'}">
+                <b>${fmt(p.value)} ر.س</b>
+                <span>قيمة العقار — تُضاف للأصول</span>
+                <span style="font-size:10.5px;color:var(--muted)">إيجار شهري: ${fmt(p.rentIncome)} ر.س</span>
+                ${hasDue
+                  ? `<span style="font-size:10.5px;color:var(--red)">متأخر على المستأجر: ${fmt(p.dueFromTenant)} ر.س</span>`
+                  : ''}
+              </div>
+            </div>`;
+        }
+
+        /* ============ tenant : أنا المستأجر من الغير ============ */
+        const isLate = p.commitment === 'late';
+        return `
+          <div class="prop-row tenant ${isLate?'late':''}">
+            <div class="prop-ic ${isLate?'late':'tenant'}">${ic('building')}</div>
+            <div class="prop-main">
+              <div class="prop-top">
+                <span class="prop-name">${p.type}</span>
+                <span class="chip chip-info chip-sm">${ic('building','ic-sm')} أنا المستأجر</span>
+                ${isLate
+                  ? `<span class="chip chip-warn chip-sm">${ic('alert','ic-sm')} غير ملتزم بالسداد</span>`
+                  : `<span class="chip chip-ok chip-sm">${ic('checkCircle','ic-sm')} ملتزم بالسداد</span>`}
+              </div>
+              <div class="prop-addr">${ic('mapPin','ic-sm')}<span>${p.address}</span></div>
+              <div class="prop-tags">
+                <span class="chip chip-sm" style="background:#f1f4f3;color:#4a5c56">${p.note}</span>
+              </div>
+            </div>
+            <div class="prop-val ${isLate?'late':''}">
+              ${isLate
+                ? `<b>${fmt(p.dueAmount)} ر.س</b>
+                   <span>متأخرات — تُضاف للالتزامات</span>
+                   <span style="font-size:10.5px;color:var(--muted)">إيجار شهري: ${fmt(p.rentAmount)} ر.س</span>`
+                : `<b>${fmt(p.rentAmount)} ر.س</b>
+                   <span>إيجار شهري (ملتزم — لا يُحتسب)</span>`}
+            </div>
+          </div>`;
+      }).join('')}
+
+      <div class="note-box">
+        ${ic('alert','ic-sm')}
+        <span>
+          <b>الأدوار الثلاثة للعقار:</b>
+          &nbsp;•&nbsp;<b>أنا المالك</b> — العقار يُحتسب ضمن أصول التركة بقيمته التقديرية.
+          &nbsp;•&nbsp;<b>أنا المالك والمؤجِّر</b> — قيمة العقار أصل + الإيجار <u>المتأخر على المستأجر</u> يُحتسب دَينًا لك.
+          &nbsp;•&nbsp;<b>أنا المستأجر</b> — يُحتسب الإيجار <u>المتأخر فقط</u> ضمن التزاماتك، ولا تُحتسب الإيجارات الملتزم بها.
+        </span>
+      </div>
+    </div>
+  `;
+}
+
 function renderAssets(){
   const el = document.getElementById('cardAssets');
   el.innerHTML = `
@@ -874,8 +943,6 @@ function renderAssets(){
     </div>
 
     <div class="groups">
-
-      <!-- حسابات بنكية -->
       <div class="group">
         <div class="group-head">
           ${ic('bank','ic-sm')} حسابات بنكية
@@ -890,7 +957,6 @@ function renderAssets(){
         `).join('')}
       </div>
 
-      <!-- مركبات -->
       <div class="group">
         <div class="group-head">
           ${ic('car','ic-sm')} مركبات
@@ -909,7 +975,6 @@ function renderAssets(){
         `).join('')}
       </div>
 
-      <!-- اشتراكات رقمية -->
       <div class="group">
         <div class="group-head">
           ${ic('link','ic-sm')} اشتراكات رقمية
@@ -927,105 +992,10 @@ function renderAssets(){
           <span>لا تُحتسب الاشتراكات الرقمية ضمن قيمة التركة لعدم وجود قيمة مادية قابلة للتوزيع، وتُلغى تلقائيًا بعد التفعيل.</span>
         </div>
       </div>
-
     </div>
   `;
 }
 
-/* --- بطاقة العقارات (جديدة) --- */
-function renderProperties(){
-  const el = document.getElementById('cardProperties');
-  const ownedTotal = propertiesOwnedTotal();
-  const lateTotal  = propertiesLateTotal();
-
-  el.innerHTML = `
-    <div class="card-head">
-      <div class="card-icon">${ic('home')}</div>
-      <div>
-        <h3>العقارات — الأراضي والمباني</h3>
-        <p class="sub">
-          مملوكة بقيمة <b>${fmt(ownedTotal)}</b> ر.س
-          &nbsp;•&nbsp;
-          إيجارات متأخرة <b style="color:var(--red)">${fmt(lateTotal)}</b> ر.س
-        </p>
-      </div>
-    </div>
-
-    <div class="groups" style="grid-template-columns:1fr;">
-
-      <!-- ملخص سريع -->
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px">
-        <span class="chip chip-ok">${ic('home','ic-sm')} ${PROPERTIES.filter(p=>p.role==='owner').length} عقار مملوك</span>
-        <span class="chip chip-info">${ic('key','ic-sm')} ${PROPERTIES.filter(p=>p.role==='tenant').length} عقار مستأجر</span>
-        ${lateTotal > 0
-          ? `<span class="chip chip-warn">${ic('alert','ic-sm')} متأخرات إيجار: ${fmt(lateTotal)} ر.س</span>`
-          : ''}
-      </div>
-
-      ${PROPERTIES.map(p => {
-        const isOwner = p.role === 'owner';
-        const isLate  = p.role === 'tenant' && p.commitment === 'late';
-        const rowCls  = isOwner ? 'owner' : ('tenant' + (isLate ? ' late' : ''));
-        const icCls   = isOwner ? '' : (isLate ? 'late' : 'tenant');
-        const icName  = isOwner ? 'home' : 'key';
-
-        return `
-          <div class="prop-row ${rowCls}">
-            <div class="prop-ic ${icCls}">${ic(icName)}</div>
-            <div class="prop-main">
-              <div class="prop-top">
-                <span class="prop-name">${p.type}</span>
-                ${isOwner
-                  ? '<span class="chip chip-ok chip-sm">'+ic('home','ic-sm')+' أنا المالك</span>'
-                  : '<span class="chip chip-info chip-sm">'+ic('key','ic-sm')+' أنا المستأجر</span>'}
-              </div>
-
-              <div class="prop-addr">
-                ${ic('mapPin','ic-sm')}
-                <span>${p.address}</span>
-              </div>
-
-              <div class="prop-tags">
-                ${isOwner
-                  ? `<span class="chip chip-ok chip-sm">${ic('checkCircle','ic-sm')} مملوك بالكامل</span>
-                     <span class="chip chip-sm" style="background:#f1f4f3;color:#4a5c56">${p.note}</span>`
-                  : (
-                      p.commitment === 'committed'
-                        ? `<span class="chip chip-ok chip-sm">${ic('checkCircle','ic-sm')} ملتزم بالسداد</span>
-                           <span class="chip chip-sm" style="background:#f1f4f3;color:#4a5c56">${p.note}</span>`
-                        : `<span class="chip chip-warn chip-sm">${ic('alert','ic-sm')} غير ملتزم — متأخرات</span>
-                           <span class="chip chip-sm" style="background:#f1f4f3;color:#4a5c56">${p.note}</span>`
-                    )}
-              </div>
-            </div>
-
-            <div class="prop-val ${isLate?'late':''}">
-              ${isOwner
-                ? `<b>${fmt(p.value)} ر.س</b><span>قيمة تقديرية (تُضاف للأصول)</span>`
-                : (
-                    isLate
-                      ? `<b>${fmt(p.dueAmount)} ر.س</b><span>متأخرات (تُضاف للالتزامات)</span>
-                         <span style="font-size:10.5px;color:var(--muted)">إيجار شهري: ${fmt(p.rentAmount)} ر.س</span>`
-                      : `<b>${fmt(p.rentAmount)} ر.س</b><span>إيجار شهري (ملتزم — لا يُحتسب)</span>`
-                  )}
-            </div>
-          </div>
-        `;
-      }).join('')}
-
-      <div class="note-box">
-        ${ic('alert','ic-sm')}
-        <span>
-          <b>الفرق بين المالك والمستأجر:</b>
-          &nbsp;•&nbsp;<b>أنا المالك</b> — العقار يُحتسب ضمن أصول التركة بقيمته التقديرية.
-          &nbsp;•&nbsp;<b>أنا المستأجر</b> — يُحتسب الإيجار <u>المتأخر فقط</u> ضمن الالتزامات، ولا تُحتسب الإيجارات الملتزم بها.
-        </span>
-      </div>
-    </div>
-  `;
-}
-
-/* --- بطاقة الديون --- */
 function renderDebts(){
   const el = document.getElementById('cardDebts');
   const lateRent = propertiesLateTotal();
@@ -1055,6 +1025,8 @@ function renderDebts(){
 
 function simahBody(){
   const lateRent = propertiesLateTotal();
+  const dueFromTenants = propertiesDueFromTenantsTotal();
+
   return `
     <div class="mini-row" style="border:0;padding:0 0 10px">
       <span>آخر استعلام من شركة سمة: 1446/07/14 — 09:14 ص</span>
@@ -1075,10 +1047,21 @@ function simahBody(){
       <div class="asset-row warn">
         <div class="asset-ic">${ic('home','ic-sm')}</div>
         <div class="asset-main">
-          <b>إيجارات متأخرة — عقارات مستأجرة</b>
-          <span>مستخرجة آليًا من قسم العقارات (حالة: غير ملتزم)</span>
+          <b>إيجارات متأخرة — عقارات أستأجرها</b>
+          <span>مستخرجة آليًا من قسم العقارات (غير ملتزم)</span>
         </div>
         <div class="asset-amt" style="color:var(--red)">${fmt(lateRent)} <small>ر.س</small></div>
+      </div>
+    ` : ''}
+
+    ${dueFromTenants > 0 ? `
+      <div class="asset-row" style="background:#f4eefb;border-color:#ddcdf3">
+        <div class="asset-ic" style="background:#ece2fa;color:var(--purple)">${ic('key','ic-sm')}</div>
+        <div class="asset-main">
+          <b>إيجارات متأخرة لصالحك — على المستأجرين</b>
+          <span>مستخرجة آليًا من قسم العقارات (أنا المؤجِّر)</span>
+        </div>
+        <div class="asset-amt" style="color:var(--purple)">${fmt(dueFromTenants)} <small>ر.س</small></div>
       </div>
     ` : ''}
 
@@ -1159,14 +1142,12 @@ function ledgerBody(){
           <b>دين عليّ:</b> التزام مالي على المتوفى — يُخصم من التركة قبل التوزيع.
           &nbsp;•&nbsp;
           <b>دين لي:</b> حق مالي للمتوفى على الغير — يُضاف إلى أصول التركة.
-          كلاهما يُعرض على مكتب العدل للتحقق والاعتماد.
         </span>
       </div>
     </div>
   `;
 }
 
-/* --- بطاقة الصلاحيات --- */
 function renderPerms(){
   const el = document.getElementById('cardPerms');
   const opts = (sel) => HEIRS.map(h =>
@@ -1228,7 +1209,7 @@ function renderPerms(){
 }
 
 /* ================================================================
-   6) ربط أحداث شاشة الإعداد
+   6) ربط الأحداث
    ================================================================ */
 function bindSetupEvents(){
 
@@ -1247,11 +1228,9 @@ function bindSetupEvents(){
     const typeBtn = e.target.closest('[data-ledger-type]');
     if(typeBtn){
       state.ledgerType = typeBtn.dataset.ledgerType;
-
       debtsCard.querySelectorAll('[data-ledger-type]').forEach(b => {
         b.classList.toggle('active', b.dataset.ledgerType === state.ledgerType);
       });
-
       const nameInput = document.getElementById('ledName');
       if(nameInput){
         nameInput.placeholder = state.ledgerType === 'debit'
@@ -1278,12 +1257,10 @@ function bindSetupEvents(){
       const name   = (document.getElementById('ledName')?.value   || '').trim();
       const amount = parseFloat(document.getElementById('ledAmount')?.value || '0');
       const date   = (document.getElementById('ledDate')?.value   || '').trim() || '1446/07/14';
-
       if(!name || !amount || amount <= 0){
         alert('يرجى إدخال الاسم والمبلغ بشكل صحيح.');
         return;
       }
-
       state.ledger.push({
         id: Date.now(),
         creditor: name,
@@ -1292,9 +1269,7 @@ function bindSetupEvents(){
         proof: state.proofAttached,
         type: state.ledgerType
       });
-
       state.proofAttached = false;
-
       renderDebts();
       renderSummary();
       renderWasiyya();
@@ -1328,7 +1303,7 @@ function bindSetupEvents(){
 }
 
 /* ================================================================
-   7) شاشة "دخول الورثة"
+   7) شاشة دخول الورثة
    ================================================================ */
 function renderHeirScreen(){
   document.getElementById('screen-heir').innerHTML = `
@@ -1345,7 +1320,6 @@ function renderHeirScreen(){
 function renderHeirPanel(){
   const p = document.getElementById('heirPanel');
   if(!p) return;
-
   if(state.heir.result === 'granted'){
     p.innerHTML = grantedPanel();
   } else if(state.heir.result === 'denied'){
@@ -1404,12 +1378,10 @@ function deniedPanel(){
         ${who
           ? `<p style="color:var(--muted);font-size:13.5px;line-height:1.8">
                تم التحقق من هويتك بنجاح كوريث شرعي (<b>${who.name}</b>)، إلا أن المتوفى
-               <b>لم يمنحك صلاحية الاطلاع الرقمية</b> على هذا الملف. يمكنك مراجعة مكتب العدل
-               للحصول على نسخة رسمية من تقرير التركة كوريث شرعي.
+               <b>لم يمنحك صلاحية الاطلاع الرقمية</b> على هذا الملف.
              </p>`
           : `<p style="color:var(--muted);font-size:13.5px;line-height:1.8">
                لم نتمكن من مطابقة رقمي الهوية المدخلين مع بيانات المتوفى أو الورثة المسجّلين.
-               يرجى التأكد من صحة الأرقام والمحاولة مرة أخرى.
              </p>`}
       </div>
       <button type="button" class="btn btn-ghost" id="btnHeirRetry" style="width:100%;justify-content:center">
@@ -1436,10 +1408,11 @@ function grantedPanel(){
 }
 
 function fullFile(){
-  const approved = state.report === 'approved';
+  const approved    = state.report === 'approved';
   const creditTotal = ledgerCreditTotal();
   const ownedTotal  = propertiesOwnedTotal();
   const lateRent    = propertiesLateTotal();
+  const dueFromTenants = propertiesDueFromTenantsTotal();
 
   return `
     <div class="file-block">
@@ -1454,7 +1427,7 @@ function fullFile(){
         </div>
       </div>
 
-      <h4 style="font-size:13.5px;margin-top:6px">${ic('users','ic-sm')} الأنصبة (${approved?'نهائية بعد الاعتماد':'مقترحة — قابلة للتعديل حتى الاعتماد'})</h4>
+      <h4 style="font-size:13.5px;margin-top:6px">${ic('users','ic-sm')} الأنصبة</h4>
       ${HEIRS.map(h=>`
         <div class="mini-row">
           <span>${h.name} — ${h.rel} (${h.pct}%)${h.id===state.executor?' <span class="exec-badge" style="margin-inline-start:6px">'+ic('key','ic-sm')+' منفّذ سداد الدين</span>':''}</span>
@@ -1470,33 +1443,53 @@ function fullFile(){
              <b style="color:var(--ok)">${fmt(creditTotal)} ر.س</b></div>`
         : ''}
       ${ownedTotal > 0
-        ? `<div class="mini-row"><span>عقارات مملوكة (أراضٍ ومبانٍ)</span>
+        ? `<div class="mini-row"><span>عقارات مملوكة ومؤجَّرة (أراضٍ ومبانٍ)</span>
              <b style="color:var(--ok)">${fmt(ownedTotal)} ر.س</b></div>`
+        : ''}
+      ${dueFromTenants > 0
+        ? `<div class="mini-row"><span>إيجارات مستحقة لك على المستأجرين</span>
+             <b style="color:var(--purple)">${fmt(dueFromTenants)} ر.س</b></div>`
         : ''}
       <div class="mini-row"><span>إجمالي الالتزامات (سمة + ديون عليّ${lateRent>0?' + إيجارات متأخرة':''})</span>
         <b style="color:var(--red)">(${fmt(debtsTotal())}) ر.س</b></div>
 
       <h4 style="font-size:13.5px;margin-top:18px">${ic('home','ic-sm')} العقارات بالتفصيل</h4>
       ${PROPERTIES.map(p=>{
-        const isOwner = p.role === 'owner';
-        const isLate  = p.role === 'tenant' && p.commitment === 'late';
+        const isOwner    = p.role === 'owner';
+        const isLandlord = p.role === 'landlord';
+        const isTenant   = p.role === 'tenant';
+        const isLate     = isTenant && p.commitment === 'late';
+
+        let roleTag, amountLine;
+        if(isOwner){
+          roleTag = '<span style="color:var(--ok)">أنا المالك</span>';
+          amountLine = `<b style="color:var(--ok)">${fmt(p.value)} ر.س</b>`;
+        } else if(isLandlord){
+          roleTag = '<span style="color:var(--purple)">أنا المالك والمؤجِّر</span>';
+          const due = (p.dueFromTenant||0);
+          amountLine = `
+            <div style="text-align:left">
+              <b style="color:var(--purple)">${fmt(p.value)} ر.س</b>
+              <div style="font-size:10.5px;color:var(--muted)">إيجار شهري: ${fmt(p.rentIncome)} ر.س</div>
+              ${due>0?`<div style="font-size:10.5px;color:var(--red)">متأخر على المستأجر: ${fmt(due)} ر.س</div>`:''}
+            </div>`;
+        } else {
+          roleTag = '<span style="color:var(--blue)">أنا المستأجر</span>';
+          amountLine = isLate
+            ? `<b style="color:var(--red)">متأخرات: ${fmt(p.dueAmount)} ر.س</b>`
+            : `<b style="color:var(--muted)">إيجار شهري: ${fmt(p.rentAmount)} ر.س (ملتزم)</b>`;
+        }
+
         return `
           <div class="mini-row" style="display:block;padding:10px 0">
             <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
-              <b style="font-size:13px">${p.type} —
-                ${isOwner
-                  ? '<span style="color:var(--ok)">أنا المالك</span>'
-                  : '<span style="color:var(--blue)">أنا المستأجر</span>'}
-              </b>
-              ${isOwner
-                ? `<b style="color:var(--ok)">${fmt(p.value)} ر.س</b>`
-                : (isLate
-                    ? `<b style="color:var(--red)">متأخرات: ${fmt(p.dueAmount)} ر.س</b>`
-                    : `<b style="color:var(--muted)">إيجار شهري: ${fmt(p.rentAmount)} ر.س (ملتزم)</b>`)}
+              <b style="font-size:13px">${p.type} — ${roleTag}</b>
+              ${amountLine}
             </div>
             <div style="font-size:11.5px;color:var(--muted);margin-top:4px;line-height:1.6">
               ${ic('mapPin','ic-sm')} ${p.address}
               <br>${p.note}
+              ${isLandlord && p.tenantName ? `<br>المستأجر: ${p.tenantName}` : ''}
             </div>
           </div>
         `;
@@ -1554,7 +1547,6 @@ function bindHeirEvents(){
       }
 
       const matchedHeir = HEIRS.find(h => h.nationalId === heirId);
-
       if(!matchedHeir){
         state.heir.error = '';
         state.heir.result = 'denied';
@@ -1603,11 +1595,10 @@ function bindHeirEvents(){
 }
 
 /* ================================================================
-   8) التنقل بين الشاشات
+   8) التنقل
    ================================================================ */
 function switchScreen(name){
   state.screen = name;
-
   document.getElementById('screen-setup').classList.toggle('hidden', name !== 'setup');
   document.getElementById('screen-heir').classList.toggle('hidden', name !== 'heir');
 
@@ -1617,7 +1608,6 @@ function switchScreen(name){
     void active.offsetWidth;
     active.style.animation = '';
   }
-
   updateUserChip(name);
 }
 
@@ -1632,7 +1622,7 @@ function updateUserChip(name){
 }
 
 /* ================================================================
-   9) بوابة تسجيل الدخول (محاكاة نفاذ)
+   9) بوابة تسجيل الدخول
    ================================================================ */
 function renderLoginGate(){
   const el = document.getElementById('loginGate');
@@ -1757,7 +1747,6 @@ function backToGate(){
    10) الإقلاع
    ================================================================ */
 (function init(){
-
   document.getElementById('brandLogo').innerHTML = ic('shield');
   document.getElementById('footerIcon').innerHTML = ic('shield');
   document.getElementById('btnBackToGateIcon').innerHTML = ic('arrowLeft','ic-sm');
@@ -1769,7 +1758,6 @@ function backToGate(){
   renderHeirScreen();
 
   switchScreen('setup');
-
   renderLoginGate();
 })();
 </script>
