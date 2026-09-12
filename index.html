@@ -1345,86 +1345,88 @@ function fullFile(){
 }
 
 /* ================================================================
-   توليد ملف "حصر الورثة" PDF ديناميكيًا وتنزيله
+   توليد ملف "حصر الورثة" PDF ديناميكيًا — مطابق للنموذج الرسمي
    ================================================================ */
 function generateHeirsPDF(){
-  /* بيانات المتوفى (وهمية في النموذج الأولي) */
+  /* ============ بيانات المتوفى ============ */
   const deceased = {
     name: MOCK_DECEASED_NAME,
     gender: 'ذكر',
     idType: 'هوية وطنية',
     idNumber: MOCK_DECEASED_ID,
-    deathDate: '1446/07/14هـ — 2025/01/13م',
-    certificateNumber: 'WAF-1446-0092831'
+    deathDate: '1446/07/14هـ',
+    certificateNumber: '1023456789'
   };
 
-  /* بناء جدول الورثة */
+  /* ============ جدول الورثة ============ */
   const heirsRows = HEIRS.map((h, i) => `
     <tr>
-      <td style="text-align:center">${i + 1}</td>
-      <td>${h.name}</td>
-      <td style="text-align:center">${h.rel}</td>
-      <td style="text-align:center">سعودي</td>
-      <td style="text-align:center">${h.nationalId}</td>
-      <td style="text-align:center">${h.birthDate || '—'}</td>
-      <td style="text-align:center">${h.pct}% — ${h.frac}</td>
+      <td style="border:1px solid #333;padding:7px 9px;text-align:center;">${h.rel}</td>
+      <td style="border:1px solid #333;padding:7px 9px;">${h.name}</td>
+      <td style="border:1px solid #333;padding:7px 9px;text-align:center;">سعودي</td>
+      <td style="border:1px solid #333;padding:7px 9px;text-align:center;">${h.nationalId}</td>
+      <td style="border:1px solid #333;padding:7px 9px;text-align:center;">${h.rel==='زوجة'?'زوجة':'وارث'}</td>
     </tr>
   `).join('');
 
-  /* قالب HTML للملف (يُحوَّل إلى PDF) */
+  /* ============ قالب HTML (يُحوَّل إلى PDF) ============ */
   const html = `
     <div style="font-family:'IBM Plex Sans Arabic', Arial, sans-serif;
-                direction:rtl; color:#0f1f1a; padding:28px 24px; background:#fff;">
+                direction:rtl; color:#000; padding:24px 22px; background:#fff;">
 
-      <!-- الترويسة الرسمية -->
-      <div style="text-align:center;border-bottom:2px solid #0b3d2e;padding-bottom:14px;margin-bottom:22px;">
-        <div style="font-size:13px;color:#6d7d78;letter-spacing:.5px;">المملكة العربية السعودية</div>
-        <h1 style="margin:6px 0 4px;font-size:22px;color:#0b3d2e;">الوصية الرقمية الذكية</h1>
-        <div style="font-size:12px;color:#6d7d78;">منصة معتمدة حكوميًا لتصفية التركات الرقمية</div>
-        <div style="margin-top:12px;font-size:18px;font-weight:700;color:#0b3d2e;">
-          نموذج حصر الورثة
-        </div>
+      <!-- ========== الترويسة ========== -->
+      <div style="display:flex;justify-content:space-between;align-items:center;
+                  font-size:13px;font-weight:600;margin-bottom:24px;padding:0 4px;">
+        <div>الوصية الرقمية الذكية</div>
+        <div style="font-weight:700;font-size:14px;">${deceased.name}</div>
+        <div>حصر الورثة</div>
       </div>
 
-      <!-- بيانات المتوفى -->
-      <h2 style="font-size:15px;color:#0b3d2e;margin:0 0 10px;border-right:4px solid #1a7a58;padding-right:10px;">
-        بيانات المتوفى
-      </h2>
-      <table style="width:100%;border-collapse:collapse;margin-bottom:22px;font-size:12.5px;">
-        <tr>
-          <td style="border:1px solid #d9e2df;padding:8px;background:#f6f9f8;width:20%;font-weight:600;">اسم المتوفى</td>
-          <td style="border:1px solid #d9e2df;padding:8px;width:30%;">${deceased.name}</td>
-          <td style="border:1px solid #d9e2df;padding:8px;background:#f6f9f8;width:20%;font-weight:600;">جنس المتوفى</td>
-          <td style="border:1px solid #d9e2df;padding:8px;width:30%;">${deceased.gender}</td>
-        </tr>
-        <tr>
-          <td style="border:1px solid #d9e2df;padding:8px;background:#f6f9f8;font-weight:600;">نوع الهوية</td>
-          <td style="border:1px solid #d9e2df;padding:8px;">${deceased.idType}</td>
-          <td style="border:1px solid #d9e2df;padding:8px;background:#f6f9f8;font-weight:600;">رقم الهوية</td>
-          <td style="border:1px solid #d9e2df;padding:8px;">${deceased.idNumber}</td>
-        </tr>
-        <tr>
-          <td style="border:1px solid #d9e2df;padding:8px;background:#f6f9f8;font-weight:600;">تاريخ الوفاة</td>
-          <td style="border:1px solid #d9e2df;padding:8px;">${deceased.deathDate}</td>
-          <td style="border:1px solid #d9e2df;padding:8px;background:#f6f9f8;font-weight:600;">رقم شهادة الوفاة</td>
-          <td style="border:1px solid #d9e2df;padding:8px;">${deceased.certificateNumber}</td>
-        </tr>
+      <!-- ========== القسم الأول: تم توثيق وفاة ========== -->
+      <div style="text-align:right;font-size:15px;font-weight:700;
+                  margin:0 0 10px;padding-right:4px;">
+        تم توثيق وفاة
+      </div>
+
+      <table style="width:100%;border-collapse:collapse;font-size:12.5px;
+                    margin-bottom:28px;text-align:center;">
+        <thead>
+          <tr style="background:#f2f2f2;">
+            <th style="border:1px solid #333;padding:7px 9px;font-weight:700;">اسم المتوفى</th>
+            <th style="border:1px solid #333;padding:7px 9px;font-weight:700;">جنس المتوفى</th>
+            <th style="border:1px solid #333;padding:7px 9px;font-weight:700;">نوع الهوية</th>
+            <th style="border:1px solid #333;padding:7px 9px;font-weight:700;">رقم الهوية</th>
+            <th style="border:1px solid #333;padding:7px 9px;font-weight:700;">تاريخ الوفاة</th>
+            <th style="border:1px solid #333;padding:7px 9px;font-weight:700;">رقم شهادة الوفاة</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="border:1px solid #333;padding:7px 9px;">${deceased.name}</td>
+            <td style="border:1px solid #333;padding:7px 9px;">${deceased.gender}</td>
+            <td style="border:1px solid #333;padding:7px 9px;">${deceased.idType}</td>
+            <td style="border:1px solid #333;padding:7px 9px;">${deceased.idNumber}</td>
+            <td style="border:1px solid #333;padding:7px 9px;">${deceased.deathDate}</td>
+            <td style="border:1px solid #333;padding:7px 9px;">${deceased.certificateNumber}</td>
+          </tr>
+        </tbody>
       </table>
 
-      <!-- الورثة -->
-      <h2 style="font-size:15px;color:#0b3d2e;margin:0 0 10px;border-right:4px solid #1a7a58;padding-right:10px;">
-        قائمة الورثة المحصورين
-      </h2>
-      <table style="width:100%;border-collapse:collapse;font-size:12.5px;">
+      <!-- ========== القسم الثاني: وانحصر ورثته في ========== -->
+      <div style="text-align:right;font-size:15px;font-weight:700;
+                  margin:0 0 10px;padding-right:4px;">
+        وانحصر ورثته في
+      </div>
+
+      <table style="width:100%;border-collapse:collapse;font-size:12.5px;
+                    text-align:center;">
         <thead>
-          <tr style="background:#0b3d2e;color:#fff;">
-            <th style="border:1px solid #0b3d2e;padding:9px 6px;width:6%;">م</th>
-            <th style="border:1px solid #0b3d2e;padding:9px 6px;">الاسم</th>
-            <th style="border:1px solid #0b3d2e;padding:9px 6px;width:11%;">صلة القرابة</th>
-            <th style="border:1px solid #0b3d2e;padding:9px 6px;width:11%;">الجنسية</th>
-            <th style="border:1px solid #0b3d2e;padding:9px 6px;width:16%;">رقم الهوية</th>
-            <th style="border:1px solid #0b3d2e;padding:9px 6px;width:14%;">تاريخ الميلاد</th>
-            <th style="border:1px solid #0b3d2e;padding:9px 6px;width:16%;">النصيب الشرعي</th>
+          <tr style="background:#f2f2f2;">
+            <th style="border:1px solid #333;padding:7px 9px;font-weight:700;">صلة القرابة</th>
+            <th style="border:1px solid #333;padding:7px 9px;font-weight:700;">الاسم</th>
+            <th style="border:1px solid #333;padding:7px 9px;font-weight:700;">الجنسية</th>
+            <th style="border:1px solid #333;padding:7px 9px;font-weight:700;">رقم الهوية</th>
+            <th style="border:1px solid #333;padding:7px 9px;font-weight:700;">حالة الوارث</th>
           </tr>
         </thead>
         <tbody>
@@ -1432,45 +1434,19 @@ function generateHeirsPDF(){
         </tbody>
       </table>
 
-      <!-- ملاحظات -->
-      <div style="margin-top:22px;padding:12px 14px;background:#f6f9f8;
-                  border:1px solid #d9e2df;border-radius:8px;font-size:11.5px;
-                  color:#4a5c56;line-height:1.8;">
-        <b style="color:#0b3d2e;">ملاحظات:</b>
-        <ul style="margin:6px 18px 0 0;padding:0;">
-          <li>هذا النموذج صادر آليًا من منصة الوصية الرقمية الذكية بناءً على البيانات المسجّلة.</li>
-          <li>الأنصبة المعروضة تقديرية، وتصبح نهائية بعد اعتماد مكتب العدل المختص.</li>
-          <li>النظام لا يوزّع الإرث بنفسه، بل يجهّز ويسرّع البيانات لمكتب العدل الذي يعتمد التوزيع النهائي رسميًا.</li>
-        </ul>
-      </div>
-
-      <!-- التوقيعات -->
-      <table style="width:100%;margin-top:34px;font-size:12px;">
-        <tr>
-          <td style="width:50%;text-align:center;padding-top:34px;">
-            <div style="border-top:1px solid #999;width:70%;margin:0 auto;padding-top:6px;">
-              توقيع الوريث المخوّل بالاطلاع
-            </div>
-          </td>
-          <td style="width:50%;text-align:center;padding-top:34px;">
-            <div style="border-top:1px solid #999;width:70%;margin:0 auto;padding-top:6px;">
-              ختم مكتب العدل المختص
-            </div>
-          </td>
-        </tr>
-      </table>
-
-      <!-- تاريخ الإصدار -->
-      <div style="text-align:center;margin-top:30px;font-size:11px;color:#8a9a94;">
-        صدر آليًا بتاريخ: ${new Date().toLocaleDateString('ar-SA')} — رقم المستند: HRZ-${Date.now().toString().slice(-8)}
+      <!-- ========== تذييل ========== -->
+      <div style="margin-top:34px;font-size:10.5px;color:#666;
+                  text-align:center;line-height:1.9;">
+        صدر آليًا من منصة الوصية الرقمية الذكية — جميع البيانات المعروضة قابلة للتحقق من الجهات الرسمية.<br>
+        تاريخ الإصدار: ${new Date().toLocaleDateString('ar-SA')} — رقم المستند: HRZ-${Date.now().toString().slice(-8)}
       </div>
 
     </div>
   `;
 
-  /* إعدادات التوليد */
+  /* ========== إعدادات توليد PDF ========== */
   const opt = {
-    margin:       0,
+    margin:       [10, 10, 10, 10],
     filename:     `حصر_الورثة_${MOCK_DECEASED_NAME.replace(/\s+/g,'_')}.pdf`,
     image:        { type: 'jpeg', quality: 0.98 },
     html2canvas:  { scale: 2, useCORS: true, backgroundColor: '#ffffff' },
@@ -1478,7 +1454,6 @@ function generateHeirsPDF(){
     pagebreak:    { mode: ['avoid-all', 'css'] }
   };
 
-  /* التوليد والتنزيل */
   if(typeof html2pdf === 'undefined'){
     alert('تعذّر تحميل مكتبة توليد PDF. يرجى التحقق من الاتصال بالإنترنت ثم المحاولة مرة أخرى.');
     return;
