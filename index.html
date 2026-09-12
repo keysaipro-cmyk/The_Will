@@ -422,6 +422,48 @@ label{display:block;font-size:12.8px;font-weight:600;margin-bottom:7px;color:#26
   border:2px solid var(--red-line);
 }
 .deny-circle .ic{width:30px;height:30px}
+
+/* ============================================================
+   تنسيق الطباعة — يُخفي كل شيء ما عدا ملف التركة
+   ============================================================ */
+@media print {
+  body *{ visibility: hidden; }
+
+  #printArea, #printArea *{ visibility: visible; }
+
+  #printArea{
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+
+  #printArea.file-block{
+    border: none;
+    box-shadow: none;
+    background: #fff;
+    padding: 16px;
+    margin: 0;
+    border-radius: 0;
+  }
+
+  #printArea .btn,
+  #printArea a.btn,
+  #printArea button{ display: none !important; }
+
+  @page{
+    size: A4;
+    margin: 12mm;
+  }
+
+  *{
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
 </style>
 </head>
 
@@ -509,6 +551,7 @@ const ICONS = {
   sparkles:'<path d="M12 3.2 13.7 8 18.5 9.7 13.7 11.4 12 16.2 10.3 11.4 5.5 9.7 10.3 8 12 3.2Z"/><path d="m18.6 15.4.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8.8-2.2Z"/>',
   wallet:'<rect x="2.8" y="6" width="18.4" height="13" rx="2.6"/><path d="M2.8 10.2h18.4"/><circle cx="16.8" cy="14.6" r="1.1" fill="currentColor" stroke="none"/>',
   download:'<path d="M12 3.6v11"/><path d="m7.6 10.4 4.4 4.4 4.4-4.4"/><path d="M4 19.6h16"/>',
+  printer:'<path d="M6.5 9V3.5h11V9"/><rect x="3.5" y="9" width="17" height="8" rx="2"/><path d="M6.5 14.5h11V20.5h-11z"/>',
   link:'<path d="M10.2 13.8a3.6 3.6 0 0 0 5.1 0l2.6-2.6a3.6 3.6 0 0 0-5.1-5.1l-1.5 1.5"/><path d="M13.8 10.2a3.6 3.6 0 0 0-5.1 0l-2.6 2.6a3.6 3.6 0 0 0 5.1 5.1l1.5-1.5"/>',
   settings:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-2.7 1.1v.3a2 2 0 1 1-4 0v-.2a1.6 1.6 0 0 0-2.8-1.1l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1A1.6 1.6 0 0 0 3.5 15H3a2 2 0 1 1 0-4h.2A1.6 1.6 0 0 0 4.3 8.2l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1A1.6 1.6 0 0 0 9.9 4.3V4a2 2 0 1 1 4 0v.2a1.6 1.6 0 0 0 2.7 1.1l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0 1.1 2.7h.3a2 2 0 1 1 0 4h-.2a1.6 1.6 0 0 0-1.2 1.1Z"/>'
 };
@@ -551,7 +594,7 @@ const DIGITAL_SUBS = [
    العقارات — الأدوار الثلاثة:
    - owner    : أنا المالك (أسكنه/أستخدمه)          → قيمة العقار أصل
    - tenant   : أنا المستأجر من الغير               → الإيجار المتأخر التزام
-   - landlord : أنا المالك وأؤجّره للغير            → قيمة العقار أصل + المتأخر على المستأجر أصل (دين لي)
+   - landlord : أنا المالك وأؤجّره للغير            → قيمة العقار أصل + المتأخر على المستأجر أصل
    ================================================================ */
 const PROPERTIES = [
   {
@@ -642,7 +685,6 @@ const fmt = n => Math.round(n).toLocaleString('en-US');
 const banksTotal    = () => BANKS.reduce((s,b)=>s+b.amount,0);
 const vehiclesTotal = () => VEHICLES.reduce((s,v)=>s+v.amount,0);
 
-/* العقارات - التصنيفات الثلاثة */
 const propertiesOwnedTotal = () => PROPERTIES
   .filter(p => p.role === 'owner' || p.role === 'landlord')
   .reduce((s,p) => s + (p.value || 0), 0);
@@ -651,7 +693,6 @@ const propertiesLateTotal = () => PROPERTIES
   .filter(p => p.role === 'tenant' && p.commitment === 'late')
   .reduce((s,p) => s + (p.dueAmount || 0), 0);
 
-/* المتأخرات على المستأجرين (دين لي) */
 const propertiesDueFromTenantsTotal = () => PROPERTIES
   .filter(p => p.role === 'landlord')
   .reduce((s,p) => s + (p.dueFromTenant || 0), 0);
@@ -659,7 +700,6 @@ const propertiesDueFromTenantsTotal = () => PROPERTIES
 const ledgerDebitTotal  = () => state.ledger.filter(e=>e.type==='debit').reduce((s,e)=>s+e.amount,0);
 const ledgerCreditTotal = () => state.ledger.filter(e=>e.type==='credit').reduce((s,e)=>s+e.amount,0);
 
-/* الأصول = بنوك + مركبات + ديون له + عقارات مملوكة/مؤجّرة + متأخرات على المستأجرين */
 const assetsTotal = () =>
   banksTotal() + vehiclesTotal() + ledgerCreditTotal() +
   propertiesOwnedTotal() + propertiesDueFromTenantsTotal();
@@ -793,7 +833,6 @@ function renderWasiyya(){
   `;
 }
 
-/* --- بطاقة العقارات (ثلاثة أدوار) --- */
 function renderProperties(){
   const el = document.getElementById('cardProperties');
   const ownedTotal  = propertiesOwnedTotal();
@@ -833,7 +872,6 @@ function renderProperties(){
 
       ${PROPERTIES.map(p => {
 
-        /* ============ owner : أنا المالك (أستخدمه) ============ */
         if(p.role === 'owner'){
           return `
             <div class="prop-row owner">
@@ -856,7 +894,6 @@ function renderProperties(){
             </div>`;
         }
 
-        /* ============ landlord : أنا المالك وأؤجّره للغير ============ */
         if(p.role === 'landlord'){
           const hasDue = (p.dueFromTenant || 0) > 0;
           return `
@@ -889,7 +926,6 @@ function renderProperties(){
             </div>`;
         }
 
-        /* ============ tenant : أنا المستأجر من الغير ============ */
         const isLate = p.commitment === 'late';
         return `
           <div class="prop-row tenant ${isLate?'late':''}">
@@ -1415,7 +1451,7 @@ function fullFile(){
   const dueFromTenants = propertiesDueFromTenantsTotal();
 
   return `
-    <div class="file-block">
+    <div class="file-block" id="printArea">
       <h4>${ic('file','ic-sm')} ملف التركة الرقمي — TRK-1446-019283</h4>
 
       <div class="report-meta">
@@ -1503,7 +1539,9 @@ function fullFile(){
       </div>
 
       <div style="display:flex;gap:10px;margin-top:18px;flex-wrap:wrap">
-        <button type="button" class="btn btn-ghost btn-sm">${ic('download','ic-sm')} تحميل نسخة PDF</button>
+        <button type="button" class="btn btn-ghost btn-sm" id="btnPrintEstate">
+          ${ic('printer','ic-sm')} تحميل نسخة PDF
+        </button>
 
         <a href="p.pdf" download="حصر_الورثة.pdf"
            class="btn btn-ghost btn-sm"
@@ -1513,6 +1551,10 @@ function fullFile(){
 
         <button type="button" class="btn btn-ghost btn-sm" id="btnHeirLogout">${ic('refresh','ic-sm')} تسجيل خروج / تجربة هوية أخرى</button>
       </div>
+
+      <p style="font-size:11.5px;color:var(--muted);margin:8px 0 0;line-height:1.7">
+        عند فتح نافذة الطباعة، اختر <b>«Save as PDF»</b> من قائمة الطابعة لحفظ الملف على جهازك.
+      </p>
 
       <div class="note-box note-legal" style="margin-top:16px">
         ${ic('shield','ic-sm')}
@@ -1590,6 +1632,14 @@ function bindHeirEvents(){
     logout.onclick = () => {
       state.heir = { deceasedId:'', heirId:'', error:'', result:null, deniedHeir:null, fileOpen:false };
       renderHeirPanel();
+    };
+  }
+
+  /* زر تحميل ملف التركة كـ PDF عبر الطباعة الأصلية */
+  const printEstate = document.getElementById('btnPrintEstate');
+  if(printEstate){
+    printEstate.onclick = () => {
+      window.print();
     };
   }
 }
