@@ -91,7 +91,6 @@ button{font-family:inherit}
   display:grid;place-items:center;font-weight:700;font-size:11px;
 }
 
-/* Top nav */
 .top-nav{
   background:#fff;border-bottom:1px solid var(--line);
   position:sticky;top:var(--header-h);z-index:40;
@@ -121,7 +120,6 @@ button{font-family:inherit}
 .top-nav-btn:hover{color:var(--green-700)}
 .top-nav-btn.active{color:var(--green-900);font-weight:700;border-bottom-color:var(--green-600);}
 
-/* Bottom nav */
 .bottom-nav{
   position:fixed;bottom:0;left:0;right:0;
   background:#fff;border-top:1px solid var(--line);
@@ -233,45 +231,29 @@ main{max-width:1280px;margin:0 auto;padding: 18px 22px 40px;}
 .section-head h3{margin:0;font-size:17px;font-weight:700}
 .section-head p{margin:2px 0 0;font-size:12.5px;color:var(--muted)}
 
-/* ================================================================
-   التبويبات الفرعية — Scroll Tabs على الجوال
-   ================================================================ */
-.sub-tabs-wrap{
-  position: relative;
-  margin-bottom: 18px;
-}
-
+/* Sub Tabs — Scroll Tabs */
+.sub-tabs-wrap{ position: relative; margin-bottom: 18px; }
 .sub-tabs{
-  display:flex;
-  gap: 6px;
-  overflow-x:auto;
-  overflow-y:hidden;
+  display:flex; gap: 6px;
+  overflow-x:auto; overflow-y:hidden;
   scroll-snap-type: x proximity;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
   padding: 4px 2px 8px;
-  /* مساحة إضافية يسار ويمين لإظهار أن هناك محتوى إضافي */
   padding-inline-end: 24px;
 }
 .sub-tabs::-webkit-scrollbar{ display:none; }
 
-/* ظل الحافة اليسرى (نهاية القائمة) — يوحي بوجود محتوى إضافي */
 .sub-tabs-wrap::after{
   content:'';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 36px;
-  height: calc(100% - 12px);
+  position: absolute; top: 0; left: 0;
+  width: 36px; height: calc(100% - 12px);
   pointer-events: none;
   background: linear-gradient(to right, rgba(255,255,255,1), rgba(255,255,255,0));
-  opacity: 1;
-  transition: opacity .25s ease;
+  opacity: 1; transition: opacity .25s ease;
 }
-.sub-tabs-wrap.at-end::after{
-  opacity: 0;
-}
+.sub-tabs-wrap.at-end::after{ opacity: 0; }
 
 .sub-tab{
   flex: 0 0 auto;
@@ -295,29 +277,21 @@ main{max-width:1280px;margin:0 auto;padding: 18px 22px 40px;}
   background:var(--green-800);color:#fff;border-color:var(--green-800);
   font-weight:700;
 }
-
-/* نص مختصر للجوال */
 .sub-tab .full-label{ display: inline; }
 .sub-tab .short-label{ display: none; }
 
 @media (max-width:640px){
   .sub-tabs{
     gap: 6px;
-    margin: 0 -16px;   /* يمتد إلى حواف tab-content */
+    margin: 0 -16px;
     padding: 4px 16px 8px;
     padding-inline-end: 24px;
   }
-  .sub-tab{
-    padding: 9px 12px;
-    font-size: 12px;
-    gap: 5px;
-  }
+  .sub-tab{ padding: 9px 12px; font-size: 12px; gap: 5px; }
   .sub-tab .ic{ width: 13px; height: 13px; }
   .sub-tab .full-label{ display: none; }
   .sub-tab .short-label{ display: inline; }
 }
-
-/* على الشاشات العريضة — التبويبات عادية */
 @media (min-width: 720px){
   .sub-tabs-wrap::after{ display: none; }
   .sub-tabs{
@@ -445,9 +419,7 @@ main{max-width:1280px;margin:0 auto;padding: 18px 22px 40px;}
 .company-body{flex:1;min-width:0}
 .company-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:5px}
 .company-name{font-size:14px;font-weight:700}
-.company-details{
-  display:flex;flex-direction:column;gap:3px;margin-top:5px;
-}
+.company-details{display:flex;flex-direction:column;gap:3px;margin-top:5px;}
 .company-details .detail-line{
   display:flex;align-items:center;gap:5px;font-size:11.5px;
   color:#4a5c56;flex-wrap:wrap;
@@ -537,6 +509,8 @@ label{display:block;font-size:12.5px;font-weight:600;margin-bottom:6px;color:#26
 .btn-primary:hover{background:var(--green-900)}
 .btn-ghost{background:#fff;border-color:var(--line);color:var(--text)}
 .btn-ghost:hover{border-color:#c6d5cf;background:#fafbfa}
+.btn-danger{background:var(--red);color:#fff;border-color:var(--red)}
+.btn-danger:hover{background:#8f1a12}
 .btn-sm{padding:7px 12px;font-size:12px;border-radius:8px}
 .btn-sm .ic{width:14px;height:14px}
 
@@ -553,6 +527,8 @@ label{display:block;font-size:12.5px;font-weight:600;margin-bottom:6px;color:#26
 .note-legal .ic{color:#8fe0bd}
 .note-warn{background:var(--amber-bg);border-color:var(--amber-line);color:var(--amber)}
 .note-warn .ic{color:var(--amber)}
+.note-danger{background:var(--red-bg);border-color:var(--red-line);color:var(--red)}
+.note-danger .ic{color:var(--red)}
 
 .seg{display:flex;gap:4px;background:#f1f4f3;padding:4px;border-radius:11px;margin-bottom:14px}
 .seg button{
@@ -567,7 +543,6 @@ label{display:block;font-size:12.5px;font-weight:600;margin-bottom:6px;color:#26
 .cred-line{display:flex;align-items:center;gap:5px;font-size:11.5px;color:#4a5c56;flex-wrap:wrap;}
 .cred-line .ic{width:12px;height:12px;color:var(--muted);flex:0 0 auto}
 .cred-line b{font-family:'Courier New', monospace;font-weight:600;color:var(--text);letter-spacing:.4px;}
-.cred-line .pw{background:#f1f4f3;padding:1px 8px;border-radius:6px;font-family:'Courier New',monospace;letter-spacing:2px;}
 
 .social-form{
   margin-top:14px;padding:14px;background:#f7faf9;
@@ -690,6 +665,100 @@ label{display:block;font-size:12.5px;font-weight:600;margin-bottom:6px;color:#26
 .ic{width:20px;height:20px;flex:0 0 auto;display:block}
 .ic-sm{width:16px;height:16px}
 
+.modal-overlay{
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 25, 18, .55);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  animation: fadeIn .25s ease both;
+}
+.modal-card{
+  width: 100%;
+  max-width: 520px;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 24px 80px rgba(2, 20, 13, .35);
+  overflow: hidden;
+  animation: modalIn .35s cubic-bezier(.2, .9, .3, 1.05) both;
+  max-height: calc(100vh - 40px);
+  display: flex;
+  flex-direction: column;
+}
+@keyframes modalIn{
+  from{opacity:0; transform: translateY(20px) scale(.96);}
+  to{opacity:1; transform: translateY(0) scale(1);}
+}
+.modal-header{
+  padding: 20px 22px 14px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.modal-header-ic{
+  width: 44px; height: 44px; border-radius: 12px;
+  background: var(--red-bg); color: var(--red);
+  display: grid; place-items: center; flex: 0 0 auto;
+}
+.modal-header-ic .ic{ width: 22px; height: 22px; }
+.modal-header h3{
+  margin: 0 0 3px; font-size: 17px; font-weight: 700; color: var(--text);
+}
+.modal-header p{ margin: 0; font-size: 12.5px; color: var(--muted); line-height: 1.55; }
+
+.modal-body{
+  padding: 18px 22px;
+  overflow-y: auto;
+  flex: 1;
+}
+.modal-footer{
+  padding: 14px 22px 18px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  background: #fafbfb;
+}
+.modal-footer .btn{ flex: 1; min-width: 130px; }
+
+.checkbox-row{
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  background: var(--red-bg);
+  border: 1px solid var(--red-line);
+  border-radius: 12px;
+  margin-top: 14px;
+  cursor: pointer;
+  user-select: none;
+}
+.checkbox-row input{
+  width: auto;
+  margin-top: 3px;
+  accent-color: var(--red);
+  cursor: pointer;
+  flex: 0 0 auto;
+}
+.checkbox-row span{
+  font-size: 12.5px;
+  color: var(--red);
+  line-height: 1.6;
+  font-weight: 500;
+}
+
+@media (max-width: 520px){
+  .modal-card{ border-radius: 16px; }
+  .modal-header{ padding: 16px 18px 12px; }
+  .modal-body{ padding: 14px 18px; }
+  .modal-footer{ padding: 12px 18px 14px; }
+}
+
 .login-gate{
   min-height:100vh;display:flex;align-items:center;justify-content:center;
   padding:24px;
@@ -782,7 +851,7 @@ label{display:block;font-size:12.5px;font-weight:600;margin-bottom:6px;color:#26
     border-radius:0 !important;max-width:none !important;width:100% !important;
   }
   .app-header, .app-footer, .login-gate, .demo-note, .screen-head,
-  .top-nav, .bottom-nav, .summary-bar{ display: none !important; }
+  .top-nav, .bottom-nav, .summary-bar, .modal-overlay{ display: none !important; }
   #printArea, #printArea *{ visibility: visible; }
   #printArea{position: absolute;top:0;right:0;left:0;width:100%;padding:0;margin:0;}
   #printArea.file-block{
@@ -859,6 +928,7 @@ label{display:block;font-size:12.5px;font-weight:600;margin-bottom:6px;color:#26
 
 </div><!-- /#appRoot -->
 
+<div id="modalRoot"></div>
 <script>
 /* ================================================================
    1) الأيقونات
@@ -879,7 +949,6 @@ const ICONS = {
   alert:'<path d="M10.3 4.2 2.6 17.6a1.9 1.9 0 0 0 1.7 2.9h15.4a1.9 1.9 0 0 0 1.7-2.9L13.7 4.2a1.9 1.9 0 0 0-3.4 0Z"/><path d="M12 9.4v4.2"/><path d="M12 17.2h.01"/>',
   lock:'<rect x="4.2" y="10.4" width="15.6" height="10.2" rx="2.4"/><path d="M8 10.4V7.8a4 4 0 0 1 8 0v2.6"/>',
   eye:'<path d="M2.4 12S5.9 5.6 12 5.6 21.6 12 21.6 12 18.1 18.4 12 18.4 2.4 12 2.4 12Z"/><circle cx="12" cy="12" r="3"/>',
-  eyeOff:'<path d="M9.9 4.5A10 10 0 0 1 12 4.3c6.1 0 9.6 6.4 9.6 6.4a17 17 0 0 1-2.3 3.1"/><path d="M6.1 6.1A17 17 0 0 0 2.4 10.7s3.5 6.4 9.6 6.4c1.7 0 3.2-.5 4.5-1.2"/><path d="m9.9 9.9 4.2 4.2"/><path d="m3 3 18 18"/>',
   userCheck:'<circle cx="9.4" cy="8" r="3.5"/><path d="M3 20.2a6.4 6.4 0 0 1 11.1-4.4"/><path d="m15.6 17.8 2 2 4-4.2"/>',
   building:'<path d="M3 21h18"/><path d="M5.4 21V6.4L12 3.2l6.6 3.2V21"/><path d="M9.4 9.6h1.6M13 9.6h1.6M9.4 13.2h1.6M13 13.2h1.6"/><path d="M10.2 21v-4h3.6v4"/>',
   home:'<path d="M3.5 11 12 3.5 20.5 11"/><path d="M5.5 9.4V20.5h13V9.4"/><path d="M9.8 20.5v-5.4h4.4v5.4"/>',
@@ -906,7 +975,8 @@ const ICONS = {
   landmark:'<path d="M3 21h18"/><path d="M5 21V10"/><path d="M19 21V10"/><path d="M3 10h18L12 4 3 10Z"/><path d="M9 21v-5h6v5"/><path d="M9 13.5h6"/><path d="M9 17h6"/>',
   agencies:'<path d="M8 3.5h8a1.5 1.5 0 0 1 1.5 1.5v14a1.5 1.5 0 0 1-1.5 1.5H8A1.5 1.5 0 0 1 6.5 19V5A1.5 1.5 0 0 1 8 3.5Z"/><path d="M9.5 7h5"/><path d="M9.5 11h5"/><path d="M9.5 15h3"/>',
   userCog:'<circle cx="9.5" cy="8" r="3.5"/><path d="M3 20.2a6.4 6.4 0 0 1 10.4-4.9"/><circle cx="17.5" cy="17.5" r="2.5"/><path d="M17.5 13.5v1"/><path d="M17.5 20.5v1"/><path d="m14 15.5.9.5"/><path d="m20.1 19 .9.5"/><path d="m14 19.5.9-.5"/><path d="m20.1 16 .9-.5"/>',
-  scale:'<path d="M12 3.2v17.3"/><path d="M7 20.5h10"/><path d="M4.5 7.5h15"/><path d="m6.5 7.5-2.6 6h5.2l-2.6-6Z"/><path d="m17.5 7.5-2.6 6h5.2l-2.6-6Z"/><circle cx="12" cy="4" r="1.3"/>'
+  scale:'<path d="M12 3.2v17.3"/><path d="M7 20.5h10"/><path d="M4.5 7.5h15"/><path d="m6.5 7.5-2.6 6h5.2l-2.6-6Z"/><path d="m17.5 7.5-2.6 6h5.2l-2.6-6Z"/><circle cx="12" cy="4" r="1.3"/>',
+  delete:'<path d="M4 7h16"/><path d="M9.5 7V4.8h5V7"/><path d="M6.5 7l1 13h9l1-13"/><path d="M10.5 11v6M13.5 11v6"/>'
 };
 
 function ic(name, cls){
@@ -1006,6 +1076,14 @@ const MANAGEMENT_MODES = {
   liquidation: { label:'تصفية وحلّ الشركة', icon:'scale',     desc:'إنهاء أعمال الشركة وتصفية أصولها' }
 };
 
+const DELETION_REASONS = {
+  no_longer_needed: 'لم أعد بحاجة للخدمة',
+  privacy:          'رغبة في حماية الخصوصية',
+  moved_service:    'انتقلت إلى خدمة أخرى',
+  concerns:         'لديّ مخاوف بشأن حفظ البيانات',
+  other:            'سبب آخر'
+};
+
 const SIMAH_DEBTS = [
   { name:'دين بنكي — مصرف الراجحي', ref:'SM-2025-4471902', amount:82500 },
   { name:'تمويل مركبة — البنك الأهلي السعودي', ref:'SM-2025-4471903', amount:42000 }
@@ -1037,18 +1115,26 @@ const state = {
   report:'pending',
 
   socialAccounts:[
-    { id:1, platform:'x',         username:'@abdullah_m',      action:'close',    showPassword:false },
-    { id:2, platform:'instagram', username:'abdullah.otaibi',  action:'memorial', showPassword:false },
-    { id:3, platform:'snapchat',  username:'abod_92',          action:'close',    showPassword:false },
-    { id:4, platform:'linkedin',  username:'abdullah-otaibi',  action:'memorial', showPassword:false }
+    { id:1, platform:'x',         username:'@abdullah_m',      action:'close'    },
+    { id:2, platform:'instagram', username:'abdullah.otaibi',  action:'memorial' },
+    { id:3, platform:'snapchat',  username:'abod_92',          action:'close'    },
+    { id:4, platform:'linkedin',  username:'abdullah-otaibi',  action:'memorial' }
   ],
-  socialForm:{ open:false, platform:'x', username:'', password:'', action:'close' },
+  socialForm:{ open:false, platform:'x', username:'', action:'close' },
 
   workers: WORKERS.slice(),
   workerForm:{
     open:false,
     name:'', nationality:'', occupation:'', iqama:'', salary:'', iqamaExpiry:'',
     residenceStatus:'valid', commitment:'committed'
+  },
+
+  deletion:{
+    modalOpen: false,
+    reason: 'no_longer_needed',
+    confirmed: false,
+    requestId: null,
+    requestDate: null
   },
 
   gate:{ stage:'id', idValue: MOCK_DECEASED_ID },
@@ -1113,12 +1199,13 @@ function platformShort(id){
 }
 function heirById(id){ return HEIRS.find(h => h.id === id) || null; }
 
+/* تغيير: "سمة" → "سجلي" */
 const SECTIONS = [
   { id:'heirs',      label:'الورثة',   short:'الورثة',   icon:'users' },
   { id:'wasiyya',    label:'الوصية',   short:'الوصية',   icon:'file'  },
   { id:'assets',     label:'الأصول',   short:'الأصول',   icon:'wallet'},
   { id:'properties', label:'العقارات', short:'العقارات', icon:'home'  },
-  { id:'simah',      label:'سمة',      short:'سمة',      icon:'landmark'},
+  { id:'simah',      label:'سجلي',     short:'سجلي',     icon:'landmark'},
   { id:'workers',    label:'العمالة',  short:'العمالة',  icon:'hardHat'},
   { id:'debts',      label:'الديون',   short:'الديون',   icon:'file'  },
   { id:'perms',      label:'الصلاحيات',short:'الصلاحيات',icon:'key'   }
@@ -1181,28 +1268,29 @@ function switchSection(sectionId){
   window.scrollTo({top: 0, behavior:'smooth'});
 }
 
+/* إصلاح: هذه الدالة الآن تُفعّل الأزرار بشكل صحيح */
 function switchAssetsSub(subId){
   state.activeAssetsSub = subId;
 
-  document.querySelectorAll('[data-assets-sub]').forEach(btn=>{
+  const allBtns = document.querySelectorAll('[data-assets-sub]');
+  const allPanels = document.querySelectorAll('[data-assets-panel]');
+
+  allBtns.forEach(btn=>{
     btn.classList.toggle('active', btn.dataset.assetsSub === subId);
-    if(btn.dataset.assetsSub === subId){
-      /* اجعل التبويب النشط مرئيًا داخل منطقة التمرير */
-      try{
-        btn.scrollIntoView({inline:'center', block:'nearest', behavior:'smooth'});
-      }catch(e){}
-    }
   });
 
-  document.querySelectorAll('[data-assets-panel]').forEach(p=>{
-    p.classList.toggle('active', p.dataset.assetsPanel === subId);
+  allPanels.forEach(p=>{
+    const match = p.dataset.assetsPanel === subId;
+    p.classList.toggle('active', match);
+    /* ضمان العرض/الإخفاء المباشر */
+    p.style.display = match ? 'block' : 'none';
   });
 
+  /* إذا مرّرنا لأول مرة، بعض البطاقات قد تحتاج إعادة رسم */
   if(subId === 'social') renderSocial();
   if(subId === 'banks' || subId === 'vehicles' || subId === 'subs') renderAssets();
 }
 
-/* مراقبة نهاية تمرير التبويبات لإخفاء الظل */
 function updateSubTabsShadow(){
   const wrap = document.querySelector('.sub-tabs-wrap');
   const tabs = document.querySelector('.sub-tabs');
@@ -1246,22 +1334,22 @@ function renderSetupScreen(){
 
         <div class="sub-tabs-wrap" id="subTabsWrap">
           <div class="sub-tabs" id="subTabs">
-            <button class="sub-tab active" data-assets-sub="banks" onclick="switchAssetsSub('banks')">
+            <button type="button" class="sub-tab active" data-assets-sub="banks" onclick="switchAssetsSub('banks')">
               ${ic('bank','ic-sm')}
               <span class="full-label">حسابات بنكية</span>
               <span class="short-label">بنكية</span>
             </button>
-            <button class="sub-tab" data-assets-sub="vehicles" onclick="switchAssetsSub('vehicles')">
+            <button type="button" class="sub-tab" data-assets-sub="vehicles" onclick="switchAssetsSub('vehicles')">
               ${ic('car','ic-sm')}
               <span class="full-label">مركبات</span>
               <span class="short-label">مركبات</span>
             </button>
-            <button class="sub-tab" data-assets-sub="subs" onclick="switchAssetsSub('subs')">
+            <button type="button" class="sub-tab" data-assets-sub="subs" onclick="switchAssetsSub('subs')">
               ${ic('link','ic-sm')}
               <span class="full-label">اشتراكات</span>
               <span class="short-label">اشتراكات</span>
             </button>
-            <button class="sub-tab" data-assets-sub="social" onclick="switchAssetsSub('social')">
+            <button type="button" class="sub-tab" data-assets-sub="social" onclick="switchAssetsSub('social')">
               ${ic('share','ic-sm')}
               <span class="full-label">حسابات التواصل</span>
               <span class="short-label">تواصل</span>
@@ -1270,9 +1358,9 @@ function renderSetupScreen(){
         </div>
 
         <div class="sub-panel active" data-assets-panel="banks"    id="assetsPanelBanks"></div>
-        <div class="sub-panel"        data-assets-panel="vehicles" id="assetsPanelVehicles"></div>
-        <div class="sub-panel"        data-assets-panel="subs"     id="assetsPanelSubs"></div>
-        <div class="sub-panel"        data-assets-panel="social"   id="assetsPanelSocial"></div>
+        <div class="sub-panel"        data-assets-panel="vehicles" id="assetsPanelVehicles" style="display:none"></div>
+        <div class="sub-panel"        data-assets-panel="subs"     id="assetsPanelSubs" style="display:none"></div>
+        <div class="sub-panel"        data-assets-panel="social"   id="assetsPanelSocial" style="display:none"></div>
       </div>
 
       <div class="tab-panel" data-panel="properties" id="cardProperties"></div>
@@ -1295,7 +1383,6 @@ function renderSetupScreen(){
   renderPerms();
   renderSocial();
 
-  /* مراقبة تمرير التبويبات الفرعية لإخفاء الظل عند نهايتها */
   const tabs = document.getElementById('subTabs');
   if(tabs){
     tabs.addEventListener('scroll', updateSubTabsShadow, {passive: true});
@@ -1304,12 +1391,11 @@ function renderSetupScreen(){
 }
 
 /* ================================================================
-   شريط الملخص
+   شريط الملخص — تم حذف بطاقة "مكتب العدل" + إصلاح القوس الناقص
    ================================================================ */
 function renderSummaryBar(){
   const el = document.getElementById('summaryBar');
   if(!el) return;
-  const approved = state.report === 'approved';
   el.innerHTML = `
     <div class="sum-item">
       <div class="sum-ic">${ic('users','ic-sm')}</div>
@@ -1350,8 +1436,6 @@ function renderSummaryBar(){
         <div class="sum-value">${companiesCount() + agenciesOutCount() + agenciesInCount() + numbersCount()} <small>سجل</small></div>
       </div>
     </div>
-
-    
   `;
 }
 
@@ -1503,7 +1587,7 @@ function renderAssets(){
 }
 
 /* ================================================================
-   قسم حسابات التواصل
+   قسم حسابات التواصل — بدون كلمة مرور (PDPL)
    ================================================================ */
 function renderSocial(){
   const el = document.getElementById('assetsPanelSocial');
@@ -1533,13 +1617,6 @@ function renderSocial(){
                   ${ic('person','ic-sm')}
                   <span>المستخدم:</span>
                   <b>${a.username}</b>
-                </div>
-                <div class="cred-line">
-                  ${ic('lock','ic-sm')}
-                  
-                  <button type="button" class="btn btn-ghost btn-sm" data-toggle-pw="${a.id}" title="إظهار/إخفاء">
-                    ${ic(a.showPassword ? 'eyeOff' : 'eye','ic-sm')}
-                  </button>
                 </div>
               </div>
             </div>
@@ -1574,8 +1651,6 @@ function renderSocial(){
           </div>
         </div>
 
-      
-
         <label>الإجراء المطلوب بعد الوفاة</label>
         <div class="social-action-options">
           <label>
@@ -1601,7 +1676,13 @@ function renderSocial(){
       </div>
     `}
 
-   
+    <div class="note-box note-warn">
+      ${ic('shield','ic-sm')}
+      <span>
+        <b>ملاحظة PDPL:</b> لا يُخزّن النظام كلمات المرور، ويطلب منك إدخالها فقط عند تسجيل الدخول الفعلي
+        للخدمة بالنيابة. يُحفظ اسم المستخدم والإجراء المطلوب فقط.
+      </span>
+    </div>
   `;
 
   bindSocialEvents();
@@ -1612,14 +1693,6 @@ function bindSocialEvents(){
   if(!card) return;
 
   card.addEventListener('click', e => {
-    const toggle = e.target.closest('[data-toggle-pw]');
-    if(toggle){
-      const id = Number(toggle.dataset.togglePw);
-      const acc = state.socialAccounts.find(a => a.id === id);
-      if(acc){ acc.showPassword = !acc.showPassword; renderSocial(); }
-      return;
-    }
-
     const rm = e.target.closest('[data-remove-social]');
     if(rm){
       const id = Number(rm.dataset.removeSocial);
@@ -1629,13 +1702,13 @@ function bindSocialEvents(){
     }
 
     if(e.target.closest('#btnSocialAdd')){
-      state.socialForm = { open:true, platform:'x', username:'', password:'', action:'close' };
+      state.socialForm = { open:true, platform:'x', username:'', action:'close' };
       renderSocial();
       return;
     }
 
     if(e.target.closest('#btnSocialCancel')){
-      state.socialForm = { open:false, platform:'x', username:'', password:'', action:'close' };
+      state.socialForm = { open:false, platform:'x', username:'', action:'close' };
       renderSocial();
       return;
     }
@@ -1643,16 +1716,15 @@ function bindSocialEvents(){
     if(e.target.closest('#btnSocialSave')){
       const platform = document.getElementById('socialPlatform')?.value || 'x';
       const username = (document.getElementById('socialUsername')?.value || '').trim();
-      const password = (document.getElementById('socialPassword')?.value || '').trim();
       const actionInput = document.querySelector('input[name="socialAction"]:checked');
       const action = actionInput ? actionInput.value : 'close';
 
-      if(!username || !password){
-        alert('يرجى إدخال اسم المستخدم وكلمة المرور.');
+      if(!username){
+        alert('يرجى إدخال اسم المستخدم.');
         return;
       }
-      state.socialAccounts.push({ id: Date.now(), platform, username, password, action, showPassword: false });
-      state.socialForm = { open:false, platform:'x', username:'', password:'', action:'close' };
+      state.socialAccounts.push({ id: Date.now(), platform, username, action });
+      state.socialForm = { open:false, platform:'x', username:'', action:'close' };
       renderSocial();
       return;
     }
@@ -1775,7 +1847,7 @@ function renderProperties(){
 }
 
 /* ================================================================
-   قسم سجلي
+   قسم سجلي — عنوان بدون "سجلات المتوفى"
    ================================================================ */
 function renderSimah(){
   const el = document.getElementById('cardSimah');
@@ -1792,7 +1864,7 @@ function renderSimah(){
       <div class="sh-ic">${ic('landmark')}</div>
       <div>
         <h3>سجلي</h3>
-        <p>بيانات الشركات، الوكالات، والأرقام المسجّلة في منصة سمة — كل السجلات يظهر فيها المتوفى طرفًا</p>
+        <p>بيانات الشركات، الوكالات، والأرقام المسجّلة في منصة سمة</p>
       </div>
     </div>
 
@@ -1811,7 +1883,7 @@ function renderSimah(){
             الشركات والمؤسسات
             <span class="chip chip-ok">${compCount} سجل</span>
           </h4>
-          <p>الشركات والمؤسسات المرتبطة بالمتوفى في منصة سمة — مع تحديد مدير بديل لكل شركة</p>
+          <p>الشركات والمؤسسات المرتبطة بك في منصة سمة — مع تحديد مدير بديل لكل شركة</p>
         </div>
         <div class="collapse-chevron">${ic('chevronDown','ic-sm')}</div>
       </div>
@@ -1829,7 +1901,7 @@ function renderSimah(){
             <span class="chip chip-warn">${outCount} له</span>
             <span class="chip chip-info">${inCount} عليه</span>
           </h4>
-          <p>الوكالات التي يكون المتوفى فيها موكِّلًا (له) أو وكيلًا (عليه) فقط</p>
+          <p>الوكالات التي تكون فيها موكِّلًا (له) أو وكيلًا (عليه) فقط</p>
         </div>
         <div class="collapse-chevron">${ic('chevronDown','ic-sm')}</div>
       </div>
@@ -1838,13 +1910,13 @@ function renderSimah(){
           <div class="list">
             ${myAgencies.map(a => {
               const isOut = a.type === 'out';
-              const roleHint = isOut ? 'المتوفى: الموكِّل (وكالة صادرة منه)' : 'المتوفى: الوكيل (وكالة صادرة عليه)';
+              const roleHint = isOut ? 'أنت: الموكِّل (وكالة صادرة منك)' : 'أنت: الوكيل (وكالة صادرة عليك)';
               return `
                 <div class="row ${isOut?'ok':'late'}">
                   <div class="row-ic ${isOut?'agency-out':'agency-in'}">${ic('scroll','ic-sm')}</div>
                   <div class="row-body">
                     <div class="row-title">
-                      ${isOut ? 'وكالة صادرة منه (له)' : 'وكالة صادرة عليه'}
+                      ${isOut ? 'وكالة صادرة منك (لك)' : 'وكالة صادرة عليك'}
                       <span class="chip ${a.status==='سارية'?'chip-ok':'chip-warn'}">${ic(a.status==='سارية'?'checkCircle':'alert','ic-sm')} ${a.status}</span>
                     </div>
                     <div class="row-sub">${roleHint}</div>
@@ -1886,7 +1958,7 @@ function renderSimah(){
               `;
             }).join('')}
           </div>
-        ` : '<div class="note-box" style="margin-top:0">لا توجد وكالات مسجّلة باسم المتوفى.</div>'}
+        ` : '<div class="note-box" style="margin-top:0">لا توجد وكالات مسجّلة باسمك.</div>'}
       </div>
     </div>
 
@@ -1927,7 +1999,7 @@ function renderSimah(){
     <div class="note-box note-legal" style="margin-top:16px">
       ${ic('shield','ic-sm')}
       <span>
-        البيانات مُستخرجة آليًا من منصة سمة — ولا تُعرض إلا الوكالات التي يكون المتوفى فيها طرفًا (موكِّلًا أو وكيلًا).
+        البيانات مُستخرجة آليًا من منصة سمة — ولا تُعرض إلا الوكالات التي تكون فيها طرفًا (موكِّلًا أو وكيلًا).
       </span>
     </div>
   `;
@@ -2239,7 +2311,7 @@ function renderWorkers(){
       <div>
         <h3>العمالة والمقيمين</h3>
         <p>
-          ${count} مقيم مسجَّل في سمة — إجمالي الرواتب الشهرية <b>${fmt(totalSalary)}</b> ر.س
+          ${count} مقيم مسجَّل — إجمالي الرواتب الشهرية <b>${fmt(totalSalary)}</b> ر.س
           ${expired > 0 ? ` &nbsp;•&nbsp; <span style="color:var(--red)">${expired} إقامة منتهية</span>` : ''}
           ${soon > 0 ? ` &nbsp;•&nbsp; <span style="color:var(--amber)">${soon} قريبة الانتهاء</span>` : ''}
         </p>
@@ -2390,7 +2462,7 @@ function renderWorkers(){
     <div class="note-box note-warn">
       ${ic('shield','ic-sm')}
       <span>
-        <b>تنبيه:</b> البيانات مُستخرجة آليًا من منصة سمة ومطابقة مع الجوازات والمرور.
+        <b>تنبيه:</b> البيانات مُستخرجة آليًا ومطابقة مع الجوازات والمرور.
         الرواتب المتأخرة تُحتسب ضمن التزامات التركة قبل التوزيع.
       </span>
     </div>
@@ -2454,7 +2526,7 @@ function bindWorkerEvents(){
         iqamaExpiry: iqamaExpiry || '—',
         residenceStatus: residence,
         commitment,
-        note: commitment === 'late' ? 'راتب متأخر — يحتاج مراجعة' : 'مسجَّل في سمة'
+        note: commitment === 'late' ? 'راتب متأخر — يحتاج مراجعة' : 'مسجَّل'
       };
       if(commitment === 'late') newWorker.dueAmount = Math.round(salary * 2);
 
@@ -2629,7 +2701,7 @@ function ledgerBody(){
 }
 
 /* ================================================================
-   قسم الصلاحيات
+   قسم الصلاحيات + PDPL
    ================================================================ */
 function renderPerms(){
   const el = document.getElementById('cardPerms');
@@ -2639,12 +2711,14 @@ function renderPerms(){
     `<option value="${h.id}" ${sel===h.id?'selected':''}>${h.name} — ${h.rel}</option>`
   ).join('');
 
+  const deletion = state.deletion;
+
   el.innerHTML = `
     <div class="section-head">
       <div class="sh-ic">${ic('key')}</div>
       <div>
-        <h3>الصلاحيات بعد الوفاة</h3>
-        <p>أذونات محددة النطاق تُفعَّل تلقائيًا</p>
+        <h3>الصلاحيات والخصوصية</h3>
+        <p>أذونات محددة النطاق + إدارة بياناتك وفق نظام حماية البيانات الشخصية</p>
       </div>
     </div>
 
@@ -2687,7 +2761,201 @@ function renderPerms(){
         <button type="button" data-report="approved" class="${state.report==='approved'?'active':''}">${ic('checkCircle','ic-sm')} معتمد</button>
       </div>
     </div>
+
+    <div style="margin-top:24px;padding-top:20px;border-top:1px dashed var(--line)">
+      <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:12px">
+        <div style="width:38px;height:38px;border-radius:11px;background:var(--red-bg);color:var(--red);display:grid;place-items:center;flex:0 0 auto">
+          ${ic('delete','ic-sm')}
+        </div>
+        <div>
+          <h4 style="margin:0 0 4px;font-size:15px;font-weight:700;color:var(--text)">
+            حذف بياناتي الشخصية
+          </h4>
+          <p style="margin:0;font-size:12px;color:var(--muted);line-height:1.6">
+            حقّك وفق نظام حماية البيانات الشخصية (PDPL) — يمكنك طلب حذف بياناتك
+            في أي وقت.
+          </p>
+        </div>
+      </div>
+
+      ${deletion.confirmed ? `
+        <div class="note-box" style="background:var(--ok-bg);border-color:var(--ok-line);color:var(--ok);margin-top:8px">
+          ${ic('checkCircle','ic-sm')}
+          <span>
+            <b>تم استلام طلبك بنجاح.</b>
+            رقم الطلب: <b style="font-family:'Courier New',monospace">${deletion.requestId || '—'}</b>
+            ${deletion.requestDate ? ` • التاريخ: <b>${deletion.requestDate}</b>` : ''}
+            <br>
+            سيتم حذف بياناتك خلال <b>30 يومًا</b> من تاريخ التحقق من الهوية،
+            مع الاحتفاظ بالبيانات التي تلزمنا بها الأنظمة السعودية (مثل السجلات الضريبية)
+            لحين انتهاء مدة الاحتفاظ القانونية.
+          </span>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+          <button type="button" class="btn btn-ghost btn-sm" id="btnCancelDeletion">
+            ${ic('refresh','ic-sm')} إلغاء طلب الحذف
+          </button>
+        </div>
+      ` : `
+        <button type="button" class="btn btn-danger" id="btnRequestDeletion" style="margin-top:8px">
+          ${ic('delete','ic-sm')} طلب حذف بياناتي
+        </button>
+
+        <div class="note-box" style="margin-top:12px">
+          ${ic('alert','ic-sm')}
+          <span>
+            <b>ملاحظة:</b> حذف البيانات يعني إزالة كل السجلات المتعلقة بحسابك
+            (ما عدا ما تُلزمنا الأنظمة السعودية بالاحتفاظ به).
+            هذا الإجراء <b>لا يمكن التراجع عنه</b> بعد التأكيد.
+          </span>
+        </div>
+      `}
+
+      <div class="note-box note-legal" style="margin-top:14px">
+        ${ic('shield','ic-sm')}
+        <span>
+          نحن نلتزم بنظام حماية البيانات الشخصية (PDPL) الصادر بالمرسوم الملكي
+          رقم (م/19) وتاريخ 9/2/1443هـ، ونمنحك الحق في:
+          <b>الوصول</b>، <b>التصحيح</b>، <b>الحذف</b>، و<b>نقل</b> بياناتك.
+          لمزيد من التفاصيل، راجع سياسة الخصوصية.
+        </span>
+      </div>
+    </div>
   `;
+
+  const reqBtn = document.getElementById('btnRequestDeletion');
+  if(reqBtn){
+    reqBtn.onclick = () => openDeletionModal();
+  }
+  const cancelBtn = document.getElementById('btnCancelDeletion');
+  if(cancelBtn){
+    cancelBtn.onclick = () => {
+      state.deletion.confirmed = false;
+      state.deletion.requestId = null;
+      state.deletion.requestDate = null;
+      renderPerms();
+    };
+  }
+}
+
+/* ================================================================
+   نافذة تأكيد الحذف (Modal)
+   ================================================================ */
+function openDeletionModal(){
+  state.deletion.modalOpen = true;
+  state.deletion.reason = 'no_longer_needed';
+  renderDeletionModal();
+}
+
+function closeDeletionModal(){
+  state.deletion.modalOpen = false;
+  renderDeletionModal();
+}
+
+function renderDeletionModal(){
+  const root = document.getElementById('modalRoot');
+  if(!state.deletion.modalOpen){
+    root.innerHTML = '';
+    return;
+  }
+
+  const reasonOptions = Object.entries(DELETION_REASONS)
+    .map(([k,v]) => `<option value="${k}" ${state.deletion.reason===k?'selected':''}>${v}</option>`)
+    .join('');
+
+  root.innerHTML = `
+    <div class="modal-overlay" onclick="if(event.target===this) closeDeletionModal()">
+      <div class="modal-card" role="dialog" aria-modal="true">
+        <div class="modal-header">
+          <div class="modal-header-ic">${ic('alert')}</div>
+          <div>
+            <h3>تأكيد طلب حذف البيانات</h3>
+            <p>هذا الإجراء لا يمكن التراجع عنه بعد التأكيد. يرجى القراءة بعناية.</p>
+          </div>
+        </div>
+
+        <div class="modal-body">
+          <div style="margin-bottom:14px">
+            <label for="delReason">سبب الحذف (اختياري)</label>
+            <select id="delReason">${reasonOptions}</select>
+          </div>
+
+          <div style="background:#f6f9f8;border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:12.5px;color:#4a5c56;line-height:1.8">
+            <b style="color:var(--text);display:block;margin-bottom:6px">ماذا سيحدث بعد التأكيد؟</b>
+            • تُعلَّم جميع سجلاتك بأنها قيد الحذف فورًا.
+            <br>• يتم الحذف الفعلي خلال 30 يومًا من التحقق.
+            <br>• تُحفظ فقط السجلات التي تُلزمنا الأنظمة السعودية بالاحتفاظ بها (السجلات المالية والضريبية) لحين انتهاء المدة القانونية.
+            <br>• إذا كنت ضمن قضية تركة مفتوحة، قد يبقى جزء من البيانات بحكم الالتزام النظامي.
+          </div>
+
+          <label class="checkbox-row">
+            <input type="checkbox" id="delConfirm" />
+            <span>
+              أُقرّ بأنني قرأت الإشعار أعلاه، وأرغب في المضي قدمًا بحذف بياناتي الشخصية
+              من منصة الوصية الرقمية الذكية.
+            </span>
+          </label>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-ghost" id="btnCancelDel">إلغاء</button>
+          <button type="button" class="btn btn-danger" id="btnConfirmDel" disabled>
+            ${ic('delete','ic-sm')} تأكيد الحذف
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+
+  const cancelBtn = document.getElementById('btnCancelDel');
+  const confirmBtn = document.getElementById('btnConfirmDel');
+  const checkbox = document.getElementById('delConfirm');
+  const reasonSel = document.getElementById('delReason');
+
+  if(reasonSel){
+    reasonSel.onchange = () => { state.deletion.reason = reasonSel.value; };
+  }
+
+  if(checkbox){
+    confirmBtn.disabled = true;
+    confirmBtn.style.opacity = '.55';
+    confirmBtn.style.cursor = 'not-allowed';
+
+    checkbox.onchange = () => {
+      confirmBtn.disabled = !checkbox.checked;
+      confirmBtn.style.opacity = checkbox.checked ? '1' : '.55';
+      confirmBtn.style.cursor = checkbox.checked ? 'pointer' : 'not-allowed';
+    };
+  }
+
+  if(cancelBtn){
+    cancelBtn.onclick = () => closeDeletionModal();
+  }
+
+  if(confirmBtn){
+    confirmBtn.onclick = () => {
+      if(confirmBtn.disabled) return;
+      confirmDeletion();
+    };
+  }
+}
+
+function confirmDeletion(){
+  const now = new Date();
+  const y = now.getFullYear();
+  const m = String(now.getMonth() + 1).padStart(2, '0');
+  const d = String(now.getDate()).padStart(2, '0');
+  const rand = String(Math.floor(100000 + Math.random() * 900000));
+
+  state.deletion.confirmed = true;
+  state.deletion.requestId = `DEL-${y}${m}${d}-${rand}`;
+  state.deletion.requestDate = `${y}/${m}/${d}`;
+
+  state.deletion.modalOpen = false;
+  renderDeletionModal();
+  renderPerms();
+
+  window.scrollTo({top: 0, behavior:'smooth'});
 }
 
 /* ================================================================
@@ -2910,7 +3178,7 @@ function fullFile(){
       ${dueFromTenants > 0 ? `<div class="mini-row"><span>إيجارات مستحقة لك على المستأجرين</span><b style="color:var(--purple)">${fmt(dueFromTenants)} ر.س</b></div>` : ''}
       <div class="mini-row"><span>إجمالي الالتزامات</span><b style="color:var(--red)">(${fmt(debtsTotal())}) ر.س</b></div>
 
-      <h4 style="font-size:13.5px;margin-top:18px">${ic('landmark','ic-sm')} الشركات والوكالات والأرقام (سمة)</h4>
+      <h4 style="font-size:13.5px;margin-top:18px">${ic('landmark','ic-sm')} الشركات والوكالات والأرقام</h4>
 
       <div style="font-size:12px;font-weight:700;margin-top:6px;color:var(--green-800)">الشركات والمؤسسات + مدير بديل</div>
       ${COMPANIES.map(c => {
@@ -2987,8 +3255,6 @@ function fullFile(){
           </div>
           <div style="font-size:11px;color:var(--muted);margin-top:3px;line-height:1.7">
             المستخدم: <b style="color:var(--text)">${a.username}</b>
-            &nbsp;•&nbsp;
-            كلمة المرور: <b style="color:var(--text);font-family:'Courier New',monospace">••••••••</b>
           </div>
         </div>
       `).join('') : '<div class="mini-row"><span>لا توجد حسابات مسجّلة</span></div>'}
@@ -3248,9 +3514,14 @@ function backToGate(){
     managerType:'heir', managerId:'', managerName:'', managerNationalId:'', managerRelation:'',
     managementMode:'full'
   };
+  state.deletion = {
+    modalOpen: false, reason:'no_longer_needed',
+    confirmed:false, requestId:null, requestDate:null
+  };
 
   document.getElementById('appRoot').classList.add('hidden');
   document.getElementById('loginGate').classList.remove('hidden');
+  document.getElementById('modalRoot').innerHTML = '';
 
   switchScreen('setup');
   renderHeirScreen();
