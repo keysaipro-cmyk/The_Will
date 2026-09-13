@@ -10,10 +10,6 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-/* ============================================================
-   الوصية الرقمية الذكية — تصميم جذري جديد
-   Top Tabs (Desktop) + Bottom Nav (Mobile) + Inline Summary Bar
-   ============================================================ */
 :root{
   --green-950:#052318;
   --green-900:#0b3d2e;
@@ -56,7 +52,6 @@ button{font-family:inherit}
 ::selection{background:#cdece0}
 .hidden{display:none !important}
 
-/* ================= الهيدر الثابت ================= */
 .app-header{
   position:sticky;top:0;z-index:50;
   background:linear-gradient(115deg,#052318 0%, #0b3d2e 55%, #0f4f3a 100%);
@@ -96,7 +91,7 @@ button{font-family:inherit}
   display:grid;place-items:center;font-weight:700;font-size:11px;
 }
 
-/* ================= شريط التنقّل العلوي (Desktop) ================= */
+/* ========== Top nav ========== */
 .top-nav{
   background:#fff;
   border-bottom:1px solid var(--line);
@@ -109,10 +104,15 @@ button{font-family:inherit}
 }
 .top-nav-inner{
   max-width:1280px;margin:0 auto;padding:0 22px;
-  display:flex;gap:2px;overflow-x:auto;
-  scrollbar-width:none;
+  display:flex;gap:2px;
+  overflow-x:auto;overflow-y:hidden;
+  scrollbar-width:thin;
+  scrollbar-color: #c9d6d1 transparent;
+  -webkit-overflow-scrolling: touch;
 }
-.top-nav-inner::-webkit-scrollbar{display:none}
+.top-nav-inner::-webkit-scrollbar{height:5px}
+.top-nav-inner::-webkit-scrollbar-thumb{background:#c9d6d1;border-radius:99px}
+.top-nav-inner::-webkit-scrollbar-track{background:transparent}
 .top-nav-btn{
   border:0;background:none;cursor:pointer;
   padding:14px 16px;font-size:13.5px;font-weight:500;
@@ -122,6 +122,7 @@ button{font-family:inherit}
   transition:color .2s, border-color .2s;
   font-family:inherit;
   margin-bottom:-1px;
+  flex: 0 0 auto;
 }
 .top-nav-btn .ic{width:16px;height:16px}
 .top-nav-btn:hover{color:var(--green-700)}
@@ -130,7 +131,7 @@ button{font-family:inherit}
   border-bottom-color:var(--green-600);
 }
 
-/* ================= شريط التنقّل السفلي (Mobile) ================= */
+/* ========== Bottom nav ========== */
 .bottom-nav{
   position:fixed;
   bottom:0;left:0;right:0;
@@ -145,29 +146,36 @@ button{font-family:inherit}
   .bottom-nav{display:none}
 }
 .bottom-nav-inner{
-  display:grid;
-  grid-template-columns:repeat(6, 1fr);
-  max-width:640px;margin:0 auto;
+  display:flex;
+  overflow-x:auto;overflow-y:hidden;
+  scrollbar-width:thin;
+  scrollbar-color: #c9d6d1 transparent;
+  -webkit-overflow-scrolling: touch;
+  padding: 0 4px;
 }
+.bottom-nav-inner::-webkit-scrollbar{height:4px}
+.bottom-nav-inner::-webkit-scrollbar-thumb{background:#c9d6d1;border-radius:99px}
+.bottom-nav-inner::-webkit-scrollbar-track{background:transparent}
 .bottom-nav-btn{
   border:0;background:none;cursor:pointer;
-  padding:8px 2px 10px;
+  padding:8px 4px 10px;
   display:flex;flex-direction:column;align-items:center;gap:3px;
   color:var(--muted);
   font-family:inherit;
   transition:color .2s, background .2s;
-  position:relative;
   min-height:var(--nav-h);
+  flex: 0 0 auto;
+  min-width: 74px;
 }
 .bottom-nav-btn .bn-ic{
-  width:36px;height:36px;border-radius:11px;
+  width:34px;height:34px;border-radius:10px;
   display:grid;place-items:center;
   background:transparent;
   transition:background .2s, color .2s;
 }
-.bottom-nav-btn .bn-ic .ic{width:20px;height:20px}
+.bottom-nav-btn .bn-ic .ic{width:18px;height:18px}
 .bottom-nav-btn .bn-label{
-  font-size:10.5px;font-weight:500;line-height:1;
+  font-size:10px;font-weight:500;line-height:1;
   max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
 }
 .bottom-nav-btn.active{color:var(--green-900)}
@@ -176,7 +184,7 @@ button{font-family:inherit}
 }
 .bottom-nav-btn.active .bn-label{font-weight:700}
 
-/* ================= المحتوى ================= */
+/* ========== Main ========== */
 main{
   max-width:1280px;
   margin:0 auto;
@@ -198,9 +206,6 @@ main{
 .screen-head h2{margin:0 0 2px;font-size:20px;font-weight:700;letter-spacing:-.3px}
 .screen-head p{margin:0;color:var(--muted);font-size:13px}
 
-/* ============================================================
-   شريط الملخص المصغّر (Inline Summary)
-   ============================================================ */
 .summary-bar{
   background:#fff;
   border:1px solid var(--line);
@@ -208,159 +213,132 @@ main{
   box-shadow: var(--shadow-sm);
   padding: 10px 14px;
   margin-bottom: 18px;
-  display:flex;
-  align-items:center;
-  gap: 8px;
-  overflow-x:auto;
-  scrollbar-width:none;
+  display:flex;align-items:center;gap: 8px;
+  overflow-x:auto;overflow-y:hidden;
+  scrollbar-width:thin;
+  scrollbar-color: #c9d6d1 transparent;
   flex-wrap: nowrap;
   -webkit-overflow-scrolling: touch;
 }
-.summary-bar::-webkit-scrollbar{display:none}
+.summary-bar::-webkit-scrollbar{height:5px}
+.summary-bar::-webkit-scrollbar-thumb{background:#c9d6d1;border-radius:99px}
+.summary-bar::-webkit-scrollbar-track{background:transparent}
 
 .sum-item{
-  display:flex;
-  align-items:center;
-  gap: 8px;
-  padding: 4px 8px;
-  border-radius: 10px;
+  display:flex;align-items:center;gap: 8px;
+  padding: 4px 8px;border-radius: 10px;
   flex: 0 0 auto;
-  transition: background .2s;
 }
 .sum-item:not(:last-child)::after{
-  content:'';
-  display:block;
-  width:1px;
-  height:28px;
-  background: var(--line);
-  margin-inline-start: 12px;
+  content:'';display:block;width:1px;height:28px;
+  background: var(--line);margin-inline-start: 12px;
 }
 .sum-ic{
   width:32px;height:32px;border-radius:9px;
   background:#eef5f1;color:var(--green-700);
-  display:grid;place-items:center;
-  flex:0 0 auto;
+  display:grid;place-items:center;flex: 0 0 auto;
 }
 .sum-ic .ic{width:16px;height:16px}
 .sum-ic.net{background:linear-gradient(135deg,#0b3d2e,#14664a);color:#8fe0bd}
 .sum-ic.approved{background:var(--ok-bg);color:var(--ok)}
 .sum-ic.pending{background:var(--amber-bg);color:var(--amber)}
-.sum-body{
-  display:flex;flex-direction:column;justify-content:center;
-  min-width:0;
-}
-.sum-label{
-  font-size:10.5px;color:var(--muted);font-weight:500;line-height:1.2;
-}
-.sum-value{
-  font-size:13.5px;font-weight:700;color:var(--text);
-  letter-spacing:-.2px;white-space:nowrap;line-height:1.3;
-}
+.sum-body{display:flex;flex-direction:column;justify-content:center;min-width:0;}
+.sum-label{font-size:10.5px;color:var(--muted);font-weight:500;line-height:1.2;}
+.sum-value{font-size:13.5px;font-weight:700;color:var(--text);letter-spacing:-.2px;white-space:nowrap;line-height:1.3;}
 .sum-value small{font-size:10px;font-weight:500;color:var(--muted);margin-inline-start:2px}
 .sum-value.ok{color:var(--ok)}
 .sum-value.pending{color:var(--amber)}
 
-/* ============================================================
-   لوحة المحتوى (Tab Content)
-   ============================================================ */
 .tab-content{
-  background:#fff;
-  border:1px solid var(--line);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-sm);
-  padding: 22px;
+  background:#fff;border:1px solid var(--line);border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);padding: 22px;
   animation: tabFade .35s ease both;
 }
 @media (max-width:600px){
   .tab-content{padding:16px;border-radius:14px}
 }
-@keyframes tabFade{
-  from{opacity:0;transform:translateY(6px)}
-  to{opacity:1;transform:translateY(0)}
-}
+@keyframes tabFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 
 .tab-panel{display:none}
 .tab-panel.active{display:block}
 
-/* رأس القسم */
 .section-head{
   display:flex;align-items:flex-start;gap: 12px;
-  padding-bottom: 16px;
-  margin-bottom: 18px;
+  padding-bottom: 16px;margin-bottom: 18px;
   border-bottom:1px dashed var(--line);
 }
 .section-head .sh-ic{
   width:44px;height:44px;border-radius:12px;flex:0 0 auto;
-  display:grid;place-items:center;
-  background:#eef5f1;color:var(--green-700);
+  display:grid;place-items:center;background:#eef5f1;color:var(--green-700);
 }
 .section-head .sh-ic .ic{width:22px;height:22px}
 .section-head h3{margin:0;font-size:17px;font-weight:700}
 .section-head p{margin:2px 0 0;font-size:12.5px;color:var(--muted)}
 
-/* التبويبات الفرعية */
-.sub-tabs{
-  display:flex;
-  gap: 6px;
-  margin-bottom: 18px;
-  overflow-x:auto;
-  scrollbar-width:none;
-  padding-bottom: 4px;
+/* ========== Collapse panel ========== */
+.collapse-panel{
+  border:1px solid var(--line);border-radius:14px;background:#fff;
+  margin-bottom:12px;overflow:hidden;
+  transition: border-color .2s, box-shadow .2s;
 }
-.sub-tabs::-webkit-scrollbar{display:none}
-.sub-tab{
+.collapse-panel:hover{border-color:#d0ddd7}
+.collapse-panel.open{border-color:#c8e6d5;box-shadow: 0 2px 12px rgba(10,40,30,.05);}
+.collapse-head{
+  display:flex;align-items:center;gap: 12px;
+  padding: 14px 16px;cursor:pointer;user-select:none;
+  transition: background .2s;background:#fbfcfc;
+}
+.collapse-head:hover{background:#f7faf9}
+.collapse-panel.open .collapse-head{background:#f7faf9;border-bottom:1px dashed var(--line);}
+.collapse-ic{
+  width:38px;height:38px;border-radius:11px;flex: 0 0 auto;
+  display:grid;place-items:center;background:#eef5f1;color:var(--green-700);
+}
+.collapse-ic .ic{width:18px;height:18px}
+.collapse-title{flex: 1;min-width: 0;}
+.collapse-title h4{
+  margin:0;font-size:14.5px;font-weight:700;
+  display:flex;align-items:center;gap:6px;flex-wrap:wrap;
+}
+.collapse-title p{margin:2px 0 0;font-size:11.5px;color:var(--muted);line-height:1.5;}
+.collapse-chevron{
+  width:26px;height:26px;border-radius:50%;
+  background:#eef5f1;color:var(--green-700);
+  display:grid;place-items:center;
+  transition: transform .35s ease, background .2s, color .2s;
   flex: 0 0 auto;
-  border:1px solid var(--line);
-  background:#fbfcfc;
-  padding:8px 14px;border-radius:99px;cursor:pointer;
-  font-size:12.5px;font-weight:500;color:var(--muted);
-  display:inline-flex;align-items:center;gap:6px;
-  white-space:nowrap;
-  transition:.2s;
-  font-family:inherit;
 }
-.sub-tab:hover{color:var(--green-700);border-color:#c6d5cf;background:#fff}
-.sub-tab.active{
-  background:var(--green-800);color:#fff;border-color:var(--green-800);
-  font-weight:700;
+.collapse-chevron .ic{width:16px;height:16px}
+.collapse-panel.open .collapse-chevron{
+  transform: rotate(180deg);
+  background: var(--green-700);color:#fff;
 }
-.sub-tab .ic{width:14px;height:14px}
-
-.sub-panel{display:none}
-.sub-panel.active{display:block;animation:subFade .3s ease both}
-@keyframes subFade{
-  from{opacity:0;transform:translateY(4px)}
-  to{opacity:1;transform:translateY(0)}
+.collapse-body{
+  max-height: 0;overflow: hidden;opacity: 0;
+  transition: max-height .45s ease, opacity .3s ease, padding .3s ease;
+  padding: 0 16px;
+}
+.collapse-panel.open .collapse-body{
+  max-height: 6000px;opacity: 1;padding: 16px;
 }
 
-/* ============================================================
-   الصفوف المضغوطة (Compact Rows)
-   ============================================================ */
-.list{
-  display:flex;flex-direction:column;gap:8px;
-}
+/* ========== Rows ========== */
+.list{display:flex;flex-direction:column;gap:8px;}
 .row{
   display:flex;align-items:center;gap:12px;
-  padding:11px 13px;
-  border-radius:13px;
-  background:#fbfcfc;
+  padding:11px 13px;border-radius:13px;background:#fbfcfc;
   border:1px solid #eef2f0;
   transition: border-color .2s, background .2s, transform .15s;
 }
-.row:hover{
-  border-color:#d9e6e0;
-  background:#fff;
-  transform: translateY(-1px);
-}
+.row:hover{border-color:#d9e6e0;background:#fff;transform: translateY(-1px);}
 .row.warn{background:#fffaf1;border-color:#f5d3a8}
 .row.ok{background:#f3faf6;border-color:#c8e6d5}
 .row.late{background:#fef3f2;border-color:#f5c6c2}
 .row.landlord{background:#f4eefb;border-color:#ddcdf3}
 
 .row-ic{
-  width:40px;height:40px;border-radius:11px;flex:0 0 auto;
-  display:grid;place-items:center;
-  background:#eef5f1;color:var(--green-700);
+  width:40px;height:40px;border-radius:11px;flex: 0 0 auto;
+  display:grid;place-items:center;background:#eef5f1;color:var(--green-700);
   font-weight:700;font-size:13px;
 }
 .row-ic.warn{background:#fdf0dd;color:#a9761a}
@@ -375,20 +353,23 @@ main{
 .row-ic.whatsapp{background:#25d366;color:#fff}
 .row-ic.telegram{background:#0088cc;color:#fff}
 .row-ic.youtube{background:#ff0000;color:#fff}
+.row-ic.worker{background:#dbeafe;color:#1d4e79}
+.row-ic.worker.late{background:#fde0de;color:var(--red)}
+.row-ic.worker.soon{background:#fdf0dd;color:#a9761a}
+.row-ic.worker.ok{background:#e3f4eb;color:var(--ok)}
+.row-ic.company{background:#e3f4eb;color:var(--ok)}
+.row-ic.phone{background:#eef4fb;color:var(--blue)}
+.row-ic.agency-out{background:#e3f4eb;color:var(--ok)}
+.row-ic.agency-in{background:#fde0de;color:var(--red)}
 
 .row-body{flex:1;min-width:0}
 .row-title{
   font-size:13.5px;font-weight:600;color:var(--text);
-  display:flex;align-items:center;gap:6px;flex-wrap:wrap;
-  line-height:1.4;
+  display:flex;align-items:center;gap:6px;flex-wrap:wrap;line-height:1.4;
 }
-.row-sub{
-  font-size:11.5px;color:var(--muted);
-  margin-top:2px;line-height:1.55;
-  word-break:break-word;
-}
+.row-sub{font-size:11.5px;color:var(--muted);margin-top:2px;line-height:1.55;word-break:break-word;}
 .row-val{
-  text-align:left;flex:0 0 auto;
+  text-align:left;flex: 0 0 auto;
   display:flex;flex-direction:column;align-items:flex-end;gap:2px;
 }
 .row-val b{font-size:13.5px;color:var(--green-800);font-weight:700;white-space:nowrap}
@@ -396,7 +377,195 @@ main{
 .row-val.landlord b{color:var(--purple)}
 .row-val span{font-size:10.5px;color:var(--muted);white-space:nowrap}
 
-/* العقارات */
+/* ========== Company Card (كامل مع المدير البديل) ========== */
+.company-card{
+  border:1px solid var(--line);border-radius:14px;background:#fbfcfc;
+  margin-bottom:12px;overflow:hidden;
+  transition: border-color .2s;
+}
+.company-card:last-child{margin-bottom:0}
+.company-card:hover{border-color:#d0ddd7}
+
+.company-main{
+  display:flex;align-items:flex-start;gap:12px;padding:14px;
+}
+.company-ic{
+  width:44px;height:44px;border-radius:12px;flex:0 0 auto;
+  display:grid;place-items:center;background:#e3f4eb;color:var(--ok);
+}
+.company-ic .ic{width:20px;height:20px}
+.company-body{flex:1;min-width:0}
+.company-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:5px}
+.company-name{font-size:14px;font-weight:700}
+.company-details{
+  display:flex;flex-direction:column;gap:3px;margin-top:5px;
+}
+.company-details .detail-line{
+  display:flex;align-items:center;gap:5px;font-size:11.5px;
+  color:#4a5c56;flex-wrap:wrap;
+}
+.company-details .detail-line .ic{width:12px;height:12px;color:var(--muted);flex:0 0 auto}
+.company-details .detail-line b{
+  font-family:'Courier New', monospace;font-weight:600;color:var(--text);letter-spacing:.4px;
+}
+.company-details .detail-line .lbl{color:var(--muted);font-weight:500;}
+
+/* قسم المدير البديل */
+.manager-section{
+  padding: 12px 14px;
+  background: #f7faf9;
+  border-top:1px dashed var(--line);
+}
+.manager-label{
+  font-size:12px;font-weight:700;color:var(--green-900);
+  display:flex;align-items:center;gap:6px;margin-bottom:8px;
+}
+.manager-label .ic{width:14px;height:14px}
+.manager-current{
+  display:flex;align-items:center;gap:8px;
+  padding:10px 12px;background:#fff;
+  border:1px solid var(--ok-line);border-radius:11px;
+  margin-bottom:8px;
+}
+.manager-current.empty{
+  border-color:var(--amber-line);background:var(--amber-bg);
+}
+.manager-avatar{
+  width:36px;height:36px;border-radius:50%;flex:0 0 auto;
+  background:var(--ok-bg);color:var(--ok);
+  display:grid;place-items:center;font-weight:700;font-size:12px;
+}
+.manager-current.empty .manager-avatar{
+  background:#fdf0dd;color:#a9761a;
+}
+.manager-info{flex:1;min-width:0}
+.manager-info b{font-size:13px;font-weight:700;display:block;line-height:1.4;}
+.manager-info span{font-size:11px;color:var(--muted);display:block;margin-top:2px;}
+.manager-meta{
+  display:flex;gap:5px;flex-wrap:wrap;margin-top:4px;
+}
+
+.manager-form{
+  padding: 12px;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:11px;
+}
+.manager-form-row{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:10px;
+  margin-bottom:10px;
+}
+@media (max-width:640px){
+  .manager-form-row{grid-template-columns:1fr}
+}
+.manager-form-row.full{grid-template-columns:1fr}
+.manager-actions{
+  display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;
+}
+
+/* ========== chips ========== */
+.chip{
+  display:inline-flex;align-items:center;gap:5px;padding:3px 10px;
+  border-radius:99px;font-size:11px;font-weight:600;border:1px solid transparent;
+}
+.chip .ic{width:12px;height:12px}
+.chip-pending{background:var(--amber-bg);color:var(--amber);border-color:var(--amber-line)}
+.chip-ok{background:var(--ok-bg);color:var(--ok);border-color:var(--ok-line)}
+.chip-warn{background:var(--red-bg);color:var(--red);border-color:var(--red-line)}
+.chip-info{background:var(--blue-bg);color:var(--blue);border-color:var(--blue-line)}
+.chip-purple{background:var(--purple-bg);color:var(--purple);border-color:var(--purple-line)}
+
+/* ========== Inputs ========== */
+input,select,textarea{
+  width:100%;font-family:inherit;font-size:13.5px;color:var(--text);
+  padding:10px 12px;border-radius:11px;border:1px solid var(--line);
+  background:#fbfcfc;outline:none;transition:.2s;
+}
+input:focus,select:focus,textarea:focus{
+  border-color:var(--green-500);background:#fff;box-shadow:0 0 0 3px rgba(33,147,106,.13);
+}
+textarea{resize:vertical;min-height:110px;line-height:1.7}
+label{display:block;font-size:12.5px;font-weight:600;margin-bottom:6px;color:#26382f}
+.form-row{display:grid;grid-template-columns:1.1fr .9fr;gap:10px;margin-bottom:10px}
+.form-row-3{display:grid;grid-template-columns:1fr 1fr auto auto;gap:10px;align-items:center;margin-bottom:10px}
+@media (max-width:560px){ .form-row,.form-row-3{grid-template-columns:1fr} }
+
+/* ========== Buttons ========== */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  font-size:13.5px;font-weight:600;padding:10px 18px;border-radius:11px;
+  border:1px solid transparent;cursor:pointer;transition:.2s;white-space:nowrap;
+  font-family:inherit;
+}
+.btn .ic{width:16px;height:16px}
+.btn-primary{background:var(--green-700);color:#fff}
+.btn-primary:hover{background:var(--green-900)}
+.btn-ghost{background:#fff;border-color:var(--line);color:var(--text)}
+.btn-ghost:hover{border-color:#c6d5cf;background:#fafbfa}
+.btn-sm{padding:7px 12px;font-size:12px;border-radius:8px}
+.btn-sm .ic{width:14px;height:14px}
+
+/* ========== Alerts ========== */
+.note-box{
+  display:flex;gap:9px;align-items:flex-start;
+  background:#f6f9f8;border:1px solid var(--line);border-radius:12px;
+  padding:10px 12px;font-size:12px;color:#4a5c56;line-height:1.65;margin-top:14px;
+}
+.note-box .ic{width:15px;height:15px;margin-top:3px;flex:0 0 auto;color:var(--green-700)}
+.note-legal{
+  background:linear-gradient(135deg,#0b3d2e,#14664a);color:#dff1e9;
+  border:0;font-size:12.5px;font-weight:500;
+}
+.note-legal .ic{color:#8fe0bd}
+.note-warn{background:var(--amber-bg);border-color:var(--amber-line);color:var(--amber)}
+.note-warn .ic{color:var(--amber)}
+
+/* ========== seg ========== */
+.seg{display:flex;gap:4px;background:#f1f4f3;padding:4px;border-radius:11px;margin-bottom:14px}
+.seg button{
+  flex:1;border:0;background:none;padding:8px;border-radius:8px;cursor:pointer;
+  font-size:12.5px;font-weight:500;color:var(--muted);transition:.2s;
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  font-family:inherit;
+}
+.seg button.active{background:#fff;color:var(--green-900);box-shadow:0 1px 3px rgba(0,0,0,.06)}
+
+/* ========== social creds ========== */
+.social-creds{display:flex;flex-direction:column;gap:4px;margin-top:6px;}
+.cred-line{display:flex;align-items:center;gap:5px;font-size:11.5px;color:#4a5c56;flex-wrap:wrap;}
+.cred-line .ic{width:12px;height:12px;color:var(--muted);flex:0 0 auto}
+.cred-line b{font-family:'Courier New', monospace;font-weight:600;color:var(--text);letter-spacing:.4px;}
+.cred-line .pw{background:#f1f4f3;padding:1px 8px;border-radius:6px;font-family:'Courier New',monospace;letter-spacing:2px;}
+
+.social-form{
+  margin-top:14px;padding:14px;background:#f7faf9;
+  border:1px dashed var(--line);border-radius:12px;
+}
+.social-form-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;
+}
+.social-form-grid.wide{ grid-template-columns:1fr; }
+.social-form-grid.three{ grid-template-columns:1fr 1fr 1fr; }
+@media (max-width:720px){
+  .social-form-grid{ grid-template-columns:1fr; }
+  .social-form-grid.three{ grid-template-columns:1fr; }
+}
+.social-action-options{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;}
+.social-action-options label{
+  display:inline-flex;align-items:center;gap:6px;
+  background:#fff;border:1px solid var(--line);
+  padding:7px 12px;border-radius:9px;cursor:pointer;
+  font-size:12.3px;font-weight:500;margin:0;transition:.2s;
+}
+.social-action-options label:hover{border-color:#c6d5cf}
+.social-action-options input{display:none}
+.social-action-options label:has(input:checked){
+  background:#e9f7f0;border-color:#a8ddc4;color:var(--green-900);
+}
+
+/* ========== prop rows ========== */
 .prop-row{
   display:flex;align-items:flex-start;gap:12px;
   padding:14px;border-radius:14px;background:#fbfcfc;
@@ -410,7 +579,7 @@ main{
 .prop-row.tenant.late{background:#fef3f2;border-color:#f5c6c2}
 .prop-row.landlord{background:#f4eefb;border-color:#ddcdf3}
 .prop-ic{
-  width:44px;height:44px;border-radius:12px;flex:0 0 auto;
+  width:44px;height:44px;border-radius:12px;flex: 0 0 auto;
   display:grid;place-items:center;background:#e3f4eb;color:var(--ok);
 }
 .prop-ic.tenant{background:#fdf0dd;color:#a9761a}
@@ -426,13 +595,13 @@ main{
 }
 .prop-addr .ic{width:13px;height:13px;color:var(--muted);margin-top:3px;flex:0 0 auto}
 .prop-tags{margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
-.prop-val{text-align:left;flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-start;gap:2px}
+.prop-val{text-align:left;flex: 0 0 auto;display:flex;flex-direction:column;align-items:flex-start;gap:2px}
 .prop-val b{font-size:14px;color:var(--green-800)}
 .prop-val.late b{color:var(--red)}
 .prop-val.landlord b{color:var(--purple)}
 .prop-val span{font-size:10.5px;color:var(--muted)}
 
-/* الورثة */
+/* ========== heirs ========== */
 .heir-row{
   display:flex;align-items:center;gap:12px;
   padding:12px 14px;border-radius:14px;background:#fbfcfc;
@@ -442,7 +611,7 @@ main{
 .heir-row:last-child{margin-bottom:0}
 .heir-row:hover{border-color:#d9e6e0;background:#fff;transform:translateY(-1px)}
 .heir-av{
-  width:38px;height:38px;border-radius:50%;flex:0 0 auto;
+  width:38px;height:38px;border-radius:50%;flex: 0 0 auto;
   background:#eef5f1;color:var(--green-700);display:grid;place-items:center;
 }
 .heir-av .ic{width:18px;height:18px}
@@ -455,142 +624,20 @@ main{
 }
 .bar{height:6px;border-radius:99px;background:#e8eeeb;overflow:hidden;margin-top:7px}
 .bar > i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--green-600),var(--green-500));transition:width .6s ease}
-.heir-val{text-align:left;flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-start}
+.heir-val{text-align:left;flex: 0 0 auto;display:flex;flex-direction:column;align-items:flex-start}
 .heir-val b{font-size:15px;color:var(--green-800)}
 .heir-val span{font-size:11.5px;color:var(--muted)}
 
-/* الشرائح (Chips) */
-.chip{
-  display:inline-flex;align-items:center;gap:5px;padding:3px 10px;
-  border-radius:99px;font-size:11px;font-weight:600;border:1px solid transparent;
-}
-.chip .ic{width:12px;height:12px}
-.chip-pending{background:var(--amber-bg);color:var(--amber);border-color:var(--amber-line)}
-.chip-ok{background:var(--ok-bg);color:var(--ok);border-color:var(--ok-line)}
-.chip-warn{background:var(--red-bg);color:var(--red);border-color:var(--red-line)}
-.chip-info{background:var(--blue-bg);color:var(--blue);border-color:var(--blue-line)}
-.chip-purple{background:var(--purple-bg);color:var(--purple);border-color:var(--purple-line)}
-
-/* النماذج */
-input,select,textarea{
-  width:100%;font-family:inherit;font-size:13.5px;color:var(--text);
-  padding:10px 12px;border-radius:11px;border:1px solid var(--line);
-  background:#fbfcfc;outline:none;transition:.2s;
-}
-input:focus,select:focus,textarea:focus{
-  border-color:var(--green-500);background:#fff;box-shadow:0 0 0 3px rgba(33,147,106,.13);
-}
-textarea{resize:vertical;min-height:110px;line-height:1.7}
-label{display:block;font-size:12.5px;font-weight:600;margin-bottom:6px;color:#26382f}
-.form-row{display:grid;grid-template-columns:1.1fr .9fr;gap:10px;margin-bottom:10px}
-.form-row-3{display:grid;grid-template-columns:1fr 1fr auto auto;gap:10px;align-items:center;margin-bottom:10px}
-@media (max-width:560px){ .form-row,.form-row-3{grid-template-columns:1fr} }
-
-/* الأزرار */
-.btn{
-  display:inline-flex;align-items:center;justify-content:center;gap:8px;
-  font-size:13.5px;font-weight:600;padding:10px 18px;border-radius:11px;
-  border:1px solid transparent;cursor:pointer;transition:.2s;white-space:nowrap;
-  font-family:inherit;
-}
-.btn .ic{width:16px;height:16px}
-.btn-primary{background:var(--green-700);color:#fff}
-.btn-primary:hover{background:var(--green-900)}
-.btn-ghost{background:#fff;border-color:var(--line);color:var(--text)}
-.btn-ghost:hover{border-color:#c6d5cf;background:#fafbfa}
-.btn-sm{padding:7px 12px;font-size:12px;border-radius:8px}
-.btn-sm .ic{width:14px;height:14px}
-
-/* صناديق تنبيه */
-.note-box{
-  display:flex;gap:9px;align-items:flex-start;
-  background:#f6f9f8;border:1px solid var(--line);border-radius:12px;
-  padding:10px 12px;font-size:12px;color:#4a5c56;line-height:1.65;margin-top:14px;
-}
-.note-box .ic{width:15px;height:15px;margin-top:3px;flex:0 0 auto;color:var(--green-700)}
-.note-legal{
-  background:linear-gradient(135deg,#0b3d2e,#14664a);color:#dff1e9;
-  border:0;font-size:12.5px;font-weight:500;
-}
-.note-legal .ic{color:#8fe0bd}
-.note-warn{background:var(--amber-bg);border-color:var(--amber-line);color:var(--amber)}
-.note-warn .ic{color:var(--amber)}
-
-/* Seg */
-.seg{display:flex;gap:4px;background:#f1f4f3;padding:4px;border-radius:11px;margin-bottom:14px}
-.seg button{
-  flex:1;border:0;background:none;padding:8px;border-radius:8px;cursor:pointer;
-  font-size:12.5px;font-weight:500;color:var(--muted);transition:.2s;
-  display:inline-flex;align-items:center;justify-content:center;gap:6px;
-  font-family:inherit;
-}
-.seg button.active{background:#fff;color:var(--green-900);box-shadow:0 1px 3px rgba(0,0,0,.06)}
-
-/* حسابات التواصل — شهادات الدخول */
-.social-creds{
-  display:flex;flex-direction:column;gap:4px;
-  margin-top:6px;
-}
-.cred-line{
-  display:flex;align-items:center;gap:5px;
-  font-size:11.5px;color:#4a5c56;
-  flex-wrap:wrap;
-}
-.cred-line .ic{width:12px;height:12px;color:var(--muted);flex:0 0 auto}
-.cred-line b{
-  font-family:'Courier New', monospace;
-  font-weight:600;color:var(--text);letter-spacing:.4px;
-}
-.cred-line .pw{
-  background:#f1f4f3;padding:1px 8px;border-radius:6px;
-  font-family:'Courier New',monospace;letter-spacing:2px;
-}
-
-/* نموذج إضافة حساب تواصل */
-.social-form{
-  margin-top:14px;
-  padding:14px;
-  background:#f7faf9;
-  border:1px dashed var(--line);
-  border-radius:12px;
-}
-.social-form-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-  margin-bottom:10px;
-}
-.social-form-grid.wide{ grid-template-columns:1fr; }
-@media (max-width:640px){
-  .social-form-grid{ grid-template-columns:1fr; }
-}
-.social-action-options{
-  display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;
-}
-.social-action-options label{
-  display:inline-flex;align-items:center;gap:6px;
-  background:#fff;border:1px solid var(--line);
-  padding:7px 12px;border-radius:9px;cursor:pointer;
-  font-size:12.3px;font-weight:500;margin:0;
-  transition:.2s;
-}
-.social-action-options label:hover{border-color:#c6d5cf}
-.social-action-options input{display:none}
-.social-action-options label:has(input:checked){
-  background:#e9f7f0;border-color:#a8ddc4;color:var(--green-900);
-}
-
-/* mini-row داخل الملف */
+/* ========== mini-row ========== */
 .mini-row{display:flex;justify-content:space-between;gap:10px;font-size:13px;padding:6px 0;border-bottom:1px dashed #eaf0ee}
 .mini-row:last-child{border-bottom:0}
 .mini-row span{color:var(--muted)}
 .mini-row b{font-weight:600}
 
-/* الملف الكامل */
+/* ========== file block ========== */
 .file-block{
   border:1px solid var(--line);border-radius:16px;padding:18px;
-  margin-top:18px;background:#fcfdfd;
-  animation:fadeUp .4s ease both;
+  margin-top:18px;background:#fcfdfd;animation:fadeUp .4s ease both;
 }
 .file-block h4{margin:0 0 14px;font-size:15px;font-weight:600;display:flex;align-items:center;gap:9px}
 .file-block h4 .ic{width:18px;height:18px;color:var(--green-700)}
@@ -607,7 +654,7 @@ label{display:block;font-size:12.5px;font-weight:600;margin-bottom:6px;color:#26
 }
 @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 
-/* التذييل */
+/* ========== footer ========== */
 .app-footer{
   max-width:1280px;margin:0 auto;padding:0 22px 30px;
 }
@@ -619,13 +666,10 @@ label{display:block;font-size:12.5px;font-weight:600;margin-bottom:6px;color:#26
 }
 .footer-inner .ic{width:18px;height:18px;color:var(--green-700);flex:0 0 auto;margin-top:2px}
 
-/* أيقونة عامة */
 .ic{width:20px;height:20px;flex:0 0 auto;display:block}
 .ic-sm{width:16px;height:16px}
 
-/* ============================================================
-   بوابة تسجيل الدخول (نفاذ) — كما هي
-   ============================================================ */
+/* ========== login gate ========== */
 .login-gate{
   min-height:100vh;display:flex;align-items:center;justify-content:center;
   padding:24px;
@@ -684,13 +728,10 @@ label{display:block;font-size:12.5px;font-weight:600;margin-bottom:6px;color:#26
 @keyframes spin{to{transform:rotate(360deg)}}
 .mini-dot{width:8px;height:8px;border-radius:50%;background:#d3ddd9;display:inline-block}
 
-/* ============================================================
-   شاشة دخول الورثة
-   ============================================================ */
+/* ========== heir screen ========== */
 .panel{
   background:#fff;border:1px solid var(--line);border-radius:18px;
-  box-shadow:var(--shadow);padding:26px;
-  animation:fadeUp .45s ease both;
+  box-shadow:var(--shadow);padding:26px;animation:fadeUp .45s ease both;
 }
 .panel-head{margin-bottom:18px}
 .panel-head h3{margin:10px 0 4px;font-size:19px;font-weight:600}
@@ -713,9 +754,7 @@ label{display:block;font-size:12.5px;font-weight:600;margin-bottom:6px;color:#26
 }
 .deny-circle .ic{width:30px;height:30px}
 
-/* ============================================================
-   الطباعة
-   ============================================================ */
+/* ========== print ========== */
 @media print {
   body *{ visibility: hidden; }
   html, body{margin:0 !important;padding:0 !important;background:#fff !important;width:100% !important;}
@@ -727,9 +766,7 @@ label{display:block;font-size:12.5px;font-weight:600;margin-bottom:6px;color:#26
   .app-header, .app-footer, .login-gate, .demo-note, .screen-head,
   .top-nav, .bottom-nav, .summary-bar{ display: none !important; }
   #printArea, #printArea *{ visibility: visible; }
-  #printArea{
-    position: absolute;top:0;right:0;left:0;width:100%;padding:0;margin:0;
-  }
+  #printArea{position: absolute;top:0;right:0;left:0;width:100%;padding:0;margin:0;}
   #printArea.file-block{
     border:none;box-shadow:none;background:#fff;padding:0;margin:0;border-radius:0;
   }
@@ -778,7 +815,6 @@ label{display:block;font-size:12.5px;font-weight:600;margin-bottom:6px;color:#26
   </div>
 </header>
 
-<!-- شريط التنقّل العلوي (يظهر على الكمبيوتر) -->
 <nav class="top-nav" id="topNav">
   <div class="top-nav-inner" id="topNavInner"></div>
 </nav>
@@ -799,7 +835,6 @@ label{display:block;font-size:12.5px;font-weight:600;margin-bottom:6px;color:#26
   </div>
 </footer>
 
-<!-- شريط التنقّل السفلي (يظهر على الجوال) -->
 <nav class="bottom-nav" id="bottomNav">
   <div class="bottom-nav-inner" id="bottomNavInner"></div>
 </nav>
@@ -844,6 +879,15 @@ const ICONS = {
   chevronDown:'<path d="m6 9 6 6 6-6"/>',
   link:'<path d="M10.2 13.8a3.6 3.6 0 0 0 5.1 0l2.6-2.6a3.6 3.6 0 0 0-5.1-5.1l-1.5 1.5"/><path d="M13.8 10.2a3.6 3.6 0 0 0-5.1 0l-2.6 2.6a3.6 3.6 0 0 0 5.1 5.1l1.5-1.5"/>',
   share:'<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4"/><path d="m15.4 6.5-6.8 4"/>',
+  hardHat:'<path d="M3.5 19h17"/><path d="M4.5 19v-3.5a7.5 7.5 0 0 1 15 0V19"/><path d="M9.5 8.5V5.5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v3"/><path d="M4.5 15.5h15"/>',
+  briefcase:'<rect x="3" y="7.5" width="18" height="12" rx="2.4"/><path d="M9 7.5V5.5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/><path d="M3 13h18"/>',
+  idCard:'<rect x="3" y="5" width="18" height="14" rx="2.4"/><circle cx="9" cy="11" r="2.2"/><path d="M13.5 10h4"/><path d="M13.5 13h4"/><path d="M5.5 15.5c.6-1.6 2-2.5 3.5-2.5s2.9.9 3.5 2.5"/>',
+  coin:'<circle cx="12" cy="12" r="8.5"/><path d="M14.6 9.4a3.2 3.2 0 0 0-2.6-1.2c-1.6 0-2.8.9-2.8 2s1 1.8 2.8 1.8 2.8.8 2.8 1.9-1.2 2-2.8 2a3.2 3.2 0 0 1-2.6-1.2"/>',
+  phone:'<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07A19.5 19.5 0 0 1 5.17 12 19.8 19.8 0 0 1 2.1 3.4 2 2 0 0 1 4.1 1.2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.72 2.81a2 2 0 0 1-.45 2.11L8.1 9.1a16 16 0 0 0 6 6l1.26-1.27a2 2 0 0 1 2.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0 1 22 16.92Z"/>',
+  scroll:'<path d="M6 4h10a2 2 0 0 1 2 2v14"/><path d="M6 4a2 2 0 0 0-2 2v3h4V6a2 2 0 0 0-2-2Z"/><path d="M4 9h14"/><path d="M8 13h8"/><path d="M8 17h5"/>',
+  landmark:'<path d="M3 21h18"/><path d="M5 21V10"/><path d="M19 21V10"/><path d="M3 10h18L12 4 3 10Z"/><path d="M9 21v-5h6v5"/><path d="M9 13.5h6"/><path d="M9 17h6"/>',
+  agencies:'<path d="M8 3.5h8a1.5 1.5 0 0 1 1.5 1.5v14a1.5 1.5 0 0 1-1.5 1.5H8A1.5 1.5 0 0 1 6.5 19V5A1.5 1.5 0 0 1 8 3.5Z"/><path d="M9.5 7h5"/><path d="M9.5 11h5"/><path d="M9.5 15h3"/>',
+  userCog:'<circle cx="9.5" cy="8" r="3.5"/><path d="M3 20.2a6.4 6.4 0 0 1 10.4-4.9"/><circle cx="17.5" cy="17.5" r="2.5"/><path d="M17.5 13.5v1"/><path d="M17.5 20.5v1"/><path d="m14 15.5.9.5"/><path d="m20.1 19 .9.5"/><path d="m14 19.5.9-.5"/><path d="m20.1 16 .9-.5"/>',
   scale:'<path d="M12 3.2v17.3"/><path d="M7 20.5h10"/><path d="M4.5 7.5h15"/><path d="m6.5 7.5-2.6 6h5.2l-2.6-6Z"/><path d="m17.5 7.5-2.6 6h5.2l-2.6-6Z"/><circle cx="12" cy="4" r="1.3"/>'
 };
 
@@ -855,7 +899,7 @@ function ic(name, cls){
 }
 
 /* ================================================================
-   2) البيانات الوهمية
+   2) البيانات
    ================================================================ */
 
 const HEIRS = [
@@ -889,6 +933,117 @@ const PROPERTIES = [
   { id:'p5', type:'شقة سكنية', address:'الرياض — حي الملقا — الرمز البريدي 13524 — مبنى 618 — الدور 7', role:'landlord', value:720000, rentIncome:4200, dueFromTenant:0, tenantName:'فهد الشمري', note:'مؤجَّر بعقد سكني — منتظم' }
 ];
 
+const WORKERS = [
+  { id:'w1', name:'محمد أشرف علي', nationality:'باكستانية', occupation:'سائق خاص', iqama:'2324567890', salary:2500, iqamaExpiry:'1447/08/12', residenceStatus:'valid', commitment:'committed', note:'سائق خاص — ملتزم بالسداد' },
+  { id:'w2', name:'فاطمة بيبي', nationality:'بنغلاديشية', occupation:'عاملة منزلية', iqama:'2411223344', salary:1800, iqamaExpiry:'1446/09/30', residenceStatus:'soon', commitment:'committed', note:'إقامة قريبة الانتهاء — تحتاج تجديد' },
+  { id:'w3', name:'راجيش كومار', nationality:'هندية', occupation:'طباخ', iqama:'2244556677', salary:3200, iqamaExpiry:'1447/03/20', residenceStatus:'valid', commitment:'committed', note:'طباخ عائلي — ملتزم' },
+  { id:'w4', name:'أحمد حسن إبراهيم', nationality:'مصرية', occupation:'مزارع', iqama:'2177889900', salary:2000, iqamaExpiry:'1446/05/10', residenceStatus:'expired', commitment:'late', dueAmount:6000, note:'إقامة منتهية — متأخرات رواتب 3 أشهر' }
+];
+
+/* ================================================================
+   الشركات / المؤسسات — مع المدير البديل
+   managerType: 'heir' | 'other' | null
+   managerId:   heir id أو نص حر
+   managementMode: 'full' | 'supervisory' | 'liquidation'
+   ================================================================ */
+const COMPANIES = [
+  {
+    id:'c1',
+    name:'شركة سكن للعقارات',
+    crNumber:'1010234567',
+    type:'ذات مسؤولية محدودة',
+    relation:'مؤسسة مرتبطة بالعقارات',
+    status:'نشطة',
+    note:'مؤجَّر لها المبنى السكني في النرجس',
+    managerType:'heir',
+    managerId:'h2',
+    managementMode:'full'
+  },
+  {
+    id:'c2',
+    name:'مؤسسة الحلول الرقمية',
+    crNumber:'1010654321',
+    type:'مؤسسة فردية',
+    relation:'شريك اشتراكات رقمية',
+    status:'نشطة',
+    note:'مزود خدمات الاستضافة المرتبطة بحسابات المتوفى',
+    managerType:'heir',
+    managerId:'h3',
+    managementMode:'supervisory'
+  },
+  {
+    id:'c3',
+    name:'شركة الرياض للتجارة',
+    crNumber:'1010888777',
+    type:'ذات مسؤولية محدودة',
+    relation:'شريك تجاري',
+    status:'نشطة',
+    note:'مستحقات مالية معلّقة قيد المراجعة',
+    managerType:null,
+    managerId:null,
+    managementMode:null
+  },
+  {
+    id:'c4',
+    name:'مؤسسة النقل السريع',
+    crNumber:'1010555666',
+    type:'مؤسسة فردية',
+    relation:'مزود خدمة نقل',
+    status:'متوقفة',
+    note:'كان المتوفى يستخدمها لخدمات نقل البضائع',
+    managerType:'heir',
+    managerId:'h3',
+    managementMode:'liquidation'
+  }
+];
+
+const AGENCIES = [
+  {
+    id:'ag1', type:'out',
+    issuer:'عواد محمد عواد الشمري', issuerId:'1127535589', issuerIdType:'سجل مدني', issuerNationality:'سعودي', issuerRole:'مولّك',
+    agent:'علي سعود علي القحطاني', agentId:'1093647962', agentIdType:'سجل مدني', agentNationality:'سعودي', agentRole:'وكيل',
+    source:'خدمات الوكالات الإلكترونية',
+    issueDate:'1446/05/23', issueDateG:'2026/08/16',
+    expiryDate:'1448/05/23', expiryDateG:'2026/11/03',
+    scope:'مراجعة جميع الجهات ذات العلاقة وإنهاء جميع الإجراءات اللازمة والتوقيع فيما يتطلب ذلك',
+    items:[
+      'بيع سيارة دون قيادتها من نوع جسم موديل 2017 اللون فضي رقم اللوحة ب ر ح 1111',
+      'نقل الملكية ونقل الملكية'
+    ],
+    status:'سارية'
+  },
+  {
+    id:'ag2', type:'in',
+    issuer:'مؤسسة النقل السريع', issuerId:'1010555666', issuerIdType:'سجل تجاري', issuerNationality:'سعودي', issuerRole:'موكِّل',
+    agent:'عبدالله محمد العتيبي', agentId:'1023456789', agentIdType:'هوية وطنية', agentNationality:'سعودي', agentRole:'وكيل',
+    source:'خدمات الوكالات الإلكترونية',
+    issueDate:'1445/11/10', issueDateG:'2025/05/12',
+    expiryDate:'1447/11/10', expiryDateG:'2026/05/12',
+    scope:'استلام وتسليم شحنات ومتابعة إجراءات النقل والتوقيع على المحاضر',
+    items:['متابعة عقود النقل', 'توقيع مستندات الشحن'],
+    status:'سارية'
+  },
+  {
+    id:'ag3', type:'out',
+    issuer:'عبدالله محمد العتيبي', issuerId:'1023456789', issuerIdType:'هوية وطنية', issuerNationality:'سعودي', issuerRole:'موكِّل',
+    agent:'سعد محمد الحربي', agentId:'1077889900', agentIdType:'هوية وطنية', agentNationality:'سعودي', agentRole:'وكيل',
+    source:'خدمات الوكالات الإلكترونية',
+    issueDate:'1444/03/15', issueDateG:'2023/10/10',
+    expiryDate:'1446/03/15', expiryDateG:'2025/10/10',
+    scope:'إتمام إجراءات بيع قطعة أرض في حي القيروان',
+    items:['بيع قطعة الأرض رقم 2210'],
+    status:'منتهية'
+  }
+];
+
+const MY_NUMBERS = [
+  { id:'n1', kind:'mobile',  number:'+966 55 123 4567', label:'جوال شخصي', operator:'STC',   status:'نشط', primary:true },
+  { id:'n2', kind:'mobile',  number:'+966 50 987 6543', label:'جوال عمل', operator:'Mobily', status:'نشط', primary:false },
+  { id:'n3', kind:'landline',number:'011 456 7890',     label:'هاتف المنزل', operator:'STC', status:'نشط', primary:false },
+  { id:'n4', kind:'mobile',  number:'+966 59 442 1188', label:'جوال سابق', operator:'Zain',   status:'موقوف', primary:false },
+  { id:'n5', kind:'business',number:'011 234 5678',     label:'هاتف المكتب', operator:'STC',  status:'نشط', primary:false }
+];
+
 const SOCIAL_PLATFORMS = [
   { id:'x',         name:'X (تويتر)',         short:'X' },
   { id:'instagram', name:'Instagram',         short:'IG' },
@@ -906,19 +1061,60 @@ const ACTION_LABELS = {
   delete:   'حذف المحتوى'
 };
 
+const RESIDENCE_LABELS = {
+  valid:   'سارية',
+  soon:    'قريبة الانتهاء',
+  expired: 'منتهية'
+};
+
+const COMMITMENT_LABELS = {
+  committed: 'ملتزم بالسداد',
+  late:      'غير ملتزم'
+};
+
+const NUMBER_KIND_LABELS = {
+  mobile:   'جوال',
+  landline: 'هاتف ثابت',
+  business: 'هاتف أعمال'
+};
+
+/* أنواع الإدارة */
+const MANAGEMENT_MODES = {
+  full:        { label:'إدارة كاملة',       icon:'userCog',   desc:'صلاحية كاملة في القرارات والتوقيع' },
+  supervisory: { label:'إدارة إشرافية',     icon:'eye',       desc:'إشراف فقط دون صلاحية توقيع' },
+  liquidation: { label:'تصفية وحلّ الشركة', icon:'scale',     desc:'إنهاء أعمال الشركة وتصفية أصولها' }
+};
+
 const SIMAH_DEBTS = [
   { name:'دين بنكي — مصرف الراجحي', ref:'SM-2025-4471902', amount:82500 },
   { name:'تمويل مركبة — البنك الأهلي السعودي', ref:'SM-2025-4471903', amount:42000 }
 ];
 
 /* ================================================================
-   3) حالة التطبيق
+   3) الحالة
    ================================================================ */
 const state = {
   screen:'setup',
   tab:'simah',
   activeSection: 'heirs',
   activeAssetsSub: 'banks',
+
+  openPanels: {
+    companies: true,
+    agencies:  false,
+    numbers:   false
+  },
+
+  /* حالة نموذج المدير البديل */
+  managerForm:{
+    openCompanyId: null,
+    managerType:'heir',
+    managerId:'',
+    managerName:'',
+    managerNationalId:'',
+    managerRelation:'',
+    managementMode:'full'
+  },
 
   ledger:[
     { id:1, creditor:'سعد الحربي',   amount:20000, date:'1445/03/12', proof:true, type:'debit'  },
@@ -943,6 +1139,19 @@ const state = {
     username:'',
     password:'',
     action:'close'
+  },
+
+  workers: WORKERS.slice(),
+  workerForm:{
+    open:false,
+    name:'',
+    nationality:'',
+    occupation:'',
+    iqama:'',
+    salary:'',
+    iqamaExpiry:'',
+    residenceStatus:'valid',
+    commitment:'committed'
   },
 
   gate:{ stage:'id', idValue: MOCK_DECEASED_ID },
@@ -972,6 +1181,16 @@ const propertiesDueFromTenantsTotal = () => PROPERTIES
   .filter(p => p.role === 'landlord')
   .reduce((s,p) => s + (p.dueFromTenant || 0), 0);
 
+const workersCount         = () => state.workers.length;
+const workersSalariesTotal = () => state.workers.reduce((s,w)=>s + (w.salary||0), 0);
+const workersLateTotal     = () => state.workers
+  .filter(w => w.commitment === 'late')
+  .reduce((s,w) => s + (w.dueAmount || 0), 0);
+const workersExpiredCount  = () => state.workers
+  .filter(w => w.residenceStatus === 'expired').length;
+const workersSoonCount     = () => state.workers
+  .filter(w => w.residenceStatus === 'soon').length;
+
 const ledgerDebitTotal  = () => state.ledger.filter(e=>e.type==='debit').reduce((s,e)=>s+e.amount,0);
 const ledgerCreditTotal = () => state.ledger.filter(e=>e.type==='credit').reduce((s,e)=>s+e.amount,0);
 
@@ -980,10 +1199,16 @@ const assetsTotal = () =>
   propertiesOwnedTotal() + propertiesDueFromTenantsTotal();
 
 const simahTotal = () => SIMAH_DEBTS.reduce((s,d)=>s+d.amount,0);
-const debtsTotal = () => simahTotal() + ledgerDebitTotal() + propertiesLateTotal();
+const debtsTotal = () =>
+  simahTotal() + ledgerDebitTotal() + propertiesLateTotal() + workersLateTotal();
 
 const netEstate  = () => assetsTotal() - debtsTotal();
 const heirAmount = pct => netEstate() * pct / 100;
+
+const companiesCount   = () => COMPANIES.length;
+const agenciesOutCount = () => AGENCIES.filter(a => a.type === 'out').length;
+const agenciesInCount  = () => AGENCIES.filter(a => a.type === 'in').length;
+const numbersCount     = () => MY_NUMBERS.length;
 
 const demoNote =
   '<div class="demo-note">'+ ic('alert','ic-sm') +
@@ -998,21 +1223,26 @@ function platformShort(id){
   const p = SOCIAL_PLATFORMS.find(p => p.id === id);
   return p ? p.short : '?';
 }
+function heirById(id){
+  return HEIRS.find(h => h.id === id) || null;
+}
 
 /* ================================================================
-   قائمة الأقسام
+   الأقسام
    ================================================================ */
 const SECTIONS = [
   { id:'heirs',      label:'الورثة',   short:'الورثة',   icon:'users' },
   { id:'wasiyya',    label:'الوصية',   short:'الوصية',   icon:'file'  },
   { id:'assets',     label:'الأصول',   short:'الأصول',   icon:'wallet'},
   { id:'properties', label:'العقارات', short:'العقارات', icon:'home'  },
+  { id:'simah',      label:'سمة',      short:'سمة',      icon:'landmark'},
+  { id:'workers',    label:'العمالة',  short:'العمالة',  icon:'hardHat'},
   { id:'debts',      label:'الديون',   short:'الديون',   icon:'file'  },
   { id:'perms',      label:'الصلاحيات',short:'الصلاحيات',icon:'key'   }
 ];
 
 /* ================================================================
-   5) التنقل — Top Nav + Bottom Nav
+   5) التنقل
    ================================================================ */
 function renderNavBars(){
   const topInner = document.getElementById('topNavInner');
@@ -1031,32 +1261,46 @@ function renderNavBars(){
       <span class="bn-label">${s.short}</span>
     </button>
   `).join('');
+
+  setTimeout(()=>{
+    const active = botInner.querySelector('.bottom-nav-btn.active');
+    if(active) active.scrollIntoView({inline:'center', block:'nearest', behavior:'smooth'});
+  }, 100);
 }
 
 function updateNavActive(){
   document.querySelectorAll('[data-nav]').forEach(btn=>{
     btn.classList.toggle('active', btn.dataset.nav === state.activeSection);
   });
+
+  const botInner = document.getElementById('bottomNavInner');
+  if(botInner){
+    const active = botInner.querySelector('.bottom-nav-btn.active');
+    if(active) active.scrollIntoView({inline:'center', block:'nearest', behavior:'smooth'});
+  }
+  const topInner = document.getElementById('topNavInner');
+  if(topInner){
+    const active = topInner.querySelector('.top-nav-btn.active');
+    if(active) active.scrollIntoView({inline:'center', block:'nearest', behavior:'smooth'});
+  }
 }
 
 function switchSection(sectionId){
   state.activeSection = sectionId;
-
   document.querySelectorAll('.tab-panel').forEach(p=>{
     p.classList.toggle('active', p.dataset.panel === sectionId);
   });
-
   updateNavActive();
 
-  /* إعادة تفعيل الرندر عند التبديل */
   if(sectionId === 'assets')     renderAssets();
   if(sectionId === 'debts')      renderDebts();
   if(sectionId === 'perms')      renderPerms();
   if(sectionId === 'heirs')      renderHeirs();
   if(sectionId === 'wasiyya')    renderWasiyya();
   if(sectionId === 'properties') renderProperties();
+  if(sectionId === 'workers')    renderWorkers();
+  if(sectionId === 'simah')      renderSimah();
 
-  /* Scroll to top */
   window.scrollTo({top: 0, behavior:'smooth'});
 }
 
@@ -1072,8 +1316,13 @@ function switchAssetsSub(subId){
   if(subId === 'banks' || subId === 'vehicles' || subId === 'subs') renderAssets();
 }
 
+function togglePanel(panelKey){
+  state.openPanels[panelKey] = !state.openPanels[panelKey];
+  renderSimah();
+}
+
 /* ================================================================
-   6) شاشة الإعداد
+   6) الشاشة
    ================================================================ */
 function renderSetupScreen(){
   document.getElementById('screen-setup').innerHTML = `
@@ -1084,10 +1333,8 @@ function renderSetupScreen(){
       <p>مسجّل الدخول عبر النفاذ الوطني الموحد: <b>عبدالله محمد العتيبي</b> — تنقّل بين الأقسام من الأعلى أو الأسفل.</p>
     </div>
 
-    <!-- شريط الملخص المصغّر -->
     <div class="summary-bar" id="summaryBar"></div>
 
-    <!-- لوحة المحتوى -->
     <div class="tab-content">
 
       <div class="tab-panel active" data-panel="heirs" id="cardHeirs"></div>
@@ -1124,6 +1371,8 @@ function renderSetupScreen(){
       </div>
 
       <div class="tab-panel" data-panel="properties" id="cardProperties"></div>
+      <div class="tab-panel" data-panel="simah"      id="cardSimah"></div>
+      <div class="tab-panel" data-panel="workers"    id="cardWorkers"></div>
       <div class="tab-panel" data-panel="debts"      id="cardDebts"></div>
       <div class="tab-panel" data-panel="perms"      id="cardPerms"></div>
 
@@ -1135,13 +1384,15 @@ function renderSetupScreen(){
   renderWasiyya();
   renderAssets();
   renderProperties();
+  renderSimah();
+  renderWorkers();
   renderDebts();
   renderPerms();
   renderSocial();
 }
 
 /* ================================================================
-   شريط الملخص المصغّر
+   شريط الملخص
    ================================================================ */
 function renderSummaryBar(){
   const el = document.getElementById('summaryBar');
@@ -1173,10 +1424,26 @@ function renderSummaryBar(){
     </div>
 
     <div class="sum-item">
+      <div class="sum-ic">${ic('hardHat','ic-sm')}</div>
+      <div class="sum-body">
+        <div class="sum-label">العمالة</div>
+        <div class="sum-value">${workersCount()} <small>عامل</small></div>
+      </div>
+    </div>
+
+    <div class="sum-item">
+      <div class="sum-ic">${ic('landmark','ic-sm')}</div>
+      <div class="sum-body">
+        <div class="sum-label">سمة</div>
+        <div class="sum-value">${companiesCount() + agenciesOutCount() + agenciesInCount() + numbersCount()} <small>سجل</small></div>
+      </div>
+    </div>
+
+    <div class="sum-item">
       <div class="sum-ic ${approved?'approved':'pending'}">${ic(approved?'checkCircle':'clock','ic-sm')}</div>
       <div class="sum-body">
         <div class="sum-label">مكتب العدل</div>
-        <div class="sum-value ${approved?'ok':'pending'}">${approved ? 'معتمد' : 'بانتظار الاعتماد'}</div>
+        <div class="sum-value ${approved?'ok':'pending'}">${approved ? 'معتمد' : 'بانتظار'}</div>
       </div>
     </div>
   `;
@@ -1330,12 +1597,11 @@ function renderAssets(){
 }
 
 /* ================================================================
-   قسم حسابات التواصل الاجتماعي
+   قسم حسابات التواصل
    ================================================================ */
 function renderSocial(){
   const el = document.getElementById('assetsPanelSocial');
   if(!el) return;
-
   const list = state.socialAccounts;
   const f = state.socialForm;
 
@@ -1439,7 +1705,6 @@ function renderSocial(){
       ${ic('shield','ic-sm')}
       <span>
         <b>تنبيه أمني:</b> تُحفظ كلمات المرور بصيغة مشفّرة، ولا تُسلَّم لأي طرف ثالث.
-        عند التحقق من الوفاة، يتولّى النظام تنفيذ الإجراء المختار لكل حساب بالتنسيق مع المنصات.
       </span>
     </div>
   `;
@@ -1452,7 +1717,6 @@ function bindSocialEvents(){
   if(!card) return;
 
   card.addEventListener('click', e => {
-
     const toggle = e.target.closest('[data-toggle-pw]');
     if(toggle){
       const id = Number(toggle.dataset.togglePw);
@@ -1501,7 +1765,6 @@ function bindSocialEvents(){
         platform, username, password, action,
         showPassword: false
       });
-
       state.socialForm = { open:false, platform:'x', username:'', password:'', action:'close' };
       renderSocial();
       return;
@@ -1632,12 +1895,737 @@ function renderProperties(){
 }
 
 /* ================================================================
+   قسم سمة — شركات + وكالات + أرقامي
+   ================================================================ */
+function renderSimah(){
+  const el = document.getElementById('cardSimah');
+  if(!el) return;
+
+  const outCount = agenciesOutCount();
+  const inCount  = agenciesInCount();
+  const numCount = numbersCount();
+  const compCount = companiesCount();
+
+  el.innerHTML = `
+    <div class="section-head">
+      <div class="sh-ic">${ic('landmark')}</div>
+      <div>
+        <h3>سمة — سجلات المتوفى</h3>
+        <p>بيانات الشركات، الوكالات، والأرقام المسجّلة في منصة سمة</p>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
+      <span class="chip chip-ok">${ic('building','ic-sm')} ${compCount} شركة/مؤسسة</span>
+      <span class="chip chip-warn">${ic('agencies','ic-sm')} ${outCount} وكالة له</span>
+      <span class="chip chip-info">${ic('agencies','ic-sm')} ${inCount} وكالة عليه</span>
+      <span class="chip chip-purple">${ic('phone','ic-sm')} ${numCount} رقم</span>
+    </div>
+
+    <!-- ========== الشركات ========== -->
+    <div class="collapse-panel ${state.openPanels.companies?'open':''}">
+      <div class="collapse-head" onclick="togglePanel('companies')">
+        <div class="collapse-ic">${ic('building')}</div>
+        <div class="collapse-title">
+          <h4>
+            الشركات والمؤسسات
+            <span class="chip chip-ok">${compCount} سجل</span>
+          </h4>
+          <p>الشركات والمؤسسات المرتبطة بالمتوفى في منصة سمة — مع تحديد مدير بديل لكل شركة</p>
+        </div>
+        <div class="collapse-chevron">${ic('chevronDown','ic-sm')}</div>
+      </div>
+
+      <div class="collapse-body">
+        ${COMPANIES.map(c => renderCompanyCard(c)).join('')}
+      </div>
+    </div>
+
+    <!-- ========== الوكالات ========== -->
+    <div class="collapse-panel ${state.openPanels.agencies?'open':''}">
+      <div class="collapse-head" onclick="togglePanel('agencies')">
+        <div class="collapse-ic">${ic('agencies')}</div>
+        <div class="collapse-title">
+          <h4>
+            وكالاتي
+            <span class="chip chip-warn">${outCount} له</span>
+            <span class="chip chip-info">${inCount} عليه</span>
+          </h4>
+          <p>الوكالات الصادرة منه والوكالات الصادرة عليه</p>
+        </div>
+        <div class="collapse-chevron">${ic('chevronDown','ic-sm')}</div>
+      </div>
+
+      <div class="collapse-body">
+        <div class="list">
+          ${AGENCIES.map(a => {
+            const isOut = a.type === 'out';
+            return `
+              <div class="row ${isOut?'ok':'late'}">
+                <div class="row-ic ${isOut?'agency-out':'agency-in'}">${ic('scroll','ic-sm')}</div>
+                <div class="row-body">
+                  <div class="row-title">
+                    ${isOut ? 'وكالة صادرة منه (له)' : 'وكالة صادرة عليه'}
+                    <span class="chip ${a.status==='سارية'?'chip-ok':'chip-warn'}">${ic(a.status==='سارية'?'checkCircle':'alert','ic-sm')} ${a.status}</span>
+                  </div>
+                  <div class="row-sub">${a.scope}</div>
+                  <div class="worker-details">
+                    <div class="detail-line">
+                      ${ic('person','ic-sm')}
+                      <span class="lbl">الموكِّل:</span>
+                      <b>${a.issuer}</b>
+                      <span>(${a.issuerRole})</span>
+                      <span class="lbl">•</span>
+                      <b>${a.issuerId}</b>
+                    </div>
+                    <div class="detail-line">
+                      ${ic('userCheck','ic-sm')}
+                      <span class="lbl">الوكيل:</span>
+                      <b>${a.agent}</b>
+                      <span>(${a.agentRole})</span>
+                      <span class="lbl">•</span>
+                      <b>${a.agentId}</b>
+                    </div>
+                    <div class="detail-line">
+                      ${ic('clock','ic-sm')}
+                      <span class="lbl">إصدار:</span>
+                      <b>${a.issueDate}</b>
+                      <span class="lbl">• انتهاء:</span>
+                      <b>${a.expiryDate}</b>
+                    </div>
+                    ${a.items && a.items.length ? `
+                      <div class="detail-line" style="flex-wrap:wrap">
+                        ${ic('scale','ic-sm')}
+                        <span class="lbl">البنود:</span>
+                        ${a.items.map(it => `<span class="chip chip-sm" style="background:#f1f4f3;color:#4a5c56">${it}</span>`).join('')}
+                      </div>
+                    ` : ''}
+                  </div>
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== أرقامي ========== -->
+    <div class="collapse-panel ${state.openPanels.numbers?'open':''}">
+      <div class="collapse-head" onclick="togglePanel('numbers')">
+        <div class="collapse-ic">${ic('phone')}</div>
+        <div class="collapse-title">
+          <h4>
+            أرقامي
+            <span class="chip chip-purple">${numCount} رقم</span>
+          </h4>
+          <p>جميع الأرقام المسجّلة في منصة سمة</p>
+        </div>
+        <div class="collapse-chevron">${ic('chevronDown','ic-sm')}</div>
+      </div>
+
+      <div class="collapse-body">
+        <div class="list">
+          ${MY_NUMBERS.map(n => `
+            <div class="row ${n.status==='موقوف'?'warn':''}">
+              <div class="row-ic phone">${ic('phone','ic-sm')}</div>
+              <div class="row-body">
+                <div class="row-title">
+                  ${n.number}
+                  ${n.primary ? '<span class="chip chip-ok">'+ic('checkCircle','ic-sm')+' رئيسي</span>' : ''}
+                  <span class="chip ${n.status==='نشط'?'chip-ok':'chip-warn'}">${n.status}</span>
+                </div>
+                <div class="row-sub">${n.label} • ${n.operator}</div>
+              </div>
+              <div class="row-val">
+                <b style="font-family:'Courier New',monospace;font-size:12px">${NUMBER_KIND_LABELS[n.kind]||''}</b>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+
+    <div class="note-box note-legal" style="margin-top:16px">
+      ${ic('shield','ic-sm')}
+      <span>
+        البيانات مُستخرجة آليًا من منصة سمة، وتُعرض للوريث المخوّل بالاطلاع بعد اعتماد مكتب العدل.
+      </span>
+    </div>
+  `;
+
+  bindManagerEvents();
+}
+
+/* ================================================================
+   بطاقة شركة واحدة + قسم المدير البديل
+   ================================================================ */
+function renderCompanyCard(c){
+  const formOpen = state.managerForm.openCompanyId === c.id;
+  const f = state.managerForm;
+
+  /* معلومات المدير الحالي (إن وُجد) */
+  let managerCurrentHTML = '';
+  if(c.managerType === 'heir' && c.managerId){
+    const heir = heirById(c.managerId);
+    const mode = MANAGEMENT_MODES[c.managementMode];
+    if(heir){
+      managerCurrentHTML = `
+        <div class="manager-current">
+          <div class="manager-avatar">${ic('userCheck','ic-sm')}</div>
+          <div class="manager-info">
+            <b>${heir.name}</b>
+            <span>${heir.rel} • ${heir.nationalId}</span>
+            <div class="manager-meta">
+              <span class="chip chip-ok">${ic(mode?.icon||'userCog','ic-sm')} ${mode?.label || 'إدارة'}</span>
+              <span class="chip chip-info">${ic('checkCircle','ic-sm')} من الورثة</span>
+            </div>
+          </div>
+        </div>`;
+    }
+  } else if(c.managerType === 'other' && c.managerName){
+    const mode = MANAGEMENT_MODES[c.managementMode];
+    managerCurrentHTML = `
+      <div class="manager-current">
+        <div class="manager-avatar">${ic('userCog','ic-sm')}</div>
+        <div class="manager-info">
+          <b>${c.managerName}</b>
+          <span>${c.managerRelation || 'شخص آخر'} ${c.managerNationalId ? '• ' + c.managerNationalId : ''}</span>
+          <div class="manager-meta">
+            <span class="chip chip-ok">${ic(mode?.icon||'userCog','ic-sm')} ${mode?.label || 'إدارة'}</span>
+            <span class="chip chip-purple">${ic('person','ic-sm')} شخص آخر</span>
+          </div>
+        </div>
+      </div>`;
+  } else {
+    managerCurrentHTML = `
+      <div class="manager-current empty">
+        <div class="manager-avatar">${ic('alert','ic-sm')}</div>
+        <div class="manager-info">
+          <b>لم يُحدَّد مدير بديل بعد</b>
+          <span>يجب تعيين مدير لضمان استمرارية الشركة بعد الوفاة</span>
+        </div>
+      </div>`;
+  }
+
+  /* قائمة الورثة */
+  const heirOptions = HEIRS.map(h =>
+    `<option value="${h.id}" ${f.managerId===h.id?'selected':''}>${h.name} — ${h.rel}</option>`
+  ).join('');
+
+  /* قائمة أنواع الإدارة */
+  const modeOptions = Object.entries(MANAGEMENT_MODES).map(([k,v]) =>
+    `<option value="${k}" ${f.managementMode===k?'selected':''}>${v.label} — ${v.desc}</option>`
+  ).join('');
+
+  /* النموذج */
+  const formHTML = formOpen ? `
+    <div class="manager-form">
+      <div class="manager-form-row full">
+        <div>
+          <label>من سيُدير الشركة؟</label>
+          <select id="mgrType_${c.id}" data-mgr-type="${c.id}">
+            <option value="heir" ${f.managerType==='heir'?'selected':''}>من الورثة</option>
+            <option value="other" ${f.managerType==='other'?'selected':''}>شخص آخر</option>
+          </select>
+        </div>
+      </div>
+
+      ${f.managerType === 'heir' ? `
+        <div class="manager-form-row full">
+          <div>
+            <label>اختر الوريث</label>
+            <select id="mgrId_${c.id}" data-mgr-id="${c.id}">
+              <option value="">— اختر —</option>
+              ${heirOptions}
+            </select>
+          </div>
+        </div>
+      ` : `
+        <div class="manager-form-row">
+          <div>
+            <label>اسم المدير</label>
+            <input id="mgrName_${c.id}" data-mgr-name="${c.id}" value="${f.managerName}" placeholder="مثال: أحمد الغامدي" />
+          </div>
+          <div>
+            <label>رقم الهوية</label>
+            <input id="mgrNid_${c.id}" data-mgr-nid="${c.id}" value="${f.managerNationalId}" placeholder="10XXXXXXXX" inputmode="numeric" />
+          </div>
+        </div>
+        <div class="manager-form-row full">
+          <div>
+            <label>صفته / علاقته بالمتوفى</label>
+            <input id="mgrRel_${c.id}" data-mgr-rel="${c.id}" value="${f.managerRelation}" placeholder="مثال: شريك تجاري، محاسب، وصي" />
+          </div>
+        </div>
+      `}
+
+      <div class="manager-form-row full">
+        <div>
+          <label>نوع الإدارة</label>
+          <select id="mgrMode_${c.id}" data-mgr-mode="${c.id}">
+            ${modeOptions}
+          </select>
+        </div>
+      </div>
+
+      <div class="manager-actions">
+        <button type="button" class="btn btn-primary btn-sm" data-mgr-save="${c.id}">
+          ${ic('check','ic-sm')} حفظ المدير
+        </button>
+        <button type="button" class="btn btn-ghost btn-sm" data-mgr-cancel="${c.id}">
+          إلغاء
+        </button>
+        ${c.managerType ? `
+          <button type="button" class="btn btn-ghost btn-sm" data-mgr-clear="${c.id}">
+            ${ic('trash','ic-sm')} إزالة المدير
+          </button>
+        ` : ''}
+      </div>
+    </div>
+  ` : `
+    <button type="button" class="btn btn-primary btn-sm" data-mgr-open="${c.id}">
+      ${ic('userCog','ic-sm')} ${c.managerType ? 'تعديل المدير' : 'اختيار مدير بديل'}
+    </button>
+  `;
+
+  return `
+    <div class="company-card">
+      <div class="company-main">
+        <div class="company-ic">${ic('briefcase','ic-sm')}</div>
+        <div class="company-body">
+          <div class="company-top">
+            <span class="company-name">${c.name}</span>
+            <span class="chip ${c.status==='نشطة'?'chip-ok':'chip-warn'}">${ic(c.status==='نشطة'?'checkCircle':'alert','ic-sm')} ${c.status}</span>
+          </div>
+          <div class="company-details">
+            <div class="detail-line">
+              ${ic('idCard','ic-sm')}
+              <span class="lbl">السجل التجاري:</span>
+              <b>${c.crNumber}</b>
+            </div>
+            <div class="detail-line">
+              ${ic('briefcase','ic-sm')}
+              <span class="lbl">النوع:</span>
+              <b>${c.type}</b>
+            </div>
+            <div class="detail-line">
+              ${ic('link','ic-sm')}
+              <span class="lbl">العلاقة:</span>
+              <b>${c.relation}</b>
+            </div>
+          </div>
+          ${c.note ? `<div class="row-sub" style="margin-top:6px">${c.note}</div>` : ''}
+        </div>
+      </div>
+
+      <div class="manager-section">
+        <div class="manager-label">
+          ${ic('userCog','ic-sm')} من يُدير هذه الشركة بعد الوفاة؟
+        </div>
+        ${managerCurrentHTML}
+        ${formHTML}
+      </div>
+    </div>
+  `;
+}
+
+/* ================================================================
+   أحداث المدير البديل
+   ================================================================ */
+function bindManagerEvents(){
+  const card = document.getElementById('cardSimah');
+  if(!card) return;
+
+  card.addEventListener('click', e => {
+    const openBtn = e.target.closest('[data-mgr-open]');
+    if(openBtn){
+      const cid = openBtn.dataset.mgrOpen;
+      const c = COMPANIES.find(x => x.id === cid);
+      if(!c) return;
+
+      state.managerForm = {
+        openCompanyId: cid,
+        managerType: c.managerType || 'heir',
+        managerId: c.managerId || '',
+        managerName: c.managerName || '',
+        managerNationalId: c.managerNationalId || '',
+        managerRelation: c.managerRelation || '',
+        managementMode: c.managementMode || 'full'
+      };
+      renderSimah();
+      return;
+    }
+
+    const cancelBtn = e.target.closest('[data-mgr-cancel]');
+    if(cancelBtn){
+      state.managerForm.openCompanyId = null;
+      renderSimah();
+      return;
+    }
+
+    const clearBtn = e.target.closest('[data-mgr-clear]');
+    if(clearBtn){
+      const cid = clearBtn.dataset.mgrClear;
+      const c = COMPANIES.find(x => x.id === cid);
+      if(c){
+        c.managerType = null;
+        c.managerId = null;
+        c.managerName = null;
+        c.managerNationalId = null;
+        c.managerRelation = null;
+        c.managementMode = null;
+      }
+      state.managerForm.openCompanyId = null;
+      renderSimah();
+      return;
+    }
+
+    const saveBtn = e.target.closest('[data-mgr-save]');
+    if(saveBtn){
+      const cid = saveBtn.dataset.mgrSave;
+      const c = COMPANIES.find(x => x.id === cid);
+      if(!c) return;
+
+      const typeEl = card.querySelector('[data-mgr-type="'+cid+'"]');
+      const idEl   = card.querySelector('[data-mgr-id="'+cid+'"]');
+      const nameEl = card.querySelector('[data-mgr-name="'+cid+'"]');
+      const nidEl  = card.querySelector('[data-mgr-nid="'+cid+'"]');
+      const relEl  = card.querySelector('[data-mgr-rel="'+cid+'"]');
+      const modeEl = card.querySelector('[data-mgr-mode="'+cid+'"]');
+
+      const managerType = typeEl?.value || 'heir';
+      const managerId   = idEl?.value || '';
+      const managerName = (nameEl?.value || '').trim();
+      const managerNationalId = (nidEl?.value || '').trim();
+      const managerRelation   = (relEl?.value || '').trim();
+      const managementMode = modeEl?.value || 'full';
+
+      if(managerType === 'heir' && !managerId){
+        alert('يرجى اختيار وريث لإدارة الشركة.');
+        return;
+      }
+      if(managerType === 'other' && !managerName){
+        alert('يرجى إدخال اسم المدير.');
+        return;
+      }
+
+      c.managerType = managerType;
+      c.managerId = managerType === 'heir' ? managerId : null;
+      c.managerName = managerType === 'other' ? managerName : null;
+      c.managerNationalId = managerType === 'other' ? managerNationalId : null;
+      c.managerRelation = managerType === 'other' ? managerRelation : null;
+      c.managementMode = managementMode;
+
+      state.managerForm.openCompanyId = null;
+      renderSimah();
+      return;
+    }
+  });
+
+  card.addEventListener('change', e => {
+    const cid = e.target.dataset.mgrType;
+    if(cid){
+      state.managerForm.managerType = e.target.value;
+      /* عند التبديل، امسح الاختيار الآخر */
+      if(e.target.value === 'heir'){
+        state.managerForm.managerName = '';
+        state.managerForm.managerNationalId = '';
+        state.managerForm.managerRelation = '';
+      } else {
+        state.managerForm.managerId = '';
+      }
+      renderSimah();
+      return;
+    }
+  });
+
+  card.addEventListener('input', e => {
+    if(e.target.dataset.mgrId !== undefined){
+      state.managerForm.managerId = e.target.value;
+    }
+    if(e.target.dataset.mgrName !== undefined){
+      state.managerForm.managerName = e.target.value;
+    }
+    if(e.target.dataset.mgrNid !== undefined){
+      state.managerForm.managerNationalId = e.target.value;
+    }
+    if(e.target.dataset.mgrRel !== undefined){
+      state.managerForm.managerRelation = e.target.value;
+    }
+    if(e.target.dataset.mgrMode !== undefined){
+      state.managerForm.managementMode = e.target.value;
+    }
+  });
+}
+
+/* ================================================================
+   قسم العمالة
+   ================================================================ */
+function renderWorkers(){
+  const el = document.getElementById('cardWorkers');
+  if(!el) return;
+
+  const list = state.workers;
+  const f = state.workerForm;
+
+  const count       = workersCount();
+  const totalSalary = workersSalariesTotal();
+  const expired     = workersExpiredCount();
+  const soon        = workersSoonCount();
+  const lateAmount  = workersLateTotal();
+
+  el.innerHTML = `
+    <div class="section-head">
+      <div class="sh-ic">${ic('hardHat')}</div>
+      <div>
+        <h3>العمالة والمقيمين</h3>
+        <p>
+          ${count} مقيم مسجَّل في سمة — إجمالي الرواتب الشهرية <b>${fmt(totalSalary)}</b> ر.س
+          ${expired > 0 ? ` &nbsp;•&nbsp; <span style="color:var(--red)">${expired} إقامة منتهية</span>` : ''}
+          ${soon > 0 ? ` &nbsp;•&nbsp; <span style="color:var(--amber)">${soon} قريبة الانتهاء</span>` : ''}
+        </p>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
+      <span class="chip chip-info">${ic('users','ic-sm')} ${count} مقيم</span>
+      <span class="chip chip-ok">${ic('coin','ic-sm')} رواتب: ${fmt(totalSalary)} ر.س/شهر</span>
+      ${expired > 0 ? `<span class="chip chip-warn">${ic('alert','ic-sm')} ${expired} منتهية</span>` : ''}
+      ${soon > 0 ? `<span class="chip chip-pending">${ic('clock','ic-sm')} ${soon} قريبة الانتهاء</span>` : ''}
+      ${lateAmount > 0 ? `<span class="chip chip-warn">${ic('coin','ic-sm')} متأخرات: ${fmt(lateAmount)} ر.س</span>` : ''}
+    </div>
+
+    <div class="list">
+      ${list.length ? list.map(w => {
+        const isLate    = w.commitment === 'late';
+        const isExpired = w.residenceStatus === 'expired';
+        const isSoon    = w.residenceStatus === 'soon';
+
+        let rowCls = '';
+        let icCls  = 'worker';
+        if(isExpired || isLate){
+          rowCls = 'late';
+          icCls  = 'worker late';
+        } else if(isSoon){
+          rowCls = 'warn';
+          icCls  = 'worker soon';
+        } else {
+          icCls  = 'worker ok';
+        }
+
+        return `
+          <div class="row ${rowCls}">
+            <div class="row-ic ${icCls}">${ic('hardHat','ic-sm')}</div>
+            <div class="row-body">
+              <div class="row-title">
+                ${w.name}
+                <span class="chip chip-info">${w.nationality}</span>
+                <span class="chip chip-sm" style="background:#f1f4f3;color:#4a5c56">${w.occupation}</span>
+              </div>
+              <div class="worker-details">
+                <div class="detail-line">
+                  ${ic('idCard','ic-sm')}
+                  <span class="lbl">رقم الإقامة:</span>
+                  <b>${w.iqama}</b>
+                </div>
+                <div class="detail-line">
+                  ${ic('coin','ic-sm')}
+                  <span class="lbl">الراتب الشهري:</span>
+                  <b>${fmt(w.salary)} ر.س</b>
+                </div>
+                <div class="detail-line">
+                  ${ic('clock','ic-sm')}
+                  <span class="lbl">انتهاء الإقامة:</span>
+                  <b>${w.iqamaExpiry}</b>
+                  ${isExpired
+                    ? `<span class="chip chip-warn">${ic('alert','ic-sm')} ${RESIDENCE_LABELS[w.residenceStatus]}</span>`
+                    : isSoon
+                      ? `<span class="chip chip-pending">${ic('clock','ic-sm')} ${RESIDENCE_LABELS[w.residenceStatus]}</span>`
+                      : `<span class="chip chip-ok">${ic('checkCircle','ic-sm')} ${RESIDENCE_LABELS[w.residenceStatus]}</span>`}
+                </div>
+                <div class="detail-line">
+                  ${ic('checkCircle','ic-sm')}
+                  <span class="lbl">الالتزام:</span>
+                  ${isLate
+                    ? `<span class="chip chip-warn">${ic('alert','ic-sm')} ${COMMITMENT_LABELS[w.commitment]}${w.dueAmount?` — ${fmt(w.dueAmount)} ر.س`:''}</span>`
+                    : `<span class="chip chip-ok">${ic('checkCircle','ic-sm')} ${COMMITMENT_LABELS[w.commitment]}</span>`}
+                </div>
+              </div>
+              ${w.note ? `<div class="row-sub" style="margin-top:6px">${w.note}</div>` : ''}
+            </div>
+            <div class="row-val">
+              <button type="button" class="btn btn-ghost btn-sm" data-remove-worker="${w.id}">
+                ${ic('trash','ic-sm')}
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('') : '<div class="note-box" style="margin-top:0">لا توجد عمالة مسجّلة حاليًا.</div>'}
+    </div>
+
+    ${!f.open ? `
+      <button type="button" class="btn btn-primary" id="btnWorkerAdd" style="margin-top:14px">
+        ${ic('plus','ic-sm')} إضافة عامل جديد
+      </button>
+    ` : `
+      <div class="social-form">
+        <label style="font-size:13px;font-weight:700;color:var(--green-900);margin-bottom:12px;display:block">
+          إضافة عامل / مقيم جديد
+        </label>
+
+        <div class="social-form-grid">
+          <div>
+            <label>الاسم الكامل</label>
+            <input id="workerName" value="${f.name}" placeholder="مثال: محمد أشرف علي" />
+          </div>
+          <div>
+            <label>الجنسية</label>
+            <input id="workerNationality" value="${f.nationality}" placeholder="مثال: باكستانية" />
+          </div>
+        </div>
+
+        <div class="social-form-grid three">
+          <div>
+            <label>المهنة</label>
+            <input id="workerOccupation" value="${f.occupation}" placeholder="مثال: سائق خاص" />
+          </div>
+          <div>
+            <label>رقم الإقامة</label>
+            <input id="workerIqama" value="${f.iqama}" placeholder="10 أرقام" inputmode="numeric" />
+          </div>
+          <div>
+            <label>الراتب الشهري (ر.س)</label>
+            <input id="workerSalary" type="number" min="0" value="${f.salary}" placeholder="2500" />
+          </div>
+        </div>
+
+        <div class="social-form-grid">
+          <div>
+            <label>تاريخ انتهاء الإقامة</label>
+            <input id="workerIqamaExpiry" value="${f.iqamaExpiry}" placeholder="1447/08/12" />
+          </div>
+          <div>
+            <label>حالة الإقامة</label>
+            <select id="workerResidence">
+              <option value="valid"   ${f.residenceStatus==='valid'?'selected':''}>سارية</option>
+              <option value="soon"    ${f.residenceStatus==='soon'?'selected':''}>قريبة الانتهاء</option>
+              <option value="expired" ${f.residenceStatus==='expired'?'selected':''}>منتهية</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="social-form-grid">
+          <div>
+            <label>حالة الالتزام بالسداد</label>
+            <select id="workerCommitment">
+              <option value="committed" ${f.commitment==='committed'?'selected':''}>ملتزم</option>
+              <option value="late"      ${f.commitment==='late'?'selected':''}>غير ملتزم</option>
+            </select>
+          </div>
+          <div></div>
+        </div>
+
+        <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
+          <button type="button" class="btn btn-primary btn-sm" id="btnWorkerSave">
+            ${ic('check','ic-sm')} حفظ العامل
+          </button>
+          <button type="button" class="btn btn-ghost btn-sm" id="btnWorkerCancel">إلغاء</button>
+        </div>
+      </div>
+    `}
+
+    <div class="note-box note-warn">
+      ${ic('shield','ic-sm')}
+      <span>
+        <b>تنبيه:</b> البيانات مُستخرجة آليًا من منصة سمة ومطابقة مع الجوازات والمرور.
+        الرواتب المتأخرة تُحتسب ضمن التزامات التركة قبل التوزيع.
+      </span>
+    </div>
+  `;
+
+  bindWorkerEvents();
+}
+
+function bindWorkerEvents(){
+  const card = document.getElementById('cardWorkers');
+  if(!card) return;
+
+  card.addEventListener('click', e => {
+    const rm = e.target.closest('[data-remove-worker]');
+    if(rm){
+      const id = rm.dataset.removeWorker;
+      state.workers = state.workers.filter(w => w.id !== id);
+      renderWorkers();
+      renderSummaryBar();
+      return;
+    }
+
+    if(e.target.closest('#btnWorkerAdd')){
+      state.workerForm = {
+        open:true,
+        name:'', nationality:'', occupation:'', iqama:'', salary:'', iqamaExpiry:'',
+        residenceStatus:'valid', commitment:'committed'
+      };
+      renderWorkers();
+      return;
+    }
+
+    if(e.target.closest('#btnWorkerCancel')){
+      state.workerForm = {
+        open:false,
+        name:'', nationality:'', occupation:'', iqama:'', salary:'', iqamaExpiry:'',
+        residenceStatus:'valid', commitment:'committed'
+      };
+      renderWorkers();
+      return;
+    }
+
+    if(e.target.closest('#btnWorkerSave')){
+      const name         = (document.getElementById('workerName')?.value || '').trim();
+      const nationality  = (document.getElementById('workerNationality')?.value || '').trim();
+      const occupation   = (document.getElementById('workerOccupation')?.value || '').trim();
+      const iqama        = (document.getElementById('workerIqama')?.value || '').trim();
+      const salary       = parseFloat(document.getElementById('workerSalary')?.value || '0');
+      const iqamaExpiry  = (document.getElementById('workerIqamaExpiry')?.value || '').trim();
+      const residence    = document.getElementById('workerResidence')?.value || 'valid';
+      const commitment   = document.getElementById('workerCommitment')?.value || 'committed';
+
+      if(!name || !nationality || !occupation || !iqama || !salary){
+        alert('يرجى إدخال جميع الحقول المطلوبة.');
+        return;
+      }
+
+      const newWorker = {
+        id: 'w' + Date.now(),
+        name, nationality, occupation, iqama, salary,
+        iqamaExpiry: iqamaExpiry || '—',
+        residenceStatus: residence,
+        commitment,
+        note: commitment === 'late' ? 'راتب متأخر — يحتاج مراجعة' : 'مسجَّل في سمة'
+      };
+      if(commitment === 'late') newWorker.dueAmount = Math.round(salary * 2);
+
+      state.workers.push(newWorker);
+      state.workerForm = {
+        open:false,
+        name:'', nationality:'', occupation:'', iqama:'', salary:'', iqamaExpiry:'',
+        residenceStatus:'valid', commitment:'committed'
+      };
+      renderWorkers();
+      renderSummaryBar();
+      return;
+    }
+  });
+}
+
+/* ================================================================
    قسم الديون
    ================================================================ */
 function renderDebts(){
   const el = document.getElementById('cardDebts');
   if(!el) return;
-  const lateRent = propertiesLateTotal();
+  const lateRent  = propertiesLateTotal();
+  const lateSalary = workersLateTotal();
 
   el.innerHTML = `
     <div class="section-head">
@@ -1648,7 +2636,8 @@ function renderDebts(){
           دين عليّ: <b>${fmt(debtsTotal())}</b> ر.س
           &nbsp;|&nbsp;
           دين لي: <b>${fmt(ledgerCreditTotal())}</b> ر.س
-          ${lateRent > 0 ? ` &nbsp;|&nbsp; <span style="color:var(--red)">إيجارات متأخرة: ${fmt(lateRent)} ر.س</span>` : ''}
+          ${lateRent > 0 ? ` &nbsp;|&nbsp; <span style="color:var(--red)">إيجارات: ${fmt(lateRent)} ر.س</span>` : ''}
+          ${lateSalary > 0 ? ` &nbsp;|&nbsp; <span style="color:var(--red)">رواتب: ${fmt(lateSalary)} ر.س</span>` : ''}
         </p>
       </div>
     </div>
@@ -1663,7 +2652,8 @@ function renderDebts(){
 }
 
 function simahBody(){
-  const lateRent = propertiesLateTotal();
+  const lateRent  = propertiesLateTotal();
+  const lateSalary = workersLateTotal();
   const dueFromTenants = propertiesDueFromTenantsTotal();
 
   return `
@@ -1692,6 +2682,17 @@ function simahBody(){
             <div class="row-sub">مستخرجة آليًا (غير ملتزم)</div>
           </div>
           <div class="row-val late"><b>${fmt(lateRent)} ر.س</b></div>
+        </div>
+      ` : ''}
+
+      ${lateSalary > 0 ? `
+        <div class="row warn">
+          <div class="row-ic warn">${ic('hardHat','ic-sm')}</div>
+          <div class="row-body">
+            <div class="row-title">رواتب متأخرة — عمالة ومقيمين</div>
+            <div class="row-sub">مستخرجة آليًا من قسم العمالة</div>
+          </div>
+          <div class="row-val late"><b>${fmt(lateSalary)} ر.س</b></div>
         </div>
       ` : ''}
 
@@ -1832,9 +2833,6 @@ function renderPerms(){
         <button type="button" data-report="pending" class="${state.report==='pending'?'active':''}">${ic('clock','ic-sm')} بانتظار الاعتماد</button>
         <button type="button" data-report="approved" class="${state.report==='approved'?'active':''}">${ic('checkCircle','ic-sm')} معتمد</button>
       </div>
-      <p style="font-size:11.5px;color:var(--muted);margin:7px 0 0;line-height:1.7">
-        غيّر الحالة هنا لتجربة ظهورها في ملف "دخول الورثة" وفي شريط الملخص.
-      </p>
     </div>
   `;
 }
@@ -1892,9 +2890,7 @@ function bindSetupEvents(){
       }
       state.ledger.push({
         id: Date.now(),
-        creditor: name,
-        amount: amount,
-        date: date,
+        creditor: name, amount, date,
         proof: state.proofAttached,
         type: state.ledgerType
       });
@@ -1938,7 +2934,7 @@ function renderHeirScreen(){
     ${demoNote}
     <div class="screen-head" style="display:block">
       <h2>دخول الورثة — الاطلاع على ملف التركة</h2>
-      <p>يدخل الوريث برقم هويته ورقم هوية المتوفى؛ يتحقق النظام هل مُنح صلاحية الاطلاع أم لا.</p>
+      <p>يدخل الوريث برقم هويته ورقم هوية المتوفى.</p>
     </div>
     <div id="heirPanel"></div>
   `;
@@ -2038,6 +3034,7 @@ function fullFile(){
   const creditTotal = ledgerCreditTotal();
   const ownedTotal  = propertiesOwnedTotal();
   const lateRent    = propertiesLateTotal();
+  const lateSalary  = workersLateTotal();
   const dueFromTenants = propertiesDueFromTenantsTotal();
 
   return `
@@ -2069,45 +3066,78 @@ function fullFile(){
       ${dueFromTenants > 0 ? `<div class="mini-row"><span>إيجارات مستحقة لك على المستأجرين</span><b style="color:var(--purple)">${fmt(dueFromTenants)} ر.س</b></div>` : ''}
       <div class="mini-row"><span>إجمالي الالتزامات</span><b style="color:var(--red)">(${fmt(debtsTotal())}) ر.س</b></div>
 
-      <h4 style="font-size:13.5px;margin-top:18px">${ic('home','ic-sm')} العقارات</h4>
-      ${PROPERTIES.map(p=>{
-        const isOwner    = p.role === 'owner';
-        const isLandlord = p.role === 'landlord';
-        const isTenant   = p.role === 'tenant';
-        const isLate     = isTenant && p.commitment === 'late';
+      <h4 style="font-size:13.5px;margin-top:18px">${ic('landmark','ic-sm')} الشركات والوكالات والأرقام (سمة)</h4>
 
-        let roleTag, amountLine;
-        if(isOwner){
-          roleTag = '<span style="color:var(--ok)">أنا المالك</span>';
-          amountLine = `<b style="color:var(--ok)">${fmt(p.value)} ر.س</b>`;
-        } else if(isLandlord){
-          roleTag = '<span style="color:var(--purple)">أنا المالك والمؤجِّر</span>';
-          const due = (p.dueFromTenant||0);
-          amountLine = `<div style="text-align:left"><b style="color:var(--purple)">${fmt(p.value)} ر.س</b>${due>0?`<div style="font-size:10.5px;color:var(--red)">متأخر: ${fmt(due)} ر.س</div>`:''}</div>`;
-        } else {
-          roleTag = '<span style="color:var(--blue)">أنا المستأجر</span>';
-          amountLine = isLate
-            ? `<b style="color:var(--red)">متأخرات: ${fmt(p.dueAmount)} ر.س</b>`
-            : `<b style="color:var(--muted)">إيجار شهري: ${fmt(p.rentAmount)} ر.س</b>`;
+      <div style="font-size:12px;font-weight:700;margin-top:6px;color:var(--green-800)">الشركات والمؤسسات + مدير بديل</div>
+      ${COMPANIES.map(c => {
+        let mgr = '—';
+        if(c.managerType === 'heir'){
+          const h = heirById(c.managerId);
+          mgr = h ? `${h.name} (${h.rel}) — ${MANAGEMENT_MODES[c.managementMode]?.label||''}` : '—';
+        } else if(c.managerType === 'other'){
+          mgr = `${c.managerName} — ${MANAGEMENT_MODES[c.managementMode]?.label||''}`;
         }
+        return `
+          <div class="mini-row" style="display:block;padding:7px 0">
+            <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap">
+              <b style="font-size:12.5px">${c.name}</b>
+              <span class="chip ${c.status==='نشطة'?'chip-ok':'chip-warn'}">${c.status}</span>
+            </div>
+            <div style="font-size:11px;color:var(--muted);margin-top:3px;line-height:1.7">
+              س.ت ${c.crNumber} • ${c.type}
+              <br>المدير بعد الوفاة: <b style="color:var(--text)">${mgr}</b>
+            </div>
+          </div>`;
+      }).join('')}
 
+      <div style="font-size:12px;font-weight:700;margin-top:12px;color:var(--green-800)">الوكالات</div>
+      ${AGENCIES.map(a => {
+        const isOut = a.type === 'out';
         return `
           <div class="mini-row" style="display:block;padding:8px 0">
-            <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
-              <b style="font-size:12.5px">${p.type} — ${roleTag}</b>
-              ${amountLine}
+            <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap">
+              <b style="font-size:12.5px">${isOut?'وكالة له':'وكالة عليه'}</b>
+              <b style="color:${a.status==='سارية'?'var(--ok)':'var(--red)'}">${a.status}</b>
             </div>
-            <div style="font-size:11px;color:var(--muted);margin-top:3px;line-height:1.6">
-              ${ic('mapPin','ic-sm')} ${p.address}
+            <div style="font-size:11px;color:var(--muted);margin-top:3px;line-height:1.7">
+              الموكِّل: <b style="color:var(--text)">${a.issuer}</b> — ${a.issuerId}
+              <br>الوكيل: <b style="color:var(--text)">${a.agent}</b> — ${a.agentId}
+              <br>إصدار: ${a.issueDate} • انتهاء: ${a.expiryDate}
             </div>
           </div>
         `;
       }).join('')}
 
+      <div style="font-size:12px;font-weight:700;margin-top:12px;color:var(--green-800)">الأرقام المسجّلة</div>
+      ${MY_NUMBERS.map(n => `
+        <div class="mini-row">
+          <span>${n.number} — ${n.label} (${n.operator})</span>
+          <b>${n.status}</b>
+        </div>
+      `).join('')}
+
+      <h4 style="font-size:13.5px;margin-top:18px">${ic('hardHat','ic-sm')} العمالة والمقيمين</h4>
+      ${state.workers.length ? state.workers.map(w => {
+        const isLate = w.commitment === 'late';
+        const isExpired = w.residenceStatus === 'expired';
+        return `
+          <div class="mini-row" style="display:block;padding:8px 0">
+            <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap">
+              <b style="font-size:12.5px">${w.name} — ${w.occupation}</b>
+              <b style="color:var(--green-800)">${fmt(w.salary)} ر.س/شهر</b>
+            </div>
+            <div style="font-size:11px;color:var(--muted);margin-top:3px;line-height:1.7">
+              الإقامة: ${w.iqama} • ${isExpired ? 'منتهية' : (w.residenceStatus==='soon' ? 'قريبة الانتهاء' : 'سارية')}
+              ${isLate ? ` • متأخرات: ${fmt(w.dueAmount||0)} ر.س` : ''}
+            </div>
+          </div>
+        `;
+      }).join('') : '<div class="mini-row"><span>لا توجد عمالة مسجّلة</span></div>'}
+
       <h4 style="font-size:13.5px;margin-top:18px">${ic('share','ic-sm')} حسابات التواصل الاجتماعي</h4>
       ${state.socialAccounts.length ? state.socialAccounts.map(a=>`
         <div class="mini-row" style="display:block;padding:7px 0">
-          <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+          <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap">
             <b style="font-size:12.5px">${platformName(a.platform)}</b>
             <span class="chip chip-ok">${ic('checkCircle','ic-sm')} ${ACTION_LABELS[a.action] || '—'}</span>
           </div>
@@ -2131,9 +3161,7 @@ function fullFile(){
           ${ic('printer','ic-sm')} تحميل نسخة PDF
         </button>
 
-        <a href="p.pdf" download="حصر_الورثة.pdf"
-           class="btn btn-ghost btn-sm"
-           style="text-decoration:none">
+        <a href="p.pdf" download="حصر_الورثة.pdf" class="btn btn-ghost btn-sm" style="text-decoration:none">
           ${ic('file','ic-sm')} تنزيل حصر الورثة
         </a>
 
@@ -2225,14 +3253,13 @@ function bindHeirEvents(){
 }
 
 /* ================================================================
-   9) التنقل بين الشاشات
+   9) التنقل
    ================================================================ */
 function switchScreen(name){
   state.screen = name;
   document.getElementById('screen-setup').classList.toggle('hidden', name !== 'setup');
   document.getElementById('screen-heir').classList.toggle('hidden', name !== 'heir');
 
-  /* إظهار / إخفاء شرائط التنقل */
   const topNav = document.getElementById('topNav');
   const botNav = document.getElementById('bottomNav');
   const shouldShow = (name === 'setup');
@@ -2259,7 +3286,7 @@ function updateUserChip(name){
 }
 
 /* ================================================================
-   10) بوابة تسجيل الدخول
+   10) بوابة نفاذ
    ================================================================ */
 function renderLoginGate(){
   const el = document.getElementById('loginGate');
@@ -2373,6 +3400,12 @@ function backToGate(){
   state.heir = { deceasedId:'', heirId:'', error:'', result:null, deniedHeir:null, fileOpen:false };
   state.activeSection = 'heirs';
   state.activeAssetsSub = 'banks';
+  state.openPanels = { companies:true, agencies:false, numbers:false };
+  state.managerForm = {
+    openCompanyId: null,
+    managerType:'heir', managerId:'', managerName:'', managerNationalId:'', managerRelation:'',
+    managementMode:'full'
+  };
 
   document.getElementById('appRoot').classList.add('hidden');
   document.getElementById('loginGate').classList.remove('hidden');
@@ -2392,17 +3425,12 @@ function backToGate(){
 
   document.getElementById('btnBackToGate').onclick = () => backToGate();
 
-  /* بناء شرائط التنقل */
   renderNavBars();
-
-  /* بناء الشاشات */
   renderSetupScreen();
   bindSetupEvents();
   renderHeirScreen();
 
-  /* تفعيل القسم الافتراضي */
   switchSection('heirs');
-
   switchScreen('setup');
   renderLoginGate();
 })();
