@@ -4722,7 +4722,7 @@ function openHeirsEnumerationDocument(){
       '<img src="https://api.qrserver.com/v1/create-qr-code/?size=260x260&data=' +
       encodeURIComponent(verifyUrl) +
       '" alt="QR Code" style="width:130px;height:130px;display:block" ' +
-      'onerror="this.parentNode.innerHTML=\'<div style=&quot;width:130px;height:130px;border:1px dashed #999;display:flex;align-items:center;justify-content:center;font-size:10px;color:#666;text-align:center;padding:8px&quot;>QR Code<br>(افتح الرابط يدويًا للتحقق)</div>\'" />';
+      'onerror="this.parentNode.innerHTML=\'<div style=&quot;width:130px;height:130px;border:1px dashed #999;display:flex;align-items:center;justify-content:center;font-size:10px;color:#666;text-align:center;padding:8px&quot;>تعذر إنشاء رمز QR</div>\'" />';
   }
 
   var esc = function(s){
@@ -4806,24 +4806,6 @@ function openHeirsEnumerationDocument(){
       'line-height:1.8;text-align:justify;' +
     '}' +
     '.closing-note b{color:#0b3d2e}' +
-    '.signature-section{' +
-      'display:grid;grid-template-columns:1fr 1fr;gap:24px;' +
-      'margin-top:36px;page-break-inside:avoid;break-inside:avoid;' +
-    '}' +
-    '.signature-box{' +
-      'border:1px solid #b9c6c0;padding:14px 16px;min-height:120px;' +
-      'background:#fff;' +
-    '}' +
-    '.signature-box .title{' +
-      'font-size:11pt;font-weight:700;color:#0b3d2e;margin-bottom:10px;' +
-      'padding-bottom:6px;border-bottom:1px dashed #b9c6c0;' +
-    '}' +
-    '.signature-box .line{' +
-      'border-bottom:1px dotted #888;height:38px;margin-top:14px;' +
-    '}' +
-    '.signature-box .lbl-small{' +
-      'font-size:9pt;color:#666;margin-top:4px;text-align:center;' +
-    '}' +
     '.approval-section{' +
       'margin-top:28px;padding-top:14px;border-top:2px solid #0b3d2e;' +
       'page-break-inside:avoid;break-inside:avoid;' +
@@ -4905,38 +4887,14 @@ function openHeirsEnumerationDocument(){
       '<tbody>' + heirsRows + '</tbody>' +
     '</table>' +
 
-    /* فقرة ختامية */
-    '<div class="closing-note">' +
-      '<b>تنبيه:</b> هذا الصك يُثبت حصر الورثة الشرعيين فقط، ولا يتضمن أي تفاصيل مالية أو تقسيم للتركة أو قيم للأصول، ' +
-      'والتي تُصدر ضمن مستند منفصل (ملف التركة) بعد اعتماد مكتب العدل. ' +
-      'يُعمل بهذا الصك وفق الأنظمة والتعليمات الشرعية والنظامية المعمول بها في المملكة العربية السعودية.' +
-    '</div>' +
-
-    /* قسم التوقيع والختم */
-    '<div class="signature-section">' +
-      '<div class="signature-box">' +
-        '<div class="title">ختم واعتماد الجهة المصدرة</div>' +
-        '<div class="line"></div>' +
-        '<div class="lbl-small">التاريخ: ...................</div>' +
-      '</div>' +
-      '<div class="signature-box">' +
-        '<div class="title">توقيع المسؤول</div>' +
-        '<div class="line"></div>' +
-        '<div class="lbl-small">الاسم: ...................</div>' +
-      '</div>' +
-    '</div>' +
-
-    /* قسم الاعتماد والتحقق */
+    /* قسم الاعتماد الإلكتروني */
     '<div class="approval-section">' +
-      '<h2>الاعتماد والتحقق</h2>' +
+      '<h2>قسم الاعتماد الإلكتروني</h2>' +
       '<div class="approval-row">' +
         '<div class="qr-box">' + qrSvg + '</div>' +
         '<div class="info">' +
           '<div class="title">لمسح هذا الرمز والتحقق من صحة الصك</div>' +
-          '<div>يمكنك مسح الرمز بكاميرا الجوال للتأكد من صحة صك حصر الورثة، أو فتح الرابط يدويًا:</div>' +
-          '<div style="font-family:\'Courier New\',monospace;font-size:9pt;margin-top:6px;word-break:break-all;color:#333">' +
-            esc(verifyUrl) +
-          '</div>' +
+          '<div>هذه الوثيقة صك إلكتروني موثق ولا تحتاج إلى توقيع.</div>' +
           '<div style="margin-top:8px">رقم الصك: <span class="report-code">' + HEIRS_REF_ID + '</span></div>' +
         '</div>' +
       '</div>' +
@@ -4944,7 +4902,6 @@ function openHeirsEnumerationDocument(){
 
     /* التذييل */
     '<div class="page-footer">' +
-      '<div class="legal">هذا الصك يُثبت حصر الورثة فقط، ولا يتضمن أي تفاصيل مالية أو تقسيم للتركة.</div>' +
       '<div class="pagenum">أرث — صك حصر ورثة رسمي — ' + HEIRS_REF_ID + '</div>' +
     '</div>' +
 
