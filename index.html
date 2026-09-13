@@ -227,7 +227,6 @@ main{max-width:1280px;margin:0 auto;padding: 18px 22px 40px;}
 .section-head h3{margin:0;font-size:17px;font-weight:700}
 .section-head p{margin:2px 0 0;font-size:12.5px;color:var(--muted)}
 
-/* Sub Tabs */
 .sub-tabs-wrap{ position: relative; margin-bottom: 18px; }
 .sub-tabs{
   display:flex; gap: 6px;
@@ -299,9 +298,6 @@ main{max-width:1280px;margin:0 auto;padding: 18px 22px 40px;}
   .sub-tab{ padding: 8px 14px; }
 }
 
-/* ============================================================
-   إصلاح قاطع: التبويبات الفرعية — لا يمكن ظهور أكثر من قسم واحد
-   ============================================================ */
 .sub-panel{ display: none !important; }
 .sub-panel.active{ display: block !important; animation: subFade .3s ease both; }
 @keyframes subFade{
@@ -543,7 +539,6 @@ label{display:block;font-size:12.5px;font-weight:600;margin-bottom:6px;color:#26
 }
 .seg button.active{background:#fff;color:var(--green-900);box-shadow:0 1px 3px rgba(0,0,0,.06)}
 
-/* social creds — بدون أي زر أو كلمة مرور */
 .social-creds{display:flex;flex-direction:column;gap:4px;margin-top:6px;}
 .cred-line{display:flex;align-items:center;gap:5px;font-size:11.5px;color:#4a5c56;flex-wrap:wrap;}
 .cred-line .ic{width:12px;height:12px;color:var(--muted);flex:0 0 auto}
@@ -847,11 +842,6 @@ label{display:block;font-size:12.5px;font-weight:600;margin-bottom:6px;color:#26
 }
 .deny-circle .ic{width:30px;height:30px}
 
-/* ================================================================
-   ملاحظة: تم إلغاء "طباعة واجهة التطبيق" نهائيًا.
-   الطباعة الآن تتم عبر نافذة مستقلة بقالب مستند رسمي
-   (انظر دالة openOfficialPrintDocument في الجافاسكربت).
-   ================================================================ */
 @media print {
   body.printing-official *{ visibility: hidden; }
 }
@@ -1360,14 +1350,13 @@ label{display:block;font-size:12.5px;font-weight:600;margin-bottom:6px;color:#26
     return data;
   }
   global.qrcode = qrcode;
+  console.log('✅ QR Library loaded successfully');
 })(typeof window !== 'undefined' ? window : this);
 </script>
 
 <script>
 /* ================================================================
    0) شاشة التحقق من صحة الوثيقة (?verify=TRK-...)
-   - تعمل فقط عند وجود البارامتر، وإلا يعمل التطبيق طبيعيًا
-   - تُنفَّذ قبل أي شيء آخر، وتُوقف باقي السكربت عبر throw
    ================================================================ */
 (function checkVerifyMode(){
   try {
@@ -1638,7 +1627,6 @@ const state = {
   executor:'h3',
   report:'pending',
 
-  /* حسابات التواصل — بدون كلمة مرور (التزامًا بـ PDPL) */
   socialAccounts:[
     { id:1, platform:'x',         username:'@abdullah_m',      action:'close'    },
     { id:2, platform:'instagram', username:'abdullah.otaibi',  action:'memorial' },
@@ -1724,7 +1712,6 @@ function platformShort(id){
 }
 function heirById(id){ return HEIRS.find(h => h.id === id) || null; }
 
-/* أقسام التنقل — "سجلي" بدل "سمة" */
 const SECTIONS = [
   { id:'heirs',      label:'الورثة',   short:'الورثة',   icon:'users' },
   { id:'wasiyya',    label:'الوصية',   short:'الوصية',   icon:'file'  },
@@ -1793,7 +1780,6 @@ function switchSection(sectionId){
   window.scrollTo({top: 0, behavior:'smooth'});
 }
 
-/* التبويبات الفرعية — الاعتماد على CSS الصارم `!important` */
 function switchAssetsSub(subId){
   state.activeAssetsSub = subId;
 
@@ -1908,7 +1894,6 @@ function renderSetupScreen(){
   }
 }
 
-/* شريط الملخص — بدون بطاقة "مكتب العدل" */
 function renderSummaryBar(){
   const el = document.getElementById('summaryBar');
   if(!el) return;
@@ -1955,9 +1940,6 @@ function renderSummaryBar(){
   `;
 }
 
-/* ================================================================
-   قسم الورثة
-   ================================================================ */
 function renderHeirs(){
   const el = document.getElementById('cardHeirs');
   if(!el) return;
@@ -1997,9 +1979,6 @@ function renderHeirs(){
   `;
 }
 
-/* ================================================================
-   قسم الوصية
-   ================================================================ */
 function renderWasiyya(){
   const el = document.getElementById('cardWasiyya');
   if(!el) return;
@@ -2028,9 +2007,6 @@ function renderWasiyya(){
   `;
 }
 
-/* ================================================================
-   قسم الأصول
-   ================================================================ */
 function renderAssets(){
   const pBanks = document.getElementById('assetsPanelBanks');
   if(pBanks){
@@ -2102,9 +2078,6 @@ function renderAssets(){
   }
 }
 
-/* ================================================================
-   قسم حسابات التواصل — بدون أي زر إظهار كلمة مرور
-   ================================================================ */
 function renderSocial(){
   const el = document.getElementById('assetsPanelSocial');
   if(!el) return;
@@ -2204,7 +2177,6 @@ function renderSocial(){
   bindSocialEvents();
 }
 
-/* ربط أحداث حسابات التواصل — بدون أي معالج لكلمة المرور */
 function bindSocialEvents(){
   const card = document.getElementById('assetsPanelSocial');
   if(!card) return;
@@ -2252,9 +2224,6 @@ function bindSocialEvents(){
   });
 }
 
-/* ================================================================
-   قسم العقارات
-   ================================================================ */
 function renderProperties(){
   const el = document.getElementById('cardProperties');
   if(!el) return;
@@ -2363,9 +2332,6 @@ function renderProperties(){
   `;
 }
 
-/* ================================================================
-   قسم سجلي (بدل "سمة") — بدون "سجلات المتوفى"
-   ================================================================ */
 function renderSimah(){
   const el = document.getElementById('cardSimah');
   if(!el) return;
@@ -2477,14 +2443,12 @@ function renderSimah(){
           </div>
         ` : '<div class="note-box" style="margin-top:0">لا توجد وكالات مسجّلة باسمك.</div>'}
 
-        <!-- ★ الملاحظة المضافة: إبطال الوكالات عند الوفاة وإشعار الطرف الآخر ★ -->
         <div class="note-box note-warn" style="margin-top:14px">
           ${ic('alert','ic-sm')}
           <span>
             <b>ملاحظة نظامية:</b> يتم إبطال جميع الوكالات تلقائيًا في حالة الوفاة، مع إشعار الطرف الآخر بذلك.
           </span>
         </div>
-        <!-- ★ نهاية الملاحظة المضافة ★ -->
       </div>
     </div>
 
@@ -2533,9 +2497,6 @@ function renderSimah(){
   bindManagerEvents();
 }
 
-/* ================================================================
-   بطاقة شركة
-   ================================================================ */
 function renderCompanyCard(c){
   const formOpen = state.managerForm.openCompanyId === c.id;
   const f = state.managerForm;
@@ -2700,9 +2661,6 @@ function renderCompanyCard(c){
   `;
 }
 
-/* ================================================================
-   أحداث المدير البديل
-   ================================================================ */
 function bindManagerEvents(){
   const card = document.getElementById('cardSimah');
   if(!card) return;
@@ -2815,9 +2773,6 @@ function bindManagerEvents(){
   });
 }
 
-/* ================================================================
-   قسم العمالة
-   ================================================================ */
 function renderWorkers(){
   const el = document.getElementById('cardWorkers');
   if(!el) return;
@@ -3069,9 +3024,6 @@ function bindWorkerEvents(){
   });
 }
 
-/* ================================================================
-   قسم الديون
-   ================================================================ */
 function renderDebts(){
   const el = document.getElementById('cardDebts');
   if(!el) return;
@@ -3226,9 +3178,6 @@ function ledgerBody(){
   `;
 }
 
-/* ================================================================
-   قسم الصلاحيات + PDPL
-   ================================================================ */
 function renderPerms(){
   const el = document.getElementById('cardPerms');
   if(!el) return;
@@ -3364,9 +3313,6 @@ function renderPerms(){
   }
 }
 
-/* ================================================================
-   نافذة تأكيد الحذف (Modal)
-   ================================================================ */
 function openDeletionModal(){
   state.deletion.modalOpen = true;
   state.deletion.reason = 'no_longer_needed';
@@ -3484,9 +3430,6 @@ function confirmDeletion(){
   window.scrollTo({top: 0, behavior:'smooth'});
 }
 
-/* ================================================================
-   7) ربط الأحداث العامة
-   ================================================================ */
 function bindSetupEvents(){
   document.addEventListener('input', e => {
     if(e.target.id === 'wasiyyaText'){
@@ -3565,9 +3508,6 @@ function bindSetupEvents(){
   });
 }
 
-/* ================================================================
-   8) شاشة دخول الورثة
-   ================================================================ */
 function renderHeirScreen(){
   document.getElementById('screen-heir').innerHTML = `
     ${demoNote}
@@ -3888,9 +3828,6 @@ function bindHeirEvents(){
   }
 }
 
-/* ================================================================
-   9) التنقل بين الشاشات
-   ================================================================ */
 function switchScreen(name){
   state.screen = name;
   document.getElementById('screen-setup').classList.toggle('hidden', name !== 'setup');
@@ -3921,9 +3858,6 @@ function updateUserChip(name){
   }
 }
 
-/* ================================================================
-   10) بوابة نفاذ
-   ================================================================ */
 function renderLoginGate(){
   const el = document.getElementById('loginGate');
   let inner = '';
@@ -4055,10 +3989,7 @@ function backToGate(){
 }
 
 /* ================================================================
-   12) قالب الوثيقة الرسمية للطباعة / PDF
-   - يفتح نافذة مستقلة بتصميم "مستند" لا "تطبيق"
-   - يستخدم QR محلي (بدون إنترنت)
-   - يستدعي window.print() تلقائيًا
+   12) قالب الوثيقة الرسمية — مع 3 مستويات احتياطية لتوليد QR
    ================================================================ */
 function openOfficialPrintDocument(){
   var REPORT_ID = 'TRK-1446-019283';
@@ -4071,15 +4002,54 @@ function openOfficialPrintDocument(){
               String(now.getDate()).padStart(2,'0');
   var hDate = '1446/07/14';
 
-  /* ===== توليد رمز QR محليًا ===== */
+  /* ===== توليد رمز QR محليًا — مع 3 مستويات احتياطية ===== */
   var qrSvg = '';
+  var qrGenerated = false;
+
+  /* المستوى 1: المكتبة المحلية + مستوى تصحيح M */
   try {
-    var qr = qrcode(0, 'M');
-    qr.addData(verifyUrl);
-    qr.make();
-    qrSvg = qr.createSvgTag({ cellSize: 4, margin: 2 });
-  } catch(e){
-    qrSvg = '<div style="width:140px;height:140px;border:1px solid #000;display:flex;align-items:center;justify-content:center;font-size:10px;color:#666">QR</div>';
+    if(typeof qrcode !== 'undefined'){
+      var qr = qrcode(0, 'M');
+      qr.addData(verifyUrl);
+      qr.make();
+      qrSvg = qr.createSvgTag({ cellSize: 4, margin: 2 });
+      if(qrSvg && qrSvg.indexOf('<svg') !== -1){
+        qrGenerated = true;
+        console.log('✅ QR Level 1 (M) - Success');
+      }
+    } else {
+      console.warn('⚠️ qrcode library not found');
+    }
+  } catch(e1){
+    console.warn('❌ QR Level 1 failed:', e1.message);
+  }
+
+  /* المستوى 2: مستوى تصحيح L (أكثر تسامحًا) */
+  if(!qrGenerated){
+    try {
+      if(typeof qrcode !== 'undefined'){
+        var qr2 = qrcode(0, 'L');
+        qr2.addData(verifyUrl);
+        qr2.make();
+        qrSvg = qr2.createSvgTag({ cellSize: 4, margin: 2 });
+        if(qrSvg && qrSvg.indexOf('<svg') !== -1){
+          qrGenerated = true;
+          console.log('✅ QR Level 2 (L) - Success');
+        }
+      }
+    } catch(e2){
+      console.warn('❌ QR Level 2 failed:', e2.message);
+    }
+  }
+
+  /* المستوى 3: خدمة QR خارجية (احتياطي أخير) */
+  if(!qrGenerated){
+    console.error('❌ QR library failed — using external fallback');
+    qrSvg =
+      '<img src="https://api.qrserver.com/v1/create-qr-code/?size=260x260&data=' +
+      encodeURIComponent(verifyUrl) +
+      '" alt="QR Code" style="width:130px;height:130px;display:block" ' +
+      'onerror="this.parentNode.innerHTML=\'<div style=&quot;width:130px;height:130px;border:1px dashed #999;display:flex;align-items:center;justify-content:center;font-size:10px;color:#666;text-align:center;padding:8px&quot;>QR Code<br>(افتح الرابط يدويًا للتحقق)</div>\'" />';
   }
 
   /* ===== أدوات مساعدة ===== */
@@ -4299,8 +4269,9 @@ function openOfficialPrintDocument(){
       'display:flex;align-items:center;gap:16px;' +
       'border:1px solid #b9c6c0;padding:12px 16px;background:#fff;' +
     '}' +
-    '.approval-row .qr-box{flex:0 0 auto;width:130px;height:130px}' +
+    '.approval-row .qr-box{flex:0 0 auto;width:130px;height:130px;display:flex;align-items:center;justify-content:center}' +
     '.approval-row .qr-box svg{width:100%;height:100%;display:block}' +
+    '.approval-row .qr-box img{width:130px;height:130px;display:block}' +
     '.approval-row .info{flex:1;font-size:10.5pt;line-height:1.7}' +
     '.approval-row .info .title{font-weight:700;color:#0b3d2e;font-size:11.5pt;margin-bottom:4px}' +
     '.approval-row .info .report-code{' +
