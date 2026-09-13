@@ -233,7 +233,6 @@ main{max-width:1280px;margin:0 auto;padding: 18px 22px 40px;}
 .section-head h3{margin:0;font-size:17px;font-weight:700}
 .section-head p{margin:2px 0 0;font-size:12.5px;color:var(--muted)}
 
-/* Sub Tabs */
 .sub-tabs-wrap{ position: relative; margin-bottom: 18px; }
 .sub-tabs{
   display:flex; gap: 6px;
@@ -899,9 +898,6 @@ label{display:block;font-size:12.5px;font-weight:600;margin-bottom:6px;color:#26
 }
 .deny-circle .ic{width:30px;height:30px}
 
-/* ================================================================
-   شريط مراحل معالجة الملف (Timeline)
-   ================================================================ */
 .timeline-wrap{
   background:linear-gradient(135deg,#f7faf9,#ffffff);
   border:1px solid var(--line);border-radius:14px;
@@ -931,9 +927,7 @@ label{display:block;font-size:12.5px;font-weight:600;margin-bottom:6px;color:#26
   transition:.3s;
 }
 .timeline-step .circle .ic{width:17px;height:17px}
-.timeline-step.done .circle{
-  background:var(--ok);border-color:var(--ok);color:#fff;
-}
+.timeline-step.done .circle{background:var(--ok);border-color:var(--ok);color:#fff;}
 .timeline-step.active .circle{
   background:var(--amber);border-color:var(--amber);color:#fff;
   animation:pulse 1.8s ease-in-out infinite;
@@ -943,9 +937,7 @@ label{display:block;font-size:12.5px;font-weight:600;margin-bottom:6px;color:#26
   0%,100%{box-shadow:0 0 0 6px rgba(138,100,20,.13)}
   50%{box-shadow:0 0 0 12px rgba(138,100,20,.05)}
 }
-.timeline-step.pending .circle{
-  background:#fff;border-color:#d5ddd9;color:#95a5a0;
-}
+.timeline-step.pending .circle{background:#fff;border-color:#d5ddd9;color:#95a5a0;}
 .timeline-step .lbl{
   font-size:11px;font-weight:600;color:var(--muted);line-height:1.4;
   max-width:100%;padding:0 4px;
@@ -960,9 +952,6 @@ label{display:block;font-size:12.5px;font-weight:600;margin-bottom:6px;color:#26
   .timeline-step .lbl{font-size:12.5px;color:var(--text)}
 }
 
-/* ================================================================
-   روابط خارجية (تأمينات / إيداع / ساما)
-   ================================================================ */
 .gov-link{
   display:inline-flex;align-items:center;gap:5px;
   font-size:11px;font-weight:600;color:var(--blue);
@@ -973,9 +962,6 @@ label{display:block;font-size:12.5px;font-weight:600;margin-bottom:6px;color:#26
 .gov-link:hover{background:#dceaf8;border-color:#a8c8e8}
 .gov-link .ic{width:12px;height:12px}
 
-/* ================================================================
-   بطاقات الأصول الرقمية
-   ================================================================ */
 .asset-card{
   border:1px solid var(--line);border-radius:14px;
   background:#fff;padding:14px;margin-bottom:10px;
@@ -986,7 +972,7 @@ label{display:block;font-size:12.5px;font-weight:600;margin-bottom:6px;color:#26
 .asset-card.stocks{background:linear-gradient(135deg,#eef4fb,#ffffff);border-color:#cfe1f3}
 .asset-card-top{display:flex;align-items:center;gap:10px;margin-bottom:8px}
 .asset-card-ic{
-  width:40px;height:40px;border-radius:11px;flex:0 0 auto;
+  width:40px;height:40px;border-radius:11px;flex: 0 0 auto;
   display:grid;place-items:center;font-weight:700;
 }
 .asset-card-ic.crypto{background:linear-gradient(135deg,#0d6e6e,#1a8f8f);color:#fff}
@@ -1068,9 +1054,8 @@ label{display:block;font-size:12.5px;font-weight:600;margin-bottom:6px;color:#26
 </div><!-- /#appRoot -->
 
 <div id="modalRoot"></div>
-
 <!-- ================================================================
-     مكتبة توليد QR محلية بالكامل
+     مكتبة توليد QR محلية بالكامل (بدون إنترنت)
      qrcode-generator v1.4.4 — MIT License — Kazuhiko Arase
      ================================================================ -->
 <script>
@@ -1518,9 +1503,9 @@ label{display:block;font-size:12.5px;font-weight:600;margin-bottom:6px;color:#26
 })(typeof window !== 'undefined' ? window : this);
 </script>
 
-  <script>
+<script>
 /* ================================================================
-   0) شاشة التحقق من صحة الوثيقة (?verify=TRK-...)
+   0) شاشة التحقق من صحة الوثيقة (?verify=TRK-... أو HRS-...)
    ================================================================ */
 (function checkVerifyMode(){
   try {
@@ -1531,6 +1516,17 @@ label{display:block;font-size:12.5px;font-weight:600;margin-bottom:6px;color:#26
     var safeId = String(verifyId).replace(/[<>&"']/g, function(c){
       return {'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;',"'":'&#39;'}[c];
     });
+
+    /* ===== تمييز نوع المستند (TRK = ملف تركة، HRS = صك حصر ورثة) ===== */
+    var isHeirsEnum = /^HRS-/i.test(String(verifyId));
+    var docTitle    = isHeirsEnum ? 'هذا صك حصر ورثة أصلي' : 'هذا التقرير أصلي';
+    var docMessage  = isHeirsEnum
+      ? 'صادر فعليًا من منصة أرث — الوصية الرقمية الذكية'
+      : 'تم إصداره فعليًا من منصة أرث';
+    var docLabel    = isHeirsEnum ? 'رقم صك حصر الورثة الموثّق' : 'رقم التقرير الموثّق';
+    var docBrand    = isHeirsEnum
+      ? '<b>أرث</b> — منصة الوصية الرقمية الذكية لتصفية التركات • صك حصر ورثة'
+      : '<b>أرث</b> — منصة الوصية الرقمية الذكية لتصفية التركات';
 
     var html =
       '<!DOCTYPE html>' +
@@ -1583,15 +1579,13 @@ label{display:block;font-size:12.5px;font-weight:600;margin-bottom:6px;color:#26
       '<body>' +
       '<div class="card">' +
         '<div class="icon-ok">✓</div>' +
-        '<h1>هذا التقرير أصلي</h1>' +
-        '<p class="msg">تم إصداره فعليًا من منصة أرث.</p>' +
+        '<h1>' + docTitle + '</h1>' +
+        '<p class="msg">' + docMessage + '</p>' +
         '<div class="report-box">' +
-          '<span class="lbl">رقم التقرير الموثّق</span>' +
+          '<span class="lbl">' + docLabel + '</span>' +
           '<span class="val">' + safeId + '</span>' +
         '</div>' +
-        '<div class="brand">' +
-          '<b>أرث</b> — منصة الوصية الرقمية الذكية لتصفية التركات' +
-        '</div>' +
+        '<div class="brand">' + docBrand + '</div>' +
         '<div class="note">' +
           'نموذج أولي توضيحي — هذا التحقق محاكاة ولا يتصل بقاعدة بيانات فعلية.' +
         '</div>' +
@@ -1665,7 +1659,9 @@ const ICONS = {
   user:'<circle cx="12" cy="8" r="4"/><path d="M4.8 20.4a7.2 7.2 0 0 1 14.4 0"/>',
   briefcaseHuman:'<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/><path d="M3 13h18"/>',
   info:'<circle cx="12" cy="12" r="9"/><path d="M12 8h.01"/><path d="M11 12h1v4h1"/>',
-  link2:'<path d="M9 15 15 9"/><path d="M11 6l1-1a4 4 0 0 1 6 6l-1 1"/><path d="m13 18-1 1a4 4 0 0 1-6-6l1-1"/>'
+  scroll2:'<path d="M5 3h12a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/><path d="M7 7h8"/><path d="M7 11h8"/><path d="M7 15h5"/>',
+  stamp:'<path d="M5 21h14"/><path d="M6 17h12v-2a3 3 0 0 0-3-3H9a3 3 0 0 0-3 3v2Z"/><path d="M9 12V6a3 3 0 0 1 6 0v6"/>',
+  signature:'<path d="M3 19c3-3 6-6 9-6s6 3 9 3"/><path d="M3 12h4c2 0 3-1 3-3V6"/><path d="M14 4l6 6"/>'
 };
 
 function ic(name, cls){
@@ -1688,10 +1684,10 @@ const HEIRS = [
 
 const MOCK_DECEASED_ID = '1023456789';
 const MOCK_DECEASED_NAME = 'عبدالله محمد العتيبي';
+const MOCK_DECEASED_DEATH_DATE = '1446/07/12'; /* تاريخ الوفاة */
+const MOCK_DECEASED_DEATH_DATE_G = '2025/01/11';
 
-/* ══════════════════════════════════════════════════════════════
-   بيانات الملف الشخصي (مربوط مع الموارد البشرية + التأمينات)
-   ══════════════════════════════════════════════════════════════ */
+/* الملف الشخصي (الموارد البشرية + التأمينات) */
 const PERSONAL_PROFILE = {
   fullName:       'عبدالله محمد عبدالله العتيبي',
   nationalId:     '1023456789',
@@ -1717,15 +1713,13 @@ const PERSONAL_PROFILE = {
   gosiJoinDate:   '1438/04/01'
 };
 
-/* ══════════════════════════════════════════════════════════════
-   بيانات التأمينات الاجتماعية — راتب الورثة (تأمين)
-   ══════════════════════════════════════════════════════════════ */
+/* راتب التأمينات الاجتماعية */
 const GOSI_PENSION = {
   subscriber: PERSONAL_PROFILE.fullName,
   subscriberId: MOCK_DECEASED_ID,
-  monthlyPension: 12000,          /* راتب تقاعدي شهري افتراضي */
-  totalToDistribute: 144000,      /* إجمالي المبلغ المتاح للتوزيع (12 شهر) */
-  retirementDate: '1446/08/14',   /* تاريخ الإحالة على التقاعد */
+  monthlyPension: 12000,
+  totalToDistribute: 144000,
+  retirementDate: '1446/08/14',
   retirementDateG: '2025/03/01',
   gosiRef: 'GOSI-2025-4471902',
   status: 'معتمد',
@@ -1733,18 +1727,14 @@ const GOSI_PENSION = {
   note: 'في حال الوفاة، سيتم إرسال رابط لمتابعة البيانات اللازمة لاستلام المبلغ.'
 };
 
-/* ══════════════════════════════════════════════════════════════
-   المحافظ الإلكترونية — SAMA
-   ══════════════════════════════════════════════════════════════ */
+/* المحافظ الإلكترونية — SAMA */
 const EWALLETS = [
   { id:'ew1', provider:'urpay', providerAr:'يور باي', icon:'U', license:'SAMA-2023-EW-0089', balance:18500, iban:'SA22•••••••4470', status:'نشط', primary:true },
   { id:'ew2', provider:'stcpay', providerAr:'إس تي سي باي', icon:'STC', license:'SAMA-2023-EW-0021', balance:9200, iban:'SA33•••••••8821', status:'نشط', primary:false },
   { id:'ew3', provider:'halalah', providerAr:'حلالة', icon:'H', license:'SAMA-2024-EW-0156', balance:3400, iban:'SA14•••••••2210', status:'نشط', primary:false }
 ];
 
-/* ══════════════════════════════════════════════════════════════
-   الأسهم والتداول — إيداع (شركة مركز إيداع الأوراق المالية)
-   ══════════════════════════════════════════════════════════════ */
+/* الأسهم — إيداع */
 const STOCKS = [
   { id:'st1', symbol:'2222', name:'أرامكو السعودية', shares:1200, price:28.45, sector:'طاقة', depository:'إيداع', portfolioId:'SA-ED-8842-11' },
   { id:'st2', symbol:'1120', name:'الراجحي', shares:450, price:88.30, sector:'بنوك', depository:'إيداع', portfolioId:'SA-ED-8842-11' },
@@ -1899,7 +1889,6 @@ const state = {
     requestDate: null
   },
 
-  /* نافذة التبرع (إحسان) */
   charity:{
     modalOpen:false,
     amount:0,
@@ -1910,7 +1899,6 @@ const state = {
     receiptDate:null
   },
 
-  /* نافذة الملف الشخصي */
   profileModalOpen: false,
 
   gate:{ stage:'id', idValue: MOCK_DECEASED_ID },
@@ -1959,7 +1947,6 @@ const debtsTotal = () => simahTotal() + ledgerDebitTotal() + propertiesLateTotal
 const netEstate  = () => assetsTotal() - debtsTotal();
 const heirAmount = pct => netEstate() * pct / 100;
 
-/* حصة الوارث من راتب التأمينات */
 const gosiHeirAmount = pct => GOSI_PENSION.totalToDistribute * pct / 100;
 
 const companiesCount   = () => COMPANIES.length;
@@ -1985,7 +1972,6 @@ function platformShort(id){
 function heirById(id){ return HEIRS.find(h => h.id === id) || null; }
 function charityTypeLabel(key){ return (CHARITY_TYPES[key]||{}).label || key; }
 
-/* أقسام التنقل */
 const SECTIONS = [
   { id:'heirs',      label:'الورثة',   short:'الورثة',   icon:'users' },
   { id:'salary',     label:'راتب',     short:'راتب',     icon:'coin'  },
@@ -1998,7 +1984,6 @@ const SECTIONS = [
   { id:'perms',      label:'الصلاحيات',short:'الصلاحيات',icon:'key'   }
 ];
 
-/* شريط مراحل الملف */
 const FILE_STAGES = [
   { id:'review',   label:'مراجعة البيانات', icon:'eye',        status:'done'    },
   { id:'send',     label:'إرسال الملف',     icon:'share',      status:'done'    },
@@ -2008,7 +1993,7 @@ const FILE_STAGES = [
   { id:'closed',   label:'إغلاق الملف',     icon:'check',      status:'pending' }
 ];
 
-    /* ================================================================
+/* ================================================================
    5) التنقل
    ================================================================ */
 function renderNavBars(){
@@ -2121,7 +2106,7 @@ function renderSetupScreen(){
           <div class="sh-ic">${ic('wallet')}</div>
           <div>
             <h3>الأصول والحسابات الرقمية</h3>
-            <p>مُجمَّعة آليًا من المصارف، المركزي، ساما، إيداع، والخدمات الرقمية</p>
+            <p>مُجمَّعة آليًا من المصارف، ساما، إيداع، والخدمات الرقمية</p>
           </div>
         </div>
 
@@ -2209,7 +2194,6 @@ function renderSummaryBar(){
         <div class="sum-value">${HEIRS.length} <small>وارث</small></div>
       </div>
     </div>
-
     <div class="sum-item">
       <div class="sum-ic net">${ic('sparkles','ic-sm')}</div>
       <div class="sum-body">
@@ -2217,7 +2201,6 @@ function renderSummaryBar(){
         <div class="sum-value">${fmt(netEstate())}<small>ر.س</small></div>
       </div>
     </div>
-
     <div class="sum-item">
       <div class="sum-ic">${ic('file','ic-sm')}</div>
       <div class="sum-body">
@@ -2225,7 +2208,6 @@ function renderSummaryBar(){
         <div class="sum-value">${fmt(debtsTotal())}<small>ر.س</small></div>
       </div>
     </div>
-
     <div class="sum-item">
       <div class="sum-ic">${ic('coin','ic-sm')}</div>
       <div class="sum-body">
@@ -2233,7 +2215,6 @@ function renderSummaryBar(){
         <div class="sum-value">${fmt(GOSI_PENSION.totalToDistribute)}<small>ر.س</small></div>
       </div>
     </div>
-
     <div class="sum-item">
       <div class="sum-ic">${ic('hardHat','ic-sm')}</div>
       <div class="sum-body">
@@ -2241,7 +2222,6 @@ function renderSummaryBar(){
         <div class="sum-value">${workersCount()} <small>عامل</small></div>
       </div>
     </div>
-
     <div class="sum-item">
       <div class="sum-ic">${ic('landmark','ic-sm')}</div>
       <div class="sum-body">
@@ -2295,7 +2275,7 @@ function renderHeirs(){
 }
 
 /* ================================================================
-   قسم راتب (التأمينات الاجتماعية)
+   قسم راتب (التأمينات)
    ================================================================ */
 function renderSalary(){
   const el = document.getElementById('cardSalary');
@@ -2310,7 +2290,6 @@ function renderSalary(){
       </div>
     </div>
 
-    <!-- بطاقة مصدر الراتب -->
     <div class="asset-card" style="background:linear-gradient(135deg,#e6f5f5,#ffffff);border-color:#a8d8d8;margin-bottom:16px">
       <div class="asset-card-top">
         <div class="asset-card-ic crypto">${ic('landmark','ic-sm')}</div>
@@ -2326,14 +2305,12 @@ function renderSalary(){
       </div>
     </div>
 
-    <!-- KPI: إجمالي المبلغ -->
     <div class="report-meta" style="margin-bottom:16px">
       <div class="meta-item">الراتب الشهري<b>${fmt(GOSI_PENSION.monthlyPension)} ر.س</b></div>
       <div class="meta-item">عدد الأشهر<b>12 شهرًا</b></div>
       <div class="meta-item">إجمالي المبلغ المتاح<b>${fmt(GOSI_PENSION.totalToDistribute)} ر.س</b></div>
     </div>
 
-    <!-- جدول توزيع الراتب على الورثة -->
     <h4 style="font-size:14px;font-weight:700;margin:18px 0 10px;color:var(--green-900);display:flex;align-items:center;gap:6px">
       ${ic('users','ic-sm')} توزيع الراتب على الورثة
     </h4>
@@ -2357,7 +2334,6 @@ function renderSalary(){
       </div>
     `).join('')}
 
-    <!-- روابط رسمية -->
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px">
       <a href="https://www.gosi.gov.sa" target="_blank" rel="noopener" class="gov-link">
         ${ic('externalLink','ic-sm')} التأمينات الاجتماعية
@@ -2384,7 +2360,7 @@ function renderSalary(){
 }
 
 /* ================================================================
-   قسم الوصية (مع زر التبرع)
+   قسم الوصية (مع التبرع)
    ================================================================ */
 function renderWasiyya(){
   const el = document.getElementById('cardWasiyya');
@@ -2427,9 +2403,6 @@ function renderWasiyya(){
       <span>لا تُنفَّذ الوصية إلا بعد سداد الالتزامات، وتتوقف صحة الزيادة على إجازة الورثة.</span>
     </div>
 
-    <!-- ═══════════════════════════════════════════════════════════
-         قسم التبرع (إحسان)
-         ═══════════════════════════════════════════════════════════ -->
     <div style="margin-top:24px;padding-top:20px;border-top:1px dashed var(--line)">
       <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:14px">
         <div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#0f7b4f,#21936a);color:#fff;display:grid;place-items:center;flex:0 0 auto">
@@ -2541,7 +2514,7 @@ function renderAssets(){
 }
 
 /* ================================================================
-   قسم المحافظ الإلكترونية (SAMA)
+   المحافظ الإلكترونية
    ================================================================ */
 function renderEWallets(){
   const el = document.getElementById('assetsPanelEwallets');
@@ -2585,7 +2558,7 @@ function renderEWallets(){
 }
 
 /* ================================================================
-   قسم الأسهم والتداول (إيداع)
+   الأسهم والتداول
    ================================================================ */
 function renderStocks(){
   const el = document.getElementById('assetsPanelStocks');
@@ -2711,24 +2684,13 @@ function renderSocial(){
 
         <label>الإجراء المطلوب بعد الوفاة</label>
         <div class="social-action-options">
-          <label>
-            <input type="radio" name="socialAction" value="close" ${f.action==='close'?'checked':''} />
-            <span>${ic('lock','ic-sm')} إغلاق الحساب</span>
-          </label>
-          <label>
-            <input type="radio" name="socialAction" value="memorial" ${f.action==='memorial'?'checked':''} />
-            <span>${ic('sparkles','ic-sm')} حفظ كذكرى</span>
-          </label>
-          <label>
-            <input type="radio" name="socialAction" value="delete" ${f.action==='delete'?'checked':''} />
-            <span>${ic('trash','ic-sm')} حذف المحتوى</span>
-          </label>
+          <label><input type="radio" name="socialAction" value="close" ${f.action==='close'?'checked':''} /><span>${ic('lock','ic-sm')} إغلاق الحساب</span></label>
+          <label><input type="radio" name="socialAction" value="memorial" ${f.action==='memorial'?'checked':''} /><span>${ic('sparkles','ic-sm')} حفظ كذكرى</span></label>
+          <label><input type="radio" name="socialAction" value="delete" ${f.action==='delete'?'checked':''} /><span>${ic('trash','ic-sm')} حذف المحتوى</span></label>
         </div>
 
         <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
-          <button type="button" class="btn btn-primary btn-sm" id="btnSocialSave">
-            ${ic('check','ic-sm')} حفظ الحساب
-          </button>
+          <button type="button" class="btn btn-primary btn-sm" id="btnSocialSave">${ic('check','ic-sm')} حفظ الحساب</button>
           <button type="button" class="btn btn-ghost btn-sm" id="btnSocialCancel">إلغاء</button>
         </div>
       </div>
@@ -2736,9 +2698,7 @@ function renderSocial(){
 
     <div class="note-box note-warn">
       ${ic('shield','ic-sm')}
-      <span>
-        <b>ملاحظة PDPL:</b> لا يُخزّن النظام كلمات المرور، ويُحفظ اسم المستخدم والإجراء المطلوب فقط.
-      </span>
+      <span><b>ملاحظة PDPL:</b> لا يُخزّن النظام كلمات المرور، ويُحفظ اسم المستخدم والإجراء المطلوب فقط.</span>
     </div>
   `;
 
@@ -2747,7 +2707,8 @@ function renderSocial(){
 
 function bindSocialEvents(){
   const card = document.getElementById('assetsPanelSocial');
-  if(!card) return;
+  if(!card || card.dataset.socBound === '1') return;
+  card.dataset.socBound = '1';
 
   card.addEventListener('click', e => {
     const rm = e.target.closest('[data-remove-social]');
@@ -2757,29 +2718,20 @@ function bindSocialEvents(){
       renderSocial();
       return;
     }
-
     if(e.target.closest('#btnSocialAdd')){
       state.socialForm = { open:true, platform:'x', username:'', action:'close' };
-      renderSocial();
-      return;
+      renderSocial(); return;
     }
-
     if(e.target.closest('#btnSocialCancel')){
       state.socialForm = { open:false, platform:'x', username:'', action:'close' };
-      renderSocial();
-      return;
+      renderSocial(); return;
     }
-
     if(e.target.closest('#btnSocialSave')){
       const platform = document.getElementById('socialPlatform')?.value || 'x';
       const username = (document.getElementById('socialUsername')?.value || '').trim();
       const actionInput = document.querySelector('input[name="socialAction"]:checked');
       const action = actionInput ? actionInput.value : 'close';
-
-      if(!username){
-        alert('يرجى إدخال اسم المستخدم.');
-        return;
-      }
+      if(!username){ alert('يرجى إدخال اسم المستخدم.'); return; }
       state.socialAccounts.push({ id: Date.now(), platform, username, action });
       state.socialForm = { open:false, platform:'x', username:'', action:'close' };
       renderSocial();
@@ -2851,9 +2803,7 @@ function renderProperties(){
               <div class="prop-top">
                 <span class="prop-name">${p.type}</span>
                 <span class="chip chip-purple">${ic('key','ic-sm')} أنا المالك والمؤجِّر</span>
-                ${hasDue
-                  ? `<span class="chip chip-warn">${ic('alert','ic-sm')} متأخر</span>`
-                  : `<span class="chip chip-ok">${ic('checkCircle','ic-sm')} منتظم</span>`}
+                ${hasDue ? `<span class="chip chip-warn">${ic('alert','ic-sm')} متأخر</span>` : `<span class="chip chip-ok">${ic('checkCircle','ic-sm')} منتظم</span>`}
               </div>
               <div class="prop-addr">${ic('mapPin','ic-sm')}<span>${p.address}</span></div>
               <div class="prop-tags">
@@ -2876,17 +2826,13 @@ function renderProperties(){
             <div class="prop-top">
               <span class="prop-name">${p.type}</span>
               <span class="chip chip-info">${ic('building','ic-sm')} أنا المستأجر</span>
-              ${isLate
-                ? `<span class="chip chip-warn">${ic('alert','ic-sm')} غير ملتزم</span>`
-                : `<span class="chip chip-ok">${ic('checkCircle','ic-sm')} ملتزم</span>`}
+              ${isLate ? `<span class="chip chip-warn">${ic('alert','ic-sm')} غير ملتزم</span>` : `<span class="chip chip-ok">${ic('checkCircle','ic-sm')} ملتزم</span>`}
             </div>
             <div class="prop-addr">${ic('mapPin','ic-sm')}<span>${p.address}</span></div>
             <div class="prop-tags"><span class="chip chip-sm" style="background:#f1f4f3;color:#4a5c56">${p.note}</span></div>
           </div>
           <div class="prop-val ${isLate?'late':''}">
-            ${isLate
-              ? `<b>${fmt(p.dueAmount)} ر.س</b><span>متأخرات</span>`
-              : `<b>${fmt(p.rentAmount)} ر.س</b><span>إيجار شهري</span>`}
+            ${isLate ? `<b>${fmt(p.dueAmount)} ر.س</b><span>متأخرات</span>` : `<b>${fmt(p.rentAmount)} ر.س</b><span>إيجار شهري</span>`}
           </div>
         </div>`;
     }).join('')}
@@ -2936,10 +2882,7 @@ function renderSimah(){
       <div class="collapse-head" onclick="togglePanel('companies')">
         <div class="collapse-ic">${ic('building')}</div>
         <div class="collapse-title">
-          <h4>
-            الشركات والمؤسسات
-            <span class="chip chip-ok">${compCount} سجل</span>
-          </h4>
+          <h4>الشركات والمؤسسات <span class="chip chip-ok">${compCount} سجل</span></h4>
           <p>الشركات والمؤسسات المرتبطة بك في منصة سمة — مع تحديد مدير بديل لكل شركة</p>
         </div>
         <div class="collapse-chevron">${ic('chevronDown','ic-sm')}</div>
@@ -2953,11 +2896,7 @@ function renderSimah(){
       <div class="collapse-head" onclick="togglePanel('agencies')">
         <div class="collapse-ic">${ic('agencies')}</div>
         <div class="collapse-title">
-          <h4>
-            وكالاتي
-            <span class="chip chip-warn">${outCount} له</span>
-            <span class="chip chip-info">${inCount} عليه</span>
-          </h4>
+          <h4>وكالاتي <span class="chip chip-warn">${outCount} له</span> <span class="chip chip-info">${inCount} عليه</span></h4>
           <p>الوكالات التي تكون فيها موكِّلًا (له) أو وكيلًا (عليه) فقط</p>
         </div>
         <div class="collapse-chevron">${ic('chevronDown','ic-sm')}</div>
@@ -2967,7 +2906,6 @@ function renderSimah(){
           <div class="list">
             ${myAgencies.map(a => {
               const isOut = a.type === 'out';
-              const roleHint = isOut ? 'أنت: الموكِّل (وكالة صادرة منك)' : 'أنت: الوكيل (وكالة صادرة عليك)';
               return `
                 <div class="row ${isOut?'ok':'late'}">
                   <div class="row-ic ${isOut?'agency-out':'agency-in'}">${ic('scroll','ic-sm')}</div>
@@ -2976,31 +2914,17 @@ function renderSimah(){
                       ${isOut ? 'وكالة صادرة منك (لك)' : 'وكالة صادرة عليك'}
                       <span class="chip ${a.status==='سارية'?'chip-ok':'chip-warn'}">${ic(a.status==='سارية'?'checkCircle':'alert','ic-sm')} ${a.status}</span>
                     </div>
-                    <div class="row-sub">${roleHint}</div>
+                    <div class="row-sub">${isOut ? 'أنت: الموكِّل (وكالة صادرة منك)' : 'أنت: الوكيل (وكالة صادرة عليك)'}</div>
                     <div class="row-sub">${a.scope}</div>
                     <div class="worker-details">
                       <div class="detail-line">
-                        ${ic('person','ic-sm')}
-                        <span class="lbl">الموكِّل:</span>
-                        <b>${a.issuer}</b>
-                        <span>(${a.issuerRole})</span>
-                        <span class="lbl">•</span>
-                        <b>${a.issuerId}</b>
+                        ${ic('person','ic-sm')} <span class="lbl">الموكِّل:</span> <b>${a.issuer}</b> <span>(${a.issuerRole})</span> <b>${a.issuerId}</b>
                       </div>
                       <div class="detail-line">
-                        ${ic('userCheck','ic-sm')}
-                        <span class="lbl">الوكيل:</span>
-                        <b>${a.agent}</b>
-                        <span>(${a.agentRole})</span>
-                        <span class="lbl">•</span>
-                        <b>${a.agentId}</b>
+                        ${ic('userCheck','ic-sm')} <span class="lbl">الوكيل:</span> <b>${a.agent}</b> <span>(${a.agentRole})</span> <b>${a.agentId}</b>
                       </div>
                       <div class="detail-line">
-                        ${ic('clock','ic-sm')}
-                        <span class="lbl">إصدار:</span>
-                        <b>${a.issueDate}</b>
-                        <span class="lbl">• انتهاء:</span>
-                        <b>${a.expiryDate}</b>
+                        ${ic('clock','ic-sm')} <span class="lbl">إصدار:</span> <b>${a.issueDate}</b> <span class="lbl">• انتهاء:</span> <b>${a.expiryDate}</b>
                       </div>
                     </div>
                   </div>
@@ -3012,9 +2936,7 @@ function renderSimah(){
 
         <div class="note-box note-warn" style="margin-top:14px">
           ${ic('alert','ic-sm')}
-          <span>
-            <b>ملاحظة نظامية:</b> يتم إبطال جميع الوكالات تلقائيًا في حالة الوفاة، مع إشعار الطرف الآخر بذلك.
-          </span>
+          <span><b>ملاحظة نظامية:</b> يتم إبطال جميع الوكالات تلقائيًا في حالة الوفاة، مع إشعار الطرف الآخر بذلك.</span>
         </div>
       </div>
     </div>
@@ -3023,10 +2945,7 @@ function renderSimah(){
       <div class="collapse-head" onclick="togglePanel('numbers')">
         <div class="collapse-ic">${ic('phone')}</div>
         <div class="collapse-title">
-          <h4>
-            أرقامي
-            <span class="chip chip-purple">${numCount} رقم</span>
-          </h4>
+          <h4>أرقامي <span class="chip chip-purple">${numCount} رقم</span></h4>
           <p>جميع الأرقام المسجّلة في منصة سمة</p>
         </div>
         <div class="collapse-chevron">${ic('chevronDown','ic-sm')}</div>
@@ -3044,9 +2963,7 @@ function renderSimah(){
                 </div>
                 <div class="row-sub">${n.label} • ${n.operator}</div>
               </div>
-              <div class="row-val">
-                <b style="font-family:'Courier New',monospace;font-size:12px">${NUMBER_KIND_LABELS[n.kind]||''}</b>
-              </div>
+              <div class="row-val"><b style="font-family:'Courier New',monospace;font-size:12px">${NUMBER_KIND_LABELS[n.kind]||''}</b></div>
             </div>
           `).join('')}
         </div>
@@ -3055,9 +2972,7 @@ function renderSimah(){
 
     <div class="note-box note-legal" style="margin-top:16px">
       ${ic('shield','ic-sm')}
-      <span>
-        البيانات مُستخرجة آليًا من منصة سمة — ولا تُعرض إلا الوكالات التي تكون فيها طرفًا (موكِّلًا أو وكيلًا).
-      </span>
+      <span>البيانات مُستخرجة آليًا من منصة سمة — ولا تُعرض إلا الوكالات التي تكون فيها طرفًا.</span>
     </div>
   `;
 
@@ -3143,20 +3058,11 @@ function renderCompanyCard(c){
         </div>
       ` : `
         <div class="manager-form-row">
-          <div>
-            <label>اسم المدير</label>
-            <input data-mgr-name="${c.id}" value="${f.managerName}" placeholder="مثال: أحمد الغامدي" />
-          </div>
-          <div>
-            <label>رقم الهوية</label>
-            <input data-mgr-nid="${c.id}" value="${f.managerNationalId}" placeholder="10XXXXXXXX" inputmode="numeric" />
-          </div>
+          <div><label>اسم المدير</label><input data-mgr-name="${c.id}" value="${f.managerName}" placeholder="مثال: أحمد الغامدي" /></div>
+          <div><label>رقم الهوية</label><input data-mgr-nid="${c.id}" value="${f.managerNationalId}" placeholder="10XXXXXXXX" inputmode="numeric" /></div>
         </div>
         <div class="manager-form-row full">
-          <div>
-            <label>صفته / علاقته بالمتوفى</label>
-            <input data-mgr-rel="${c.id}" value="${f.managerRelation}" placeholder="مثال: شريك تجاري، محاسب، وصي" />
-          </div>
+          <div><label>صفته / علاقته بالمتوفى</label><input data-mgr-rel="${c.id}" value="${f.managerRelation}" placeholder="مثال: شريك تجاري، محاسب، وصي" /></div>
         </div>
       `}
 
@@ -3168,17 +3074,9 @@ function renderCompanyCard(c){
       </div>
 
       <div class="manager-actions">
-        <button type="button" class="btn btn-primary btn-sm" data-mgr-save="${c.id}">
-          ${ic('check','ic-sm')} حفظ المدير
-        </button>
-        <button type="button" class="btn btn-ghost btn-sm" data-mgr-cancel="${c.id}">
-          إلغاء
-        </button>
-        ${c.managerType ? `
-          <button type="button" class="btn btn-ghost btn-sm" data-mgr-clear="${c.id}">
-            ${ic('trash','ic-sm')} إزالة المدير
-          </button>
-        ` : ''}
+        <button type="button" class="btn btn-primary btn-sm" data-mgr-save="${c.id}">${ic('check','ic-sm')} حفظ المدير</button>
+        <button type="button" class="btn btn-ghost btn-sm" data-mgr-cancel="${c.id}">إلغاء</button>
+        ${c.managerType ? `<button type="button" class="btn btn-ghost btn-sm" data-mgr-clear="${c.id}">${ic('trash','ic-sm')} إزالة المدير</button>` : ''}
       </div>
     </div>
   ` : `
@@ -3197,25 +3095,15 @@ function renderCompanyCard(c){
             <span class="chip ${c.status==='نشطة'?'chip-ok':'chip-warn'}">${ic(c.status==='نشطة'?'checkCircle':'alert','ic-sm')} ${c.status}</span>
           </div>
           <div class="company-details">
-            <div class="detail-line">
-              ${ic('idCard','ic-sm')}
-              <span class="lbl">السجل التجاري:</span>
-              <b>${c.crNumber}</b>
-            </div>
-            <div class="detail-line">
-              ${ic('briefcase','ic-sm')}
-              <span class="lbl">النوع:</span>
-              <b>${c.type}</b>
-            </div>
+            <div class="detail-line">${ic('idCard','ic-sm')} <span class="lbl">السجل التجاري:</span> <b>${c.crNumber}</b></div>
+            <div class="detail-line">${ic('briefcase','ic-sm')} <span class="lbl">النوع:</span> <b>${c.type}</b></div>
           </div>
           ${c.note ? `<div class="row-sub" style="margin-top:6px">${c.note}</div>` : ''}
         </div>
       </div>
 
       <div class="manager-section">
-        <div class="manager-label">
-          ${ic('userCog','ic-sm')} من يُدير هذه الشركة بعد الوفاة؟
-        </div>
+        <div class="manager-label">${ic('userCog','ic-sm')} من يُدير هذه الشركة بعد الوفاة؟</div>
         ${managerCurrentHTML}
         ${formHTML}
       </div>
@@ -3243,32 +3131,21 @@ function bindManagerEvents(){
         managerRelation: c.managerRelation || '',
         managementMode: c.managementMode || 'full'
       };
-      renderSimah();
-      return;
+      renderSimah(); return;
     }
-
     const cancelBtn = e.target.closest('[data-mgr-cancel]');
-    if(cancelBtn){
-      state.managerForm.openCompanyId = null;
-      renderSimah();
-      return;
-    }
+    if(cancelBtn){ state.managerForm.openCompanyId = null; renderSimah(); return; }
 
     const clearBtn = e.target.closest('[data-mgr-clear]');
     if(clearBtn){
       const cid = clearBtn.dataset.mgrClear;
       const c = COMPANIES.find(x => x.id === cid);
       if(c){
-        c.managerType = null;
-        c.managerId = null;
-        c.managerName = null;
-        c.managerNationalId = null;
-        c.managerRelation = null;
-        c.managementMode = null;
+        c.managerType = null; c.managerId = null; c.managerName = null;
+        c.managerNationalId = null; c.managerRelation = null; c.managementMode = null;
       }
       state.managerForm.openCompanyId = null;
-      renderSimah();
-      return;
+      renderSimah(); return;
     }
 
     const saveBtn = e.target.closest('[data-mgr-save]');
@@ -3291,12 +3168,8 @@ function bindManagerEvents(){
       const managerRelation   = (relEl?.value || '').trim();
       const managementMode = modeEl?.value || 'full';
 
-      if(managerType === 'heir' && !managerId){
-        alert('يرجى اختيار وريث لإدارة الشركة.'); return;
-      }
-      if(managerType === 'other' && !managerName){
-        alert('يرجى إدخال اسم المدير.'); return;
-      }
+      if(managerType === 'heir' && !managerId){ alert('يرجى اختيار وريث.'); return; }
+      if(managerType === 'other' && !managerName){ alert('يرجى إدخال اسم المدير.'); return; }
 
       c.managerType = managerType;
       c.managerId = managerType === 'heir' ? managerId : null;
@@ -3306,8 +3179,7 @@ function bindManagerEvents(){
       c.managementMode = managementMode;
 
       state.managerForm.openCompanyId = null;
-      renderSimah();
-      return;
+      renderSimah(); return;
     }
   });
 
@@ -3319,11 +3191,8 @@ function bindManagerEvents(){
         state.managerForm.managerName = '';
         state.managerForm.managerNationalId = '';
         state.managerForm.managerRelation = '';
-      } else {
-        state.managerForm.managerId = '';
-      }
-      renderSimah();
-      return;
+      } else { state.managerForm.managerId = ''; }
+      renderSimah(); return;
     }
   });
 
@@ -3345,7 +3214,6 @@ function renderWorkers(){
 
   const list = state.workers;
   const f = state.workerForm;
-
   const count       = workersCount();
   const totalSalary = workersSalariesTotal();
   const expired     = workersExpiredCount();
@@ -3378,7 +3246,6 @@ function renderWorkers(){
         const isLate    = w.commitment === 'late';
         const isExpired = w.residenceStatus === 'expired';
         const isSoon    = w.residenceStatus === 'soon';
-
         let rowCls = '';
         let icCls  = 'worker';
         if(isExpired || isLate){ rowCls = 'late'; icCls = 'worker late'; }
@@ -3395,33 +3262,19 @@ function renderWorkers(){
                 <span class="chip chip-sm" style="background:#f1f4f3;color:#4a5c56">${w.occupation}</span>
               </div>
               <div class="worker-details">
+                <div class="detail-line">${ic('idCard','ic-sm')} <span class="lbl">رقم الإقامة:</span> <b>${w.iqama}</b></div>
+                <div class="detail-line">${ic('coin','ic-sm')} <span class="lbl">الراتب الشهري:</span> <b>${fmt(w.salary)} ر.س</b></div>
                 <div class="detail-line">
-                  ${ic('idCard','ic-sm')}
-                  <span class="lbl">رقم الإقامة:</span>
-                  <b>${w.iqama}</b>
-                </div>
-                <div class="detail-line">
-                  ${ic('coin','ic-sm')}
-                  <span class="lbl">الراتب الشهري:</span>
-                  <b>${fmt(w.salary)} ر.س</b>
-                </div>
-                <div class="detail-line">
-                  ${ic('clock','ic-sm')}
-                  <span class="lbl">انتهاء الإقامة:</span>
-                  <b>${w.iqamaExpiry}</b>
-                  ${isExpired
-                    ? `<span class="chip chip-warn">${ic('alert','ic-sm')} ${RESIDENCE_LABELS[w.residenceStatus]}</span>`
-                    : isSoon
-                      ? `<span class="chip chip-pending">${ic('clock','ic-sm')} ${RESIDENCE_LABELS[w.residenceStatus]}</span>`
-                      : `<span class="chip chip-ok">${ic('checkCircle','ic-sm')} ${RESIDENCE_LABELS[w.residenceStatus]}</span>`}
+                  ${ic('clock','ic-sm')} <span class="lbl">انتهاء الإقامة:</span> <b>${w.iqamaExpiry}</b>
+                  ${isExpired ? `<span class="chip chip-warn">${ic('alert','ic-sm')} ${RESIDENCE_LABELS[w.residenceStatus]}</span>` :
+                    isSoon ? `<span class="chip chip-pending">${ic('clock','ic-sm')} ${RESIDENCE_LABELS[w.residenceStatus]}</span>` :
+                    `<span class="chip chip-ok">${ic('checkCircle','ic-sm')} ${RESIDENCE_LABELS[w.residenceStatus]}</span>`}
                 </div>
               </div>
               ${w.note ? `<div class="row-sub" style="margin-top:6px">${w.note}</div>` : ''}
             </div>
             <div class="row-val">
-              <button type="button" class="btn btn-ghost btn-sm" data-remove-worker="${w.id}">
-                ${ic('trash','ic-sm')}
-              </button>
+              <button type="button" class="btn btn-ghost btn-sm" data-remove-worker="${w.id}">${ic('trash','ic-sm')}</button>
             </div>
           </div>
         `;
@@ -3434,41 +3287,18 @@ function renderWorkers(){
       </button>
     ` : `
       <div class="social-form">
-        <label style="font-size:13px;font-weight:700;color:var(--green-900);margin-bottom:12px;display:block">
-          إضافة عامل / مقيم جديد
-        </label>
-
+        <label style="font-size:13px;font-weight:700;color:var(--green-900);margin-bottom:12px;display:block">إضافة عامل / مقيم جديد</label>
         <div class="social-form-grid">
-          <div>
-            <label>الاسم الكامل</label>
-            <input id="workerName" value="${f.name}" placeholder="مثال: محمد أشرف علي" />
-          </div>
-          <div>
-            <label>الجنسية</label>
-            <input id="workerNationality" value="${f.nationality}" placeholder="مثال: باكستانية" />
-          </div>
+          <div><label>الاسم الكامل</label><input id="workerName" value="${f.name}" placeholder="مثال: محمد أشرف علي" /></div>
+          <div><label>الجنسية</label><input id="workerNationality" value="${f.nationality}" placeholder="مثال: باكستانية" /></div>
         </div>
-
         <div class="social-form-grid three">
-          <div>
-            <label>المهنة</label>
-            <input id="workerOccupation" value="${f.occupation}" placeholder="مثال: سائق خاص" />
-          </div>
-          <div>
-            <label>رقم الإقامة</label>
-            <input id="workerIqama" value="${f.iqama}" placeholder="10 أرقام" inputmode="numeric" />
-          </div>
-          <div>
-            <label>الراتب الشهري (ر.س)</label>
-            <input id="workerSalary" type="number" min="0" value="${f.salary}" placeholder="2500" />
-          </div>
+          <div><label>المهنة</label><input id="workerOccupation" value="${f.occupation}" placeholder="مثال: سائق خاص" /></div>
+          <div><label>رقم الإقامة</label><input id="workerIqama" value="${f.iqama}" placeholder="10 أرقام" inputmode="numeric" /></div>
+          <div><label>الراتب الشهري (ر.س)</label><input id="workerSalary" type="number" min="0" value="${f.salary}" placeholder="2500" /></div>
         </div>
-
         <div class="social-form-grid">
-          <div>
-            <label>تاريخ انتهاء الإقامة</label>
-            <input id="workerIqamaExpiry" value="${f.iqamaExpiry}" placeholder="1447/08/12" />
-          </div>
+          <div><label>تاريخ انتهاء الإقامة</label><input id="workerIqamaExpiry" value="${f.iqamaExpiry}" placeholder="1447/08/12" /></div>
           <div>
             <label>حالة الإقامة</label>
             <select id="workerResidence">
@@ -3478,11 +3308,8 @@ function renderWorkers(){
             </select>
           </div>
         </div>
-
         <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
-          <button type="button" class="btn btn-primary btn-sm" id="btnWorkerSave">
-            ${ic('check','ic-sm')} حفظ العامل
-          </button>
+          <button type="button" class="btn btn-primary btn-sm" id="btnWorkerSave">${ic('check','ic-sm')} حفظ العامل</button>
           <button type="button" class="btn btn-ghost btn-sm" id="btnWorkerCancel">إلغاء</button>
         </div>
       </div>
@@ -3500,55 +3327,35 @@ function bindWorkerEvents(){
   card.addEventListener('click', e => {
     const rm = e.target.closest('[data-remove-worker]');
     if(rm){
-      const id = rm.dataset.removeWorker;
-      state.workers = state.workers.filter(w => w.id !== id);
-      renderWorkers();
-      renderSummaryBar();
-      return;
+      state.workers = state.workers.filter(w => w.id !== rm.dataset.removeWorker);
+      renderWorkers(); renderSummaryBar(); return;
     }
-
     if(e.target.closest('#btnWorkerAdd')){
-      state.workerForm = {
-        open:true,
-        name:'', nationality:'', occupation:'', iqama:'', salary:'', iqamaExpiry:'',
-        residenceStatus:'valid', commitment:'committed'
-      };
-      renderWorkers();
-      return;
+      state.workerForm = { open:true, name:'', nationality:'', occupation:'', iqama:'', salary:'', iqamaExpiry:'', residenceStatus:'valid', commitment:'committed' };
+      renderWorkers(); return;
     }
-
     if(e.target.closest('#btnWorkerCancel')){
       state.workerForm = { open:false, name:'', nationality:'', occupation:'', iqama:'', salary:'', iqamaExpiry:'', residenceStatus:'valid', commitment:'committed' };
-      renderWorkers();
-      return;
+      renderWorkers(); return;
     }
-
     if(e.target.closest('#btnWorkerSave')){
-      const name         = (document.getElementById('workerName')?.value || '').trim();
-      const nationality  = (document.getElementById('workerNationality')?.value || '').trim();
-      const occupation   = (document.getElementById('workerOccupation')?.value || '').trim();
-      const iqama        = (document.getElementById('workerIqama')?.value || '').trim();
-      const salary       = parseFloat(document.getElementById('workerSalary')?.value || '0');
-      const iqamaExpiry  = (document.getElementById('workerIqamaExpiry')?.value || '').trim();
-      const residence    = document.getElementById('workerResidence')?.value || 'valid';
+      const name = (document.getElementById('workerName')?.value || '').trim();
+      const nationality = (document.getElementById('workerNationality')?.value || '').trim();
+      const occupation = (document.getElementById('workerOccupation')?.value || '').trim();
+      const iqama = (document.getElementById('workerIqama')?.value || '').trim();
+      const salary = parseFloat(document.getElementById('workerSalary')?.value || '0');
+      const iqamaExpiry = (document.getElementById('workerIqamaExpiry')?.value || '').trim();
+      const residence = document.getElementById('workerResidence')?.value || 'valid';
 
-      if(!name || !nationality || !occupation || !iqama || !salary){
-        alert('يرجى إدخال جميع الحقول المطلوبة.');
-        return;
-      }
+      if(!name || !nationality || !occupation || !iqama || !salary){ alert('يرجى إدخال جميع الحقول المطلوبة.'); return; }
 
       state.workers.push({
-        id: 'w' + Date.now(),
-        name, nationality, occupation, iqama, salary,
-        iqamaExpiry: iqamaExpiry || '—',
-        residenceStatus: residence,
-        commitment:'committed',
-        note:'مسجَّل'
+        id: 'w' + Date.now(), name, nationality, occupation, iqama, salary,
+        iqamaExpiry: iqamaExpiry || '—', residenceStatus: residence,
+        commitment:'committed', note:'مسجَّل'
       });
       state.workerForm = { open:false, name:'', nationality:'', occupation:'', iqama:'', salary:'', iqamaExpiry:'', residenceStatus:'valid', commitment:'committed' };
-      renderWorkers();
-      renderSummaryBar();
-      return;
+      renderWorkers(); renderSummaryBar(); return;
     }
   });
 }
@@ -3559,7 +3366,6 @@ function bindWorkerEvents(){
 function renderDebts(){
   const el = document.getElementById('cardDebts');
   if(!el) return;
-
   const lateRent  = propertiesLateTotal();
   const lateSalary = workersLateTotal();
 
@@ -3569,11 +3375,9 @@ function renderDebts(){
       <div>
         <h3>الالتزامات والديون</h3>
         <p>
-          دين عليّ: <b>${fmt(debtsTotal())}</b> ر.س
-          &nbsp;|&nbsp;
-          دين لي: <b>${fmt(ledgerCreditTotal())}</b> ر.س
-          ${lateRent > 0 ? ` &nbsp;|&nbsp; <span style="color:var(--red)">إيجارات: ${fmt(lateRent)} ر.س</span>` : ''}
-          ${lateSalary > 0 ? ` &nbsp;|&nbsp; <span style="color:var(--red)">رواتب: ${fmt(lateSalary)} ر.س</span>` : ''}
+          دين عليّ: <b>${fmt(debtsTotal())}</b> ر.س | دين لي: <b>${fmt(ledgerCreditTotal())}</b> ر.س
+          ${lateRent > 0 ? ` | <span style="color:var(--red)">إيجارات: ${fmt(lateRent)} ر.س</span>` : ''}
+          ${lateSalary > 0 ? ` | <span style="color:var(--red)">رواتب: ${fmt(lateSalary)} ر.س</span>` : ''}
         </p>
       </div>
     </div>
@@ -3614,7 +3418,7 @@ function simahBody(){
         <div class="row warn">
           <div class="row-ic warn">${ic('home','ic-sm')}</div>
           <div class="row-body">
-            <div class="row-title">إيجارات متأخرة — عقارات أستأجرها</div>
+            <div class="row-title">إيجارات متأخرة</div>
             <div class="row-sub">مستخرجة آليًا</div>
           </div>
           <div class="row-val late"><b>${fmt(lateRent)} ر.س</b></div>
@@ -3625,7 +3429,7 @@ function simahBody(){
         <div class="row warn">
           <div class="row-ic warn">${ic('hardHat','ic-sm')}</div>
           <div class="row-body">
-            <div class="row-title">رواتب متأخرة — عمالة ومقيمين</div>
+            <div class="row-title">رواتب متأخرة</div>
             <div class="row-sub">مستخرجة آليًا</div>
           </div>
           <div class="row-val late"><b>${fmt(lateSalary)} ر.س</b></div>
@@ -3637,7 +3441,7 @@ function simahBody(){
           <div class="row-ic landlord">${ic('key','ic-sm')}</div>
           <div class="row-body">
             <div class="row-title">إيجارات متأخرة لصالحك</div>
-            <div class="row-sub">على المستأجرين — أنا المؤجِّر</div>
+            <div class="row-sub">على المستأجرين</div>
           </div>
           <div class="row-val landlord"><b>${fmt(dueFromTenants)} ر.س</b></div>
         </div>
@@ -3675,9 +3479,7 @@ function ledgerBody(){
                 &nbsp; ${e.date}${e.proof ? ' • ✅ مرفق' : ''}
               </div>
             </div>
-            <div class="row-val ${d?'late':''}">
-              <b>${d ? '−' : '+'}${fmt(e.amount)} ر.س</b>
-            </div>
+            <div class="row-val ${d?'late':''}"><b>${d ? '−' : '+'}${fmt(e.amount)} ر.س</b></div>
             <button type="button" class="btn btn-ghost btn-sm" data-remove="${e.id}">${ic('trash','ic-sm')}</button>
           </div>
         `;
@@ -3687,12 +3489,8 @@ function ledgerBody(){
     <div style="margin-top:18px;padding-top:18px;border-top:1px dashed var(--line)">
       <label>إضافة إقرار جديد</label>
       <div class="seg" style="margin-bottom:12px">
-        <button type="button" data-ledger-type="debit" class="${isDebit?'active':''}">
-          ${ic('arrowLeft','ic-sm')} دين عليّ
-        </button>
-        <button type="button" data-ledger-type="credit" class="${!isDebit?'active':''}">
-          ${ic('arrowRight','ic-sm')} دين لي
-        </button>
+        <button type="button" data-ledger-type="debit" class="${isDebit?'active':''}">${ic('arrowLeft','ic-sm')} دين عليّ</button>
+        <button type="button" data-ledger-type="credit" class="${!isDebit?'active':''}">${ic('arrowRight','ic-sm')} دين لي</button>
       </div>
       <div class="form-row">
         <input id="ledName" placeholder="${isDebit ? 'اسم الدائن (لك)' : 'اسم المدين (لك)'}" />
@@ -3734,33 +3532,23 @@ function renderPerms(){
     <div style="margin-bottom:18px">
       <label for="selHeir">${ic('eye','ic-sm')} الوريث المخوّل بالاطلاع</label>
       <select id="selHeir">${opts(state.authorizedHeir)}</select>
-      <p style="font-size:12px;color:var(--muted);margin:7px 0 0;line-height:1.6">
-        صلاحية <b>اطلاع فقط</b> — لا تمنح أي حق في التصرف أو السداد.
-      </p>
+      <p style="font-size:12px;color:var(--muted);margin:7px 0 0;line-height:1.6">صلاحية <b>اطلاع فقط</b> — لا تمنح أي حق في التصرف أو السداد.</p>
     </div>
 
     <div style="margin-bottom:18px">
       <label for="selExec">${ic('userCheck','ic-sm')} منفّذ سداد الدين</label>
       <select id="selExec">${opts(state.executor)}</select>
-      <p style="font-size:12px;color:var(--muted);margin:7px 0 0;line-height:1.6">
-        صلاحية <b>تنفيذ سداد الالتزامات فقط</b> — لا تمنح أي حق في التصرف بباقي التركة.
-      </p>
+      <p style="font-size:12px;color:var(--muted);margin:7px 0 0;line-height:1.6">صلاحية <b>تنفيذ سداد الالتزامات فقط</b>.</p>
     </div>
 
     <div class="note-box note-warn">
       ${ic('alert','ic-sm')}
-      <span>
-        هذه الصلاحيات <b>ليست توكيلًا شرعيًا</b>، بل أذونات محددة النطاق تُفعَّل تلقائيًا
-        بعد تسجيل الوفاة فقط، وتبقى تحت رقابة مكتب العدل.
-      </span>
+      <span>هذه الصلاحيات <b>ليست توكيلًا شرعيًا</b>، بل أذونات محددة النطاق.</span>
     </div>
 
     <div class="note-box note-legal" style="margin-top:12px">
       ${ic('shield','ic-sm')}
-      <span>
-        <b>النظام لا يوزّع الإرث بنفسه</b>، بل يجهّز ويسرّع البيانات لمكتب العدل
-        الذي يعتمد التوزيع النهائي رسميًا.
-      </span>
+      <span><b>النظام لا يوزّع الإرث بنفسه</b>، بل يجهّز ويسرّع البيانات لمكتب العدل.</span>
     </div>
 
     <div style="margin-top:18px;padding-top:18px;border-top:1px dashed var(--line)">
@@ -3773,16 +3561,10 @@ function renderPerms(){
 
     <div style="margin-top:24px;padding-top:20px;border-top:1px dashed var(--line)">
       <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:12px">
-        <div style="width:38px;height:38px;border-radius:11px;background:var(--red-bg);color:var(--red);display:grid;place-items:center;flex:0 0 auto">
-          ${ic('delete','ic-sm')}
-        </div>
+        <div style="width:38px;height:38px;border-radius:11px;background:var(--red-bg);color:var(--red);display:grid;place-items:center;flex:0 0 auto">${ic('delete','ic-sm')}</div>
         <div>
-          <h4 style="margin:0 0 4px;font-size:15px;font-weight:700;color:var(--text)">
-            حذف بياناتي الشخصية
-          </h4>
-          <p style="margin:0;font-size:12px;color:var(--muted);line-height:1.6">
-            حقّك وفق نظام حماية البيانات الشخصية (PDPL).
-          </p>
+          <h4 style="margin:0 0 4px;font-size:15px;font-weight:700">حذف بياناتي الشخصية</h4>
+          <p style="margin:0;font-size:12px;color:var(--muted);line-height:1.6">حقّك وفق نظام حماية البيانات الشخصية (PDPL).</p>
         </div>
       </div>
 
@@ -3796,9 +3578,7 @@ function renderPerms(){
           </span>
         </div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
-          <button type="button" class="btn btn-ghost btn-sm" id="btnCancelDeletion">
-            ${ic('refresh','ic-sm')} إلغاء طلب الحذف
-          </button>
+          <button type="button" class="btn btn-ghost btn-sm" id="btnCancelDeletion">${ic('refresh','ic-sm')} إلغاء طلب الحذف</button>
         </div>
       ` : `
         <button type="button" class="btn btn-danger" id="btnRequestDeletion" style="margin-top:8px">
@@ -3808,10 +3588,7 @@ function renderPerms(){
 
       <div class="note-box note-legal" style="margin-top:14px">
         ${ic('shield','ic-sm')}
-        <span>
-          نحن نلتزم بنظام حماية البيانات الشخصية (PDPL) الصادر بالمرسوم الملكي
-          رقم (م/19) وتاريخ 9/2/1443هـ.
-        </span>
+        <span>نلتزم بنظام حماية البيانات الشخصية (PDPL) — المرسوم الملكي رقم (م/19) وتاريخ 9/2/1443هـ.</span>
       </div>
     </div>
   `;
@@ -3873,14 +3650,12 @@ function renderDeletionModal(){
           </div>
           <label class="checkbox-row">
             <input type="checkbox" id="delConfirm" />
-            <span>أُقرّ بأنني قرأت الإشعار أعلاه، وأرغب في حذف بياناتي الشخصية من منصة أرث.</span>
+            <span>أُقرّ بأنني قرأت الإشعار أعلاه، وأرغب في حذف بياناتي من منصة أرث.</span>
           </label>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-ghost" id="btnCancelDel">إلغاء</button>
-          <button type="button" class="btn btn-danger" id="btnConfirmDel" disabled>
-            ${ic('delete','ic-sm')} تأكيد الحذف
-          </button>
+          <button type="button" class="btn btn-danger" id="btnConfirmDel" disabled>${ic('delete','ic-sm')} تأكيد الحذف</button>
         </div>
       </div>
     </div>
@@ -3896,11 +3671,9 @@ function renderDeletionModal(){
   if(checkbox){
     confirmBtn.disabled = true;
     confirmBtn.style.opacity = '.55';
-    confirmBtn.style.cursor = 'not-allowed';
     checkbox.onchange = () => {
       confirmBtn.disabled = !checkbox.checked;
       confirmBtn.style.opacity = checkbox.checked ? '1' : '.55';
-      confirmBtn.style.cursor = checkbox.checked ? 'pointer' : 'not-allowed';
     };
   }
   if(cancelBtn) cancelBtn.onclick = () => closeDeletionModal();
@@ -3945,16 +3718,12 @@ function renderCharityModal(){
   const maxWasiyya = Math.floor(netEstate() / 3);
 
   const typeOptions = Object.entries(CHARITY_TYPES).map(([k,v]) =>
-    `<label>
-       <input type="radio" name="charityType" value="${k}" ${c.type===k?'checked':''} />
-       <span>${ic('heart','ic-sm')} ${v.label}</span>
-     </label>`
+    `<label><input type="radio" name="charityType" value="${k}" ${c.type===k?'checked':''} /><span>${ic('heart','ic-sm')} ${v.label}</span></label>`
   ).join('');
 
   const presetButtons = CHARITY_PRESETS.map(amt =>
     `<button type="button" class="charity-amount ${c.amount===amt?'selected':''}" data-charity-amt="${amt}">
-       <b>${fmt(amt)}</b>
-       <span>ر.س</span>
+       <b>${fmt(amt)}</b><span>ر.س</span>
      </button>`
   ).join('');
 
@@ -3968,7 +3737,6 @@ function renderCharityModal(){
             <p>صدقة جارية • وقف • تبرع عام — تُخصم من ثلث التركة</p>
           </div>
         </div>
-
         <div class="modal-body">
           <div style="background:linear-gradient(135deg,#e6f5f5,#ffffff);border:1px solid #a8d8d8;border-radius:12px;padding:12px 14px;margin-bottom:16px">
             <div style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:#0d6e6e;font-weight:600">
@@ -3977,9 +3745,7 @@ function renderCharityModal(){
           </div>
 
           <label>اختر المبلغ (ر.س)</label>
-          <div class="charity-amounts">
-            ${presetButtons}
-          </div>
+          <div class="charity-amounts">${presetButtons}</div>
 
           <div style="margin-top:6px;margin-bottom:14px">
             <label for="charityCustom">أو أدخل مبلغًا مخصصًا</label>
@@ -3987,9 +3753,7 @@ function renderCharityModal(){
           </div>
 
           <label>نوع التبرع</label>
-          <div class="charity-types">
-            ${typeOptions}
-          </div>
+          <div class="charity-types">${typeOptions}</div>
 
           <div style="margin-top:14px">
             <label for="charityNote">ملاحظة (اختياري)</label>
@@ -3998,17 +3762,12 @@ function renderCharityModal(){
 
           <div class="note-box note-teal" style="margin-top:14px">
             ${ic('info','ic-sm')}
-            <span>
-              سيتم إصدار صك إلكتروني موثق بعد اعتماد التبرع من منصة إحسان، ويُخصم من ثلث التركة فقط.
-            </span>
+            <span>سيتم إصدار صك إلكتروني موثق بعد اعتماد التبرع من منصة إحسان، ويُخصم من ثلث التركة فقط.</span>
           </div>
         </div>
-
         <div class="modal-footer">
           <button type="button" class="btn btn-ghost" id="btnCharityCancel">إلغاء</button>
-          <button type="button" class="btn btn-primary" id="btnCharityConfirm">
-            ${ic('check','ic-sm')} تأكيد التبرع
-          </button>
+          <button type="button" class="btn btn-primary" id="btnCharityConfirm">${ic('check','ic-sm')} تأكيد التبرع</button>
         </div>
       </div>
     </div>
@@ -4028,37 +3787,21 @@ function renderCharityModal(){
     };
   });
 
-  if(customInput){
-    customInput.oninput = () => { state.charity.amount = Number(customInput.value) || 0; };
-  }
-
-  root.querySelectorAll('input[name="charityType"]').forEach(r => {
-    r.onchange = () => { state.charity.type = r.value; };
-  });
-
-  if(noteInput){
-    noteInput.oninput = () => { state.charity.note = noteInput.value; };
-  }
-
+  if(customInput) customInput.oninput = () => { state.charity.amount = Number(customInput.value) || 0; };
+  root.querySelectorAll('input[name="charityType"]').forEach(r => { r.onchange = () => { state.charity.type = r.value; }; });
+  if(noteInput) noteInput.oninput = () => { state.charity.note = noteInput.value; };
   if(cancelBtn) cancelBtn.onclick = () => closeCharityModal();
 
   if(confirmBtn){
     confirmBtn.onclick = () => {
       const amount = Number(state.charity.amount) || 0;
-      if(amount < 100){
-        alert('الحد الأدنى للتبرع 100 ر.س');
-        return;
-      }
-      if(amount > maxWasiyya){
-        alert('المبلغ يتجاوز ثلث صافي التركة (' + fmt(maxWasiyya) + ' ر.س)');
-        return;
-      }
+      if(amount < 100){ alert('الحد الأدنى للتبرع 100 ر.س'); return; }
+      if(amount > maxWasiyya){ alert('المبلغ يتجاوز ثلث صافي التركة (' + fmt(maxWasiyya) + ' ر.س)'); return; }
       const now = new Date();
       const y = now.getFullYear();
       const m = String(now.getMonth() + 1).padStart(2, '0');
       const d = String(now.getDate()).padStart(2, '0');
       const rand = String(Math.floor(100000 + Math.random() * 900000));
-
       state.charity.confirmed = true;
       state.charity.receiptId = `EHSAN-${y}${m}${d}-${rand}`;
       state.charity.receiptDate = `${y}/${m}/${d}`;
@@ -4099,12 +3842,8 @@ function renderProfileModal(){
         </div>
 
         <div class="modal-body">
-
-          <!-- الاسم والهوية -->
           <div style="display:flex;align-items:center;gap:14px;padding:16px;background:linear-gradient(135deg,#f7faf9,#ffffff);border:1px solid var(--line);border-radius:14px;margin-bottom:16px">
-            <div style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#0b3d2e,#14664a);color:#8fe0bd;display:grid;place-items:center;font-size:22px;font-weight:700;flex:0 0 auto">
-              ${P.fullName.charAt(0)}
-            </div>
+            <div style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#0b3d2e,#14664a);color:#8fe0bd;display:grid;place-items:center;font-size:22px;font-weight:700;flex:0 0 auto">${P.fullName.charAt(0)}</div>
             <div style="flex:1;min-width:0">
               <div style="font-size:16px;font-weight:700;color:var(--text)">${P.fullName}</div>
               <div style="font-size:12.5px;color:var(--muted);margin-top:2px">${P.jobTitle} — ${P.employer}</div>
@@ -4115,7 +3854,6 @@ function renderProfileModal(){
             </div>
           </div>
 
-          <!-- البيانات الأساسية -->
           <h4 style="font-size:13px;font-weight:700;color:var(--green-900);margin:16px 0 10px;display:flex;align-items:center;gap:6px">
             ${ic('idCard','ic-sm')} البيانات الأساسية
           </h4>
@@ -4131,7 +3869,6 @@ function renderProfileModal(){
             <div class="profile-field" style="grid-column:1/-1"><span class="lbl">العنوان</span><span class="val arabic">${P.address}</span></div>
           </div>
 
-          <!-- البيانات الوظيفية (الموارد البشرية) -->
           <h4 style="font-size:13px;font-weight:700;color:var(--green-900);margin:20px 0 10px;display:flex;align-items:center;gap:6px">
             ${ic('briefcaseHuman','ic-sm')} البيانات الوظيفية — الموارد البشرية
           </h4>
@@ -4145,7 +3882,6 @@ function renderProfileModal(){
             <div class="profile-field"><span class="lbl">آخر راتب أساسي</span><span class="val">${fmt(P.lastSalary)} ر.س</span></div>
           </div>
 
-          <!-- التأمينات الاجتماعية -->
           <h4 style="font-size:13px;font-weight:700;color:var(--green-900);margin:20px 0 10px;display:flex;align-items:center;gap:6px">
             ${ic('landmark','ic-sm')} التأمينات الاجتماعية
           </h4>
@@ -4162,12 +3898,8 @@ function renderProfileModal(){
 
           <div class="note-box note-blue" style="margin-top:16px">
             ${ic('info','ic-sm')}
-            <span>
-              هذه البيانات مربوطة آليًا مع <b>منصة الموارد البشرية</b> و<b>التأمينات الاجتماعية</b>.
-              أي تحديث في الجهة المصدر ينعكس تلقائيًا.
-            </span>
+            <span>هذه البيانات مربوطة آليًا مع <b>منصة الموارد البشرية</b> و<b>التأمينات الاجتماعية</b>. أي تحديث في الجهة المصدر ينعكس تلقائيًا.</span>
           </div>
-
         </div>
 
         <div class="modal-footer">
@@ -4197,8 +3929,7 @@ function bindSetupEvents(){
     const tabBtn = e.target.closest('[data-tab]');
     if(tabBtn && tabBtn.closest('#cardDebts')){
       state.tab = tabBtn.dataset.tab;
-      renderDebts();
-      return;
+      renderDebts(); return;
     }
 
     const typeBtn = e.target.closest('[data-ledger-type]');
@@ -4208,46 +3939,35 @@ function bindSetupEvents(){
         b.classList.toggle('active', b.dataset.ledgerType === state.ledgerType);
       });
       const nameInput = document.getElementById('ledName');
-      if(nameInput){
-        nameInput.placeholder = state.ledgerType === 'debit' ? 'اسم الدائن (لك)' : 'اسم المدين (لك)';
-      }
+      if(nameInput) nameInput.placeholder = state.ledgerType === 'debit' ? 'اسم الدائن (لك)' : 'اسم المدين (لك)';
       return;
     }
 
     if(e.target.closest('#ledProof')){
       state.proofAttached = !state.proofAttached;
-      renderDebts();
-      return;
+      renderDebts(); return;
     }
 
     if(e.target.closest('#ledAdd')){
       const name   = (document.getElementById('ledName')?.value   || '').trim();
       const amount = parseFloat(document.getElementById('ledAmount')?.value || '0');
       const date   = (document.getElementById('ledDate')?.value   || '').trim() || '1446/07/14';
-      if(!name || !amount || amount <= 0){
-        alert('يرجى إدخال الاسم والمبلغ بشكل صحيح.');
-        return;
-      }
+      if(!name || !amount || amount <= 0){ alert('يرجى إدخال الاسم والمبلغ بشكل صحيح.'); return; }
       state.ledger.push({ id: Date.now(), creditor: name, amount, date, proof: state.proofAttached, type: state.ledgerType });
       state.proofAttached = false;
-      renderDebts(); renderWasiyya(); renderSummaryBar(); renderSalary();
-      return;
+      renderDebts(); renderWasiyya(); renderSummaryBar(); renderSalary(); return;
     }
 
     const rm = e.target.closest('[data-remove]');
     if(rm && rm.closest('#cardDebts')){
-      const id = Number(rm.dataset.remove);
-      state.ledger = state.ledger.filter(x => x.id !== id);
-      renderDebts(); renderWasiyya(); renderSummaryBar(); renderSalary();
-      return;
+      state.ledger = state.ledger.filter(x => x.id !== Number(rm.dataset.remove));
+      renderDebts(); renderWasiyya(); renderSummaryBar(); renderSalary(); return;
     }
 
     const repBtn = e.target.closest('[data-report]');
     if(repBtn){
       state.report = repBtn.dataset.report;
-      renderPerms();
-      renderSummaryBar();
-      return;
+      renderPerms(); renderSummaryBar(); return;
     }
   });
 
@@ -4256,7 +3976,6 @@ function bindSetupEvents(){
     if(e.target.id === 'selExec'){ state.executor = e.target.value; }
   });
 
-  /* زر الـ user-chip */
   const userChip = document.getElementById('userChip');
   if(userChip) userChip.onclick = () => openProfileModal();
 }
@@ -4279,13 +3998,9 @@ function renderHeirScreen(){
 function renderHeirPanel(){
   const p = document.getElementById('heirPanel');
   if(!p) return;
-  if(state.heir.result === 'granted'){
-    p.innerHTML = grantedPanel();
-  } else if(state.heir.result === 'denied'){
-    p.innerHTML = deniedPanel();
-  } else {
-    p.innerHTML = heirLoginForm();
-  }
+  if(state.heir.result === 'granted'){ p.innerHTML = grantedPanel(); }
+  else if(state.heir.result === 'denied'){ p.innerHTML = deniedPanel(); }
+  else { p.innerHTML = heirLoginForm(); }
   bindHeirEvents();
 }
 
@@ -4311,11 +4026,6 @@ function heirLoginForm(){
 
       <button type="button" class="btn btn-primary" id="btnHeirVerify">${ic('lock','ic-sm')} تحقّق واعرض النتيجة</button>
 
-      <div class="note-box" style="margin-top:16px">
-        ${ic('alert','ic-sm')}
-        <span>صلاحية الاطلاع لا تمنح أي حق في التصرف أو السداد.</span>
-      </div>
-
       <div class="hint-box">
         <b>بيانات تجريبية للعرض:</b><br>
         هوية المتوفى: <b>${MOCK_DECEASED_ID}</b> — الوريث المخوّل حاليًا هو
@@ -4334,12 +4044,8 @@ function deniedPanel(){
         <div class="deny-circle">${ic('alert')}</div>
         <h3 style="margin:0 0 6px;font-size:18px">تعذّر منح صلاحية الاطلاع</h3>
         ${who
-          ? `<p style="color:var(--muted);font-size:13.5px;line-height:1.8">
-               تم التحقق من هويتك كوريث شرعي (<b>${who.name}</b>)، لكن المتوفى لم يمنحك صلاحية الاطلاع الرقمية.
-             </p>`
-          : `<p style="color:var(--muted);font-size:13.5px;line-height:1.8">
-               لم نتمكن من مطابقة رقمي الهوية مع بيانات المتوفى أو الورثة المسجّلين.
-             </p>`}
+          ? `<p style="color:var(--muted);font-size:13.5px;line-height:1.8">تم التحقق من هويتك كوريث شرعي (<b>${who.name}</b>)، لكن المتوفى لم يمنحك صلاحية الاطلاع الرقمية.</p>`
+          : `<p style="color:var(--muted);font-size:13.5px;line-height:1.8">لم نتمكن من مطابقة رقمي الهوية مع بيانات المتوفى أو الورثة المسجّلين.</p>`}
       </div>
       <button type="button" class="btn btn-ghost" id="btnHeirRetry" style="width:100%;justify-content:center">
         ${ic('refresh','ic-sm')} محاولة مرة أخرى
@@ -4364,23 +4070,14 @@ function grantedPanel(){
   `;
 }
 
-/* ================================================================
-   ملف التركة الكامل — مع شريط المراحل
-   ================================================================ */
 function renderTimelineHTML(){
   return `
     <div class="timeline-wrap">
-      <div class="timeline-title">
-        ${ic('sparkles','ic-sm')} مراحل معالجة ملف التركة
-      </div>
+      <div class="timeline-title">${ic('sparkles','ic-sm')} مراحل معالجة ملف التركة</div>
       <div class="timeline">
-        ${FILE_STAGES.map((s, i) => `
+        ${FILE_STAGES.map((s) => `
           <div class="timeline-step ${s.status}">
-            <div class="circle">
-              ${s.status === 'done' ? ic('check','ic-sm') :
-                s.status === 'active' ? ic(s.icon,'ic-sm') :
-                ic(s.icon,'ic-sm')}
-            </div>
+            <div class="circle">${s.status === 'done' ? ic('check','ic-sm') : ic(s.icon,'ic-sm')}</div>
             <div class="lbl">${s.label}</div>
           </div>
         `).join('')}
@@ -4419,10 +4116,9 @@ function fullFile(){
         </div>
       `).join('')}
 
-      <h4 style="font-size:13.5px;margin-top:18px">${ic('coin','ic-sm')} راتب التأمينات الاجتماعية</h4>
-      <div class="mini-row"><span>مصدر الراتب</span><b>${GOSI_PENSION.paidBy}</b></div>
-      <div class="mini-row"><span>إجمالي الراتب المتاح للتوزيع</span><b>${fmt(GOSI_PENSION.totalToDistribute)} ر.س</b></div>
-      <div class="mini-row"><span>الحالة</span><b style="color:var(--ok)">${GOSI_PENSION.status}</b></div>
+      <h4 style="font-size:13.5px;margin-top:18px">${ic('coin','ic-sm')} راتب التأمينات</h4>
+      <div class="mini-row"><span>المصدر</span><b>${GOSI_PENSION.paidBy}</b></div>
+      <div class="mini-row"><span>إجمالي الراتب</span><b>${fmt(GOSI_PENSION.totalToDistribute)} ر.س</b></div>
 
       <h4 style="font-size:13.5px;margin-top:18px">${ic('wallet','ic-sm')} الأصول والالتزامات</h4>
       <div class="mini-row"><span>حسابات بنكية</span><b>${fmt(banksTotal())} ر.س</b></div>
@@ -4438,12 +4134,8 @@ function fullFile(){
       <div style="font-size:12px;font-weight:700;margin-top:6px;color:var(--green-800)">الشركات والمؤسسات + مدير بديل</div>
       ${COMPANIES.map(c => {
         let mgr = '—';
-        if(c.managerType === 'heir'){
-          const h = heirById(c.managerId);
-          mgr = h ? `${h.name} (${h.rel}) — ${MANAGEMENT_MODES[c.managementMode]?.label||''}` : '—';
-        } else if(c.managerType === 'other'){
-          mgr = `${c.managerName} — ${MANAGEMENT_MODES[c.managementMode]?.label||''}`;
-        }
+        if(c.managerType === 'heir'){ const h = heirById(c.managerId); mgr = h ? `${h.name} (${h.rel}) — ${MANAGEMENT_MODES[c.managementMode]?.label||''}` : '—'; }
+        else if(c.managerType === 'other'){ mgr = `${c.managerName} — ${MANAGEMENT_MODES[c.managementMode]?.label||''}`; }
         return `
           <div class="mini-row" style="display:block;padding:7px 0">
             <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap">
@@ -4454,23 +4146,6 @@ function fullFile(){
               س.ت ${c.crNumber} • ${c.type}<br>المدير بعد الوفاة: <b style="color:var(--text)">${mgr}</b>
             </div>
           </div>`;
-      }).join('')}
-
-      <div style="font-size:12px;font-weight:700;margin-top:12px;color:var(--green-800)">الوكالات</div>
-      ${myAgencies.map(a => {
-        const isOut = a.type === 'out';
-        return `
-          <div class="mini-row" style="display:block;padding:8px 0">
-            <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap">
-              <b style="font-size:12.5px">${isOut?'وكالة له':'وكالة عليه'}</b>
-              <b style="color:${a.status==='سارية'?'var(--ok)':'var(--red)'}">${a.status}</b>
-            </div>
-            <div style="font-size:11px;color:var(--muted);margin-top:3px;line-height:1.7">
-              الموكِّل: <b>${a.issuer}</b> — ${a.issuerId}<br>الوكيل: <b>${a.agent}</b> — ${a.agentId}
-              <br>إصدار: ${a.issueDate} • انتهاء: ${a.expiryDate}
-            </div>
-          </div>
-        `;
       }).join('')}
 
       <h4 style="font-size:13.5px;margin-top:18px">${ic('hardHat','ic-sm')} العمالة</h4>
@@ -4485,8 +4160,8 @@ function fullFile(){
 
       <h4 style="font-size:13.5px;margin-top:18px">${ic('heart','ic-sm')} التبرع (إحسان)</h4>
       ${state.charity.confirmed ? `
-        <div class="mini-row"><span>المبلغ المتبرع به</span><b>${fmt(state.charity.amount)} ر.س</b></div>
-        <div class="mini-row"><span>نوع التبرع</span><b>${charityTypeLabel(state.charity.type)}</b></div>
+        <div class="mini-row"><span>المبلغ</span><b>${fmt(state.charity.amount)} ر.س</b></div>
+        <div class="mini-row"><span>النوع</span><b>${charityTypeLabel(state.charity.type)}</b></div>
         <div class="mini-row"><span>رقم الإيصال</span><b style="font-family:'Courier New',monospace">${state.charity.receiptId}</b></div>
       ` : '<div class="mini-row"><span>لم يتم تسجيل تبرع بعد.</span></div>'}
 
@@ -4499,9 +4174,9 @@ function fullFile(){
         <button type="button" class="btn btn-ghost btn-sm" id="btnPrintOfficial" onclick="openOfficialPrintDocument()">
           ${ic('printer','ic-sm')} تحميل نسخة PDF
         </button>
-        <a href="p.pdf" download="حصر_الورثة.pdf" class="btn btn-ghost btn-sm" style="text-decoration:none">
-          ${ic('file','ic-sm')} تنزيل حصر الورثة
-        </a>
+        <button type="button" class="btn btn-ghost btn-sm" id="btnPrintHeirsEnum" onclick="openHeirsEnumerationDocument()">
+          ${ic('scroll2','ic-sm')} تنزيل صك حصر الورثة
+        </button>
         <button type="button" class="btn btn-ghost btn-sm" id="btnHeirLogout">${ic('refresh','ic-sm')} تسجيل خروج</button>
       </div>
 
@@ -4520,34 +4195,21 @@ function bindHeirEvents(){
       const deceasedId = (document.getElementById('heirDeceasedId')?.value || '').trim();
       const heirId = (document.getElementById('heirSelfId')?.value || '').trim();
 
-      if(!deceasedId || !heirId){
-        state.heir.error = 'يرجى إدخال رقمي الهوية (المتوفى والوريث) للمتابعة.';
-        renderHeirPanel(); return;
-      }
+      if(!deceasedId || !heirId){ state.heir.error = 'يرجى إدخال رقمي الهوية.'; renderHeirPanel(); return; }
       state.heir.deceasedId = deceasedId;
       state.heir.heirId = heirId;
 
-      if(deceasedId !== MOCK_DECEASED_ID){
-        state.heir.result = 'denied'; state.heir.deniedHeir = null; renderHeirPanel(); return;
-      }
+      if(deceasedId !== MOCK_DECEASED_ID){ state.heir.result = 'denied'; state.heir.deniedHeir = null; renderHeirPanel(); return; }
       const matchedHeir = HEIRS.find(h => h.nationalId === heirId);
-      if(!matchedHeir){
-        state.heir.result = 'denied'; state.heir.deniedHeir = null; renderHeirPanel(); return;
-      }
-      if(matchedHeir.id !== state.authorizedHeir){
-        state.heir.result = 'denied'; state.heir.deniedHeir = matchedHeir; renderHeirPanel(); return;
-      }
+      if(!matchedHeir){ state.heir.result = 'denied'; state.heir.deniedHeir = null; renderHeirPanel(); return; }
+      if(matchedHeir.id !== state.authorizedHeir){ state.heir.result = 'denied'; state.heir.deniedHeir = matchedHeir; renderHeirPanel(); return; }
+
       state.heir.result = 'granted'; state.heir.fileOpen = false; renderHeirPanel();
     };
   }
 
   const retry = document.getElementById('btnHeirRetry');
-  if(retry){
-    retry.onclick = () => {
-      state.heir.result = null; state.heir.deniedHeir = null; state.heir.error = '';
-      renderHeirPanel();
-    };
-  }
+  if(retry) retry.onclick = () => { state.heir.result = null; state.heir.deniedHeir = null; state.heir.error = ''; renderHeirPanel(); };
 
   const openFile = document.getElementById('btnOpenFile');
   if(openFile) openFile.onclick = () => { state.heir.fileOpen = true; renderHeirPanel(); };
@@ -4561,9 +4223,6 @@ function bindHeirEvents(){
   }
 }
 
-/* ================================================================
-   التنقل بين الشاشات
-   ================================================================ */
 function switchScreen(name){
   state.screen = name;
   document.getElementById('screen-setup').classList.toggle('hidden', name !== 'setup');
@@ -4594,9 +4253,6 @@ function updateUserChip(name){
   }
 }
 
-/* ================================================================
-   بوابة نفاذ
-   ================================================================ */
 function renderLoginGate(){
   const el = document.getElementById('loginGate');
   let inner = '';
@@ -4667,9 +4323,7 @@ function bindGateEvents(){
   if(skip) skip.onclick = () => approveGateNow();
 
   const goHeir = document.getElementById('btnGoHeir');
-  if(goHeir){
-    goHeir.onclick = () => { revealApp(); switchScreen('heir'); };
-  }
+  if(goHeir) goHeir.onclick = () => { revealApp(); switchScreen('heir'); };
 }
 
 function startNafathWait(){
@@ -4710,7 +4364,16 @@ function backToGate(){
 }
 
 /* ================================================================
-   قالب الطباعة الرسمي — مع بيانات جديدة
+   12) توليد رقم صك حصر الورثة
+   ================================================================ */
+function nextHeirsRefNumber(){
+  /* رقم ثابت لأغراض العرض — يمكن استبداله بتوليد ديناميكي */
+  return 'HRS-1446-284917';
+}
+
+/* ================================================================
+   13) قالب ملف التركة الرسمي (openOfficialPrintDocument)
+   — نفس الدالة الأصلية تمامًا، مع دعم البيانات الجديدة
    ================================================================ */
 function openOfficialPrintDocument(){
   var REPORT_ID = 'TRK-1446-019283';
@@ -4718,31 +4381,47 @@ function openOfficialPrintDocument(){
   var verifyUrl = VERIFY_BASE + REPORT_ID;
 
   var now = new Date();
-  var gDate = now.getFullYear() + '/' + String(now.getMonth()+1).padStart(2,'0') + '/' + String(now.getDate()).padStart(2,'0');
+  var gDate = now.getFullYear() + '/' +
+              String(now.getMonth()+1).padStart(2,'0') + '/' +
+              String(now.getDate()).padStart(2,'0');
   var hDate = '1446/07/14';
 
-  var qrSvg = '', qrGenerated = false;
+  /* ===== توليد رمز QR محليًا ===== */
+  var qrSvg = '';
+  var qrGenerated = false;
+
   try {
     if(typeof qrcode !== 'undefined'){
       var qr = qrcode(0, 'M');
       qr.addData(verifyUrl);
       qr.make();
       qrSvg = qr.createSvgTag({ cellSize: 4, margin: 2 });
-      if(qrSvg && qrSvg.indexOf('<svg') !== -1) qrGenerated = true;
+      if(qrSvg && qrSvg.indexOf('<svg') !== -1){
+        qrGenerated = true;
+        console.log('✅ QR (TRK) Level 1 - Success');
+      }
     }
-  } catch(e1){}
+  } catch(e1){ console.warn('❌ QR (TRK) L1 failed:', e1.message); }
+
   if(!qrGenerated){
     try {
       if(typeof qrcode !== 'undefined'){
         var qr2 = qrcode(0, 'L');
         qr2.addData(verifyUrl); qr2.make();
         qrSvg = qr2.createSvgTag({ cellSize: 4, margin: 2 });
-        if(qrSvg && qrSvg.indexOf('<svg') !== -1) qrGenerated = true;
+        if(qrSvg && qrSvg.indexOf('<svg') !== -1){
+          qrGenerated = true;
+          console.log('✅ QR (TRK) Level 2 - Success');
+        }
       }
-    } catch(e2){}
+    } catch(e2){ console.warn('❌ QR (TRK) L2 failed:', e2.message); }
   }
+
   if(!qrGenerated){
-    qrSvg = '<img src="https://api.qrserver.com/v1/create-qr-code/?size=260x260&data=' + encodeURIComponent(verifyUrl) + '" alt="QR" style="width:130px;height:130px;display:block" />';
+    console.error('❌ QR failed (TRK) — using external fallback');
+    qrSvg = '<img src="https://api.qrserver.com/v1/create-qr-code/?size=260x260&data=' +
+            encodeURIComponent(verifyUrl) +
+            '" alt="QR" style="width:130px;height:130px;display:block" />';
   }
 
   var esc = function(s){
@@ -4752,57 +4431,102 @@ function openOfficialPrintDocument(){
   };
   var money = function(n){ return fmt(n) + ' ر.س'; };
 
+  /* ===== 1) الورثة ===== */
   var heirsRows = HEIRS.map(function(h, i){
-    return '<tr><td class="c">' + (i+1) + '</td><td>' + esc(h.name) + '</td><td class="c">' + esc(h.rel) + '</td>' +
-      '<td class="mono">' + esc(h.nationalId) + '</td><td class="c">' + h.pct + '%</td><td>' + esc(h.frac) + '</td>' +
-      '<td class="num">' + money(heirAmount(h.pct)) + '</td></tr>';
+    return '<tr>' +
+      '<td class="c">' + (i+1) + '</td>' +
+      '<td>' + esc(h.name) + '</td>' +
+      '<td class="c">' + esc(h.rel) + '</td>' +
+      '<td class="mono">' + esc(h.nationalId) + '</td>' +
+      '<td class="c">' + h.pct + '%</td>' +
+      '<td>' + esc(h.frac) + '</td>' +
+      '<td class="num">' + money(heirAmount(h.pct)) + '</td>' +
+    '</tr>';
   }).join('');
 
+  /* ===== 2) راتب التأمينات ===== */
   var gosiRows = HEIRS.map(function(h, i){
-    return '<tr><td class="c">' + (i+1) + '</td><td>' + esc(h.name) + '</td><td class="c">' + esc(h.rel) + '</td>' +
-      '<td class="c">' + h.pct + '%</td><td class="num">' + money(gosiHeirAmount(h.pct)) + '</td></tr>';
+    return '<tr>' +
+      '<td class="c">' + (i+1) + '</td>' +
+      '<td>' + esc(h.name) + '</td>' +
+      '<td class="c">' + esc(h.rel) + '</td>' +
+      '<td class="c">' + h.pct + '%</td>' +
+      '<td class="num">' + money(gosiHeirAmount(h.pct)) + '</td>' +
+    '</tr>';
   }).join('');
 
+  /* ===== 3) الأصول ===== */
   var assetsRows = '';
-  BANKS.forEach(function(b){ assetsRows += '<tr><td>حساب بنكي — ' + esc(b.name) + '</td><td>' + esc(b.note) + '</td><td class="num">' + money(b.amount) + '</td></tr>'; });
-  EWALLETS.forEach(function(ew){ assetsRows += '<tr><td>محفظة إلكترونية — ' + esc(ew.providerAr) + ' (SAMA)</td><td>ترخيص: ' + esc(ew.license) + '</td><td class="num">' + money(ew.balance) + '</td></tr>'; });
-  STOCKS.forEach(function(st){ assetsRows += '<tr><td>أسهم — ' + esc(st.name) + ' (' + esc(st.symbol) + ')</td><td>' + fmt(st.shares) + ' سهم × ' + st.price.toFixed(2) + ' ر.س • ' + esc(st.depository) + '</td><td class="num">' + money(st.shares * st.price) + '</td></tr>'; });
-  VEHICLES.forEach(function(v){ assetsRows += '<tr><td>مركبة — ' + esc(v.name) + '</td><td>' + esc(v.note) + '</td><td class="num">' + money(v.amount) + '</td></tr>'; });
-  PROPERTIES.filter(function(p){ return p.role === 'owner' || p.role === 'landlord'; }).forEach(function(p){ assetsRows += '<tr><td>عقار — ' + esc(p.type) + '</td><td>' + esc(p.address) + '</td><td class="num">' + money(p.value || 0) + '</td></tr>'; });
-  if(ledgerCreditTotal() > 0){ assetsRows += '<tr><td>ديون لك على الآخرين</td><td>دفتر الإقرارات</td><td class="num">' + money(ledgerCreditTotal()) + '</td></tr>'; }
+  BANKS.forEach(function(b){
+    assetsRows += '<tr><td>حساب بنكي — ' + esc(b.name) + '</td><td>' + esc(b.note) + '</td><td class="num">' + money(b.amount) + '</td></tr>';
+  });
+  EWALLETS.forEach(function(ew){
+    assetsRows += '<tr><td>محفظة إلكترونية — ' + esc(ew.providerAr) + ' (SAMA)</td><td>ترخيص: ' + esc(ew.license) + '</td><td class="num">' + money(ew.balance) + '</td></tr>';
+  });
+  STOCKS.forEach(function(st){
+    assetsRows += '<tr><td>أسهم — ' + esc(st.name) + ' (' + esc(st.symbol) + ')</td><td>' + fmt(st.shares) + ' سهم × ' + st.price.toFixed(2) + ' ر.س • ' + esc(st.depository) + '</td><td class="num">' + money(st.shares * st.price) + '</td></tr>';
+  });
+  VEHICLES.forEach(function(v){
+    assetsRows += '<tr><td>مركبة — ' + esc(v.name) + (v.financed ? ' (ممولة)' : '') + '</td><td>' + esc(v.note) + '</td><td class="num">' + money(v.amount) + '</td></tr>';
+  });
+  PROPERTIES.filter(function(p){ return p.role === 'owner' || p.role === 'landlord'; }).forEach(function(p){
+    assetsRows += '<tr><td>عقار — ' + esc(p.type) + '</td><td>' + esc(p.address) + '</td><td class="num">' + money(p.value || 0) + '</td></tr>';
+  });
+  if(ledgerCreditTotal() > 0){
+    assetsRows += '<tr><td>ديون لك على الآخرين</td><td>دفتر الإقرارات</td><td class="num">' + money(ledgerCreditTotal()) + '</td></tr>';
+  }
   assetsRows += '<tr class="total"><td colspan="2">إجمالي الأصول</td><td class="num">' + money(assetsTotal()) + '</td></tr>';
 
+  /* ===== 4) الالتزامات ===== */
   var debtsRows = '';
-  SIMAH_DEBTS.forEach(function(d){ debtsRows += '<tr><td>' + esc(d.name) + '</td><td class="mono">' + esc(d.ref) + '</td><td class="num">' + money(d.amount) + '</td></tr>'; });
-  state.ledger.filter(function(e){ return e.type === 'debit'; }).forEach(function(e){ debtsRows += '<tr><td>دين عليّ — ' + esc(e.creditor) + '</td><td>' + esc(e.date) + '</td><td class="num">' + money(e.amount) + '</td></tr>'; });
-  if(propertiesLateTotal() > 0){ debtsRows += '<tr><td>إيجارات متأخرة</td><td>مستخرج آليًا</td><td class="num">' + money(propertiesLateTotal()) + '</td></tr>'; }
-  if(workersLateTotal() > 0){ debtsRows += '<tr><td>رواتب متأخرة</td><td>مستخرج آليًا</td><td class="num">' + money(workersLateTotal()) + '</td></tr>'; }
+  SIMAH_DEBTS.forEach(function(d){
+    debtsRows += '<tr><td>' + esc(d.name) + '</td><td class="mono">' + esc(d.ref) + '</td><td class="num">' + money(d.amount) + '</td></tr>';
+  });
+  state.ledger.filter(function(e){ return e.type === 'debit'; }).forEach(function(e){
+    debtsRows += '<tr><td>دين عليّ — ' + esc(e.creditor) + '</td><td>' + esc(e.date) + '</td><td class="num">' + money(e.amount) + '</td></tr>';
+  });
+  if(propertiesLateTotal() > 0){
+    debtsRows += '<tr><td>إيجارات متأخرة</td><td>مستخرج آليًا</td><td class="num">' + money(propertiesLateTotal()) + '</td></tr>';
+  }
+  if(workersLateTotal() > 0){
+    debtsRows += '<tr><td>رواتب متأخرة</td><td>مستخرج آليًا</td><td class="num">' + money(workersLateTotal()) + '</td></tr>';
+  }
   debtsRows += '<tr class="total"><td colspan="2">إجمالي الالتزامات</td><td class="num">' + money(debtsTotal()) + '</td></tr>';
 
+  /* ===== 5) الشركات ===== */
   var companiesRows = COMPANIES.map(function(c, i){
     var mgr = 'لم يُحدَّد';
-    if(c.managerType === 'heir'){ var h = heirById(c.managerId); mgr = h ? (h.name + ' — ' + ((MANAGEMENT_MODES[c.managementMode]||{}).label||'')) : '—'; }
-    else if(c.managerType === 'other'){ mgr = (c.managerName||'—') + ' — ' + ((MANAGEMENT_MODES[c.managementMode]||{}).label||''); }
+    if(c.managerType === 'heir'){
+      var h = heirById(c.managerId);
+      mgr = h ? (h.name + ' — ' + ((MANAGEMENT_MODES[c.managementMode]||{}).label || '')) : '—';
+    } else if(c.managerType === 'other'){
+      mgr = (c.managerName || '—') + ' — ' + ((MANAGEMENT_MODES[c.managementMode]||{}).label || '');
+    }
     return '<tr><td class="c">' + (i+1) + '</td><td>' + esc(c.name) + '</td><td class="mono">' + esc(c.crNumber) + '</td><td>' + esc(c.type) + '</td><td>' + esc(c.status) + '</td><td>' + esc(mgr) + '</td></tr>';
   }).join('');
 
+  /* ===== 6) الوكالات ===== */
   var myAgencies = getMyAgencies();
   var agenciesRows = myAgencies.map(function(a, i){
-    var kind = a.type === 'out' ? 'له' : 'عليه';
+    var kind = a.type === 'out' ? 'له (المتوفى موكِّل)' : 'عليه (المتوفى وكيل)';
     return '<tr><td class="c">' + (i+1) + '</td><td>' + kind + '</td><td>' + esc(a.issuer) + '</td><td>' + esc(a.agent) + '</td><td class="mono">' + esc(a.issueDate) + '</td><td class="mono">' + esc(a.expiryDate) + '</td><td class="c">' + esc(a.status) + '</td></tr>';
   }).join('');
 
+  /* ===== 7) حسابات التواصل ===== */
   var socialRows = state.socialAccounts.length ? state.socialAccounts.map(function(a, i){
     return '<tr><td class="c">' + (i+1) + '</td><td>' + esc(platformName(a.platform)) + '</td><td class="mono">' + esc(a.username) + '</td><td>' + esc(ACTION_LABELS[a.action]||'—') + '</td></tr>';
   }).join('') : '<tr><td colspan="4" class="c">لا توجد حسابات.</td></tr>';
 
-  var wasiyyaText = state.wasiyya ? esc(state.wasiyya) : 'لم تُسجَّل وصية.';
-
+  /* ===== 8) التبرع ===== */
   var charityRows = state.charity.confirmed
     ? '<tr><td>المبلغ المتبرع به</td><td>' + esc(charityTypeLabel(state.charity.type)) + '</td><td class="num">' + money(state.charity.amount) + '</td></tr>' +
       '<tr><td>رقم الإيصال</td><td>' + esc(state.charity.receiptId) + '</td><td class="num">' + esc(state.charity.receiptDate) + '</td></tr>'
     : '<tr><td colspan="3" class="c">لم يتم تسجيل تبرع بعد.</td></tr>';
 
+  /* ===== 9) الوصية ===== */
+  var wasiyyaText = state.wasiyya ? esc(state.wasiyya) : 'لم تُسجَّل وصية.';
+
+  /* ===== بناء مستند HTML ===== */
   var doc =
     '<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="utf-8"/><title>وثيقة رسمية — ' + REPORT_ID + '</title>' +
     '<style>' +
@@ -4812,28 +4536,30 @@ function openOfficialPrintDocument(){
     'body{font-family:"Traditional Arabic","Simplified Arabic","Noto Naskh Arabic","Segoe UI",Tahoma,"Arial",serif;font-size:12pt;line-height:1.6;color:#111;padding:0 0 14mm 0}' +
     '.letterhead{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;padding-bottom:10px;border-bottom:2px solid #0b3d2e;margin-bottom:14px}' +
     '.letterhead .brand-block{text-align:right;flex:1}' +
-    '.letterhead .brand-block h1{margin:0;font-size:16pt;font-weight:700;color:#0b3d2e}' +
+    '.letterhead .brand-block h1{margin:0;font-size:16pt;font-weight:700;color:#0b3d2e;letter-spacing:-.3px}' +
     '.letterhead .brand-block .subtitle{margin:2px 0 0;font-size:9.5pt;color:#444}' +
     '.letterhead .meta-block{text-align:left;flex:0 0 auto;font-size:10pt;color:#222}' +
+    '.letterhead .meta-block .row{margin:1px 0}' +
     '.letterhead .meta-block .lbl{color:#666;font-size:9pt}' +
-    '.letterhead .meta-block .val{font-weight:700;font-family:"Courier New",monospace}' +
-    'h2.section-title{font-size:12.5pt;font-weight:700;color:#0b3d2e;margin:16px 0 6px;padding-bottom:4px;border-bottom:1px solid #0b3d2e;page-break-after:avoid}' +
-    'h2.section-title .num{display:inline-block;min-width:22px;color:#0b3d2e}' +
+    '.letterhead .meta-block .val{font-weight:700;font-family:"Courier New",monospace;letter-spacing:.3px}' +
+    'h2.section-title{font-size:12.5pt;font-weight:700;color:#0b3d2e;margin:16px 0 6px;padding-bottom:4px;border-bottom:1px solid #0b3d2e;page-break-after:avoid;break-after:avoid}' +
+    'h2.section-title .num{display:inline-block;min-width:22px;color:#0b3d2e;font-weight:700}' +
     'table.doc-table{width:100%;border-collapse:collapse;margin:4px 0 12px;font-size:10.5pt}' +
     'table.doc-table thead th{background:#eef2f0;color:#0b3d2e;font-weight:700;border:1px solid #b9c6c0;padding:6px 8px;text-align:right;font-size:10pt}' +
-    'table.doc-table td{border:1px solid #b9c6c0;padding:5px 8px;vertical-align:top;page-break-inside:avoid}' +
+    'table.doc-table td{border:1px solid #b9c6c0;padding:5px 8px;vertical-align:top;page-break-inside:avoid;break-inside:avoid}' +
     'table.doc-table tr:nth-child(even) td{background:#fafbfb}' +
     'table.doc-table tr.total td{background:#eef2f0;font-weight:700;color:#0b3d2e}' +
     'table.doc-table td.c{text-align:center}' +
     'table.doc-table td.num{text-align:left;font-family:"Courier New",monospace;white-space:nowrap}' +
-    'table.doc-table td.mono{font-family:"Courier New",monospace;font-size:9.8pt}' +
-    '.doc-note{border:1px solid #b9c6c0;border-right:3px solid #0b3d2e;background:#fafbfb;padding:8px 12px;margin:10px 0;font-size:10pt;color:#222}' +
-    '.kpi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:8px 0 12px}' +
+    'table.doc-table td.mono{font-family:"Courier New",monospace;font-size:9.8pt;letter-spacing:.2px}' +
+    '.doc-note{border:1px solid #b9c6c0;border-right:3px solid #0b3d2e;background:#fafbfb;padding:8px 12px;margin:10px 0;font-size:10pt;color:#222;page-break-inside:avoid;break-inside:avoid}' +
+    '.doc-note b{color:#0b3d2e}' +
+    '.kpi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:8px 0 12px;page-break-inside:avoid;break-inside:avoid}' +
     '.kpi{border:1px solid #b9c6c0;padding:8px 10px;background:#fff}' +
     '.kpi .lbl{font-size:9.5pt;color:#555;display:block}' +
     '.kpi .val{font-size:12pt;font-weight:700;color:#0b3d2e;display:block;margin-top:2px;font-family:"Courier New",monospace}' +
-    '.wasiyya-box{border:1px solid #b9c6c0;padding:10px 14px;background:#fafbfb;font-size:11pt;line-height:1.9;white-space:pre-wrap}' +
-    '.approval-section{margin-top:24px;padding-top:14px;border-top:2px solid #0b3d2e;page-break-inside:avoid}' +
+    '.wasiyya-box{border:1px solid #b9c6c0;padding:10px 14px;background:#fafbfb;font-size:11pt;line-height:1.9;white-space:pre-wrap;page-break-inside:avoid;break-inside:avoid}' +
+    '.approval-section{margin-top:24px;padding-top:14px;border-top:2px solid #0b3d2e;page-break-inside:avoid;break-inside:avoid}' +
     '.approval-section h2{font-size:12.5pt;font-weight:700;color:#0b3d2e;margin:0 0 10px}' +
     '.approval-row{display:flex;align-items:center;gap:16px;border:1px solid #b9c6c0;padding:12px 16px;background:#fff}' +
     '.approval-row .qr-box{flex:0 0 auto;width:130px;height:130px;display:flex;align-items:center;justify-content:center}' +
@@ -4841,9 +4567,10 @@ function openOfficialPrintDocument(){
     '.approval-row .qr-box img{width:130px;height:130px;display:block}' +
     '.approval-row .info{flex:1;font-size:10.5pt;line-height:1.7}' +
     '.approval-row .info .title{font-weight:700;color:#0b3d2e;font-size:11.5pt;margin-bottom:4px}' +
-    '.approval-row .info .report-code{font-family:"Courier New",monospace;font-weight:700;background:#eef2f0;padding:2px 8px;border:1px solid #b9c6c0;display:inline-block;letter-spacing:1px}' +
-    '.page-footer{position:fixed;bottom:6mm;right:16mm;left:16mm;font-size:9pt;color:#555;border-top:1px solid #b9c6c0;padding-top:5px;text-align:center}' +
+    '.approval-row .info .report-code{font-family:"Courier New",monospace;font-weight:700;background:#eef2f0;padding:2px 8px;border:1px solid #b9c6c0;display:inline-block;margin-top:4px;letter-spacing:1px}' +
+    '.page-footer{position:fixed;bottom:6mm;right:16mm;left:16mm;font-size:9pt;color:#555;border-top:1px solid #b9c6c0;padding-top:5px;text-align:center;line-height:1.5}' +
     '.page-footer .legal{color:#0b3d2e;font-weight:600}' +
+    '.page-footer .pagenum{color:#666;font-size:8.5pt;margin-top:2px}' +
     '.controls{position:fixed;top:10px;left:10px;z-index:99;display:flex;gap:8px;background:#0b3d2e;padding:8px 10px;border-radius:10px;box-shadow:0 4px 14px rgba(0,0,0,.25)}' +
     '.controls button{font-family:inherit;font-size:11pt;font-weight:600;padding:7px 14px;border-radius:8px;border:0;cursor:pointer}' +
     '.controls .print-btn{background:#8fe0bd;color:#052318}' +
@@ -4857,11 +4584,14 @@ function openOfficialPrintDocument(){
     '</div>' +
 
     '<div class="letterhead">' +
-      '<div class="brand-block"><h1>أرث</h1><p class="subtitle">وثيقة صادرة رسميًا من منصة أرث — الوصية الرقمية الذكية</p></div>' +
+      '<div class="brand-block">' +
+        '<h1>أرث</h1>' +
+        '<p class="subtitle">وثيقة صادرة رسميًا من منصة أرث — ملف التركة الرقمي</p>' +
+      '</div>' +
       '<div class="meta-block">' +
-        '<div><span class="lbl">رقم التقرير: </span><span class="val">' + REPORT_ID + '</span></div>' +
-        '<div><span class="lbl">تاريخ الإصدار: </span><span class="val">' + gDate + '</span></div>' +
-        '<div><span class="lbl">التاريخ الهجري: </span><span class="val">' + hDate + '</span></div>' +
+        '<div class="row"><span class="lbl">رقم التقرير: </span><span class="val">' + REPORT_ID + '</span></div>' +
+        '<div class="row"><span class="lbl">تاريخ الإصدار: </span><span class="val">' + gDate + '</span></div>' +
+        '<div class="row"><span class="lbl">التاريخ الهجري: </span><span class="val">' + hDate + '</span></div>' +
       '</div>' +
     '</div>' +
 
@@ -4872,29 +4602,30 @@ function openOfficialPrintDocument(){
     '</div>' +
 
     '<h2 class="section-title"><span class="num">1.</span> الورثة والأنصبة الشرعية</h2>' +
-    '<table class="doc-table"><thead><tr><th style="width:30px">#</th><th>الاسم</th><th style="width:60px">القرابة</th><th style="width:110px">الهوية</th><th style="width:60px">النسبة</th><th>الأصل الشرعي</th><th style="width:110px">المبلغ</th></tr></thead><tbody>' + heirsRows + '</tbody></table>' +
+    '<table class="doc-table"><thead><tr><th style="width:30px">#</th><th>الاسم</th><th style="width:60px">صلة القرابة</th><th style="width:110px">رقم الهوية</th><th style="width:60px">النسبة</th><th>الأصل الشرعي</th><th style="width:110px">المبلغ</th></tr></thead><tbody>' + heirsRows + '</tbody></table>' +
 
     '<h2 class="section-title"><span class="num">2.</span> راتب التأمينات الاجتماعية</h2>' +
-    '<table class="doc-table"><thead><tr><th style="width:30px">#</th><th>الاسم</th><th style="width:60px">القرابة</th><th style="width:60px">النسبة</th><th style="width:120px">المستحق من الراتب</th></tr></thead><tbody>' + gosiRows + '</tbody></table>' +
-    '<div class="doc-note"><b>المصدر:</b> ' + esc(GOSI_PENSION.paidBy) + ' — إجمالي المبلغ المتاح للتوزيع: ' + money(GOSI_PENSION.totalToDistribute) + ' — المرجع: ' + esc(GOSI_PENSION.gosiRef) + '</div>' +
+    '<table class="doc-table"><thead><tr><th style="width:30px">#</th><th>الاسم</th><th style="width:60px">صلة القرابة</th><th style="width:60px">النسبة</th><th style="width:130px">المستحق من الراتب</th></tr></thead><tbody>' + gosiRows + '</tbody></table>' +
+    '<div class="doc-note"><b>المصدر:</b> ' + esc(GOSI_PENSION.paidBy) + ' — المرجع: ' + esc(GOSI_PENSION.gosiRef) + '</div>' +
     '<div class="doc-note"><b>ملاحظة:</b> في حال الوفاة، سيتم إرسال رابط لمتابعة البيانات اللازمة لاستلام المبلغ.</div>' +
 
     '<h2 class="section-title"><span class="num">3.</span> الأصول والالتزامات</h2>' +
-    '<table class="doc-table"><thead><tr><th>البند</th><th>الوصف</th><th style="width:120px">القيمة</th></tr></thead><tbody>' + assetsRows + '</tbody></table>' +
-    '<table class="doc-table"><thead><tr><th>الالتزام</th><th>المرجع</th><th style="width:120px">القيمة</th></tr></thead><tbody>' + debtsRows + '</tbody></table>' +
+    '<table class="doc-table"><thead><tr><th>البند</th><th>الوصف</th><th style="width:120px">القيمة (ر.س)</th></tr></thead><tbody>' + assetsRows + '</tbody></table>' +
+    '<table class="doc-table"><thead><tr><th>الالتزام</th><th>المرجع / المصدر</th><th style="width:120px">القيمة (ر.س)</th></tr></thead><tbody>' + debtsRows + '</tbody></table>' +
 
     '<h2 class="section-title"><span class="num">4.</span> الشركات والمؤسسات والمدير البديل</h2>' +
-    '<table class="doc-table"><thead><tr><th style="width:30px">#</th><th>الاسم</th><th style="width:100px">السجل</th><th>النوع</th><th style="width:60px">الحالة</th><th>المدير بعد الوفاة</th></tr></thead><tbody>' + companiesRows + '</tbody></table>' +
+    '<table class="doc-table"><thead><tr><th style="width:30px">#</th><th>الاسم</th><th style="width:100px">السجل التجاري</th><th>النوع</th><th style="width:60px">الحالة</th><th>المدير بعد الوفاة</th></tr></thead><tbody>' + companiesRows + '</tbody></table>' +
 
     '<h2 class="section-title"><span class="num">5.</span> الوكالات</h2>' +
     '<table class="doc-table"><thead><tr><th style="width:30px">#</th><th>النوع</th><th>الموكِّل</th><th>الوكيل</th><th style="width:80px">إصدار</th><th style="width:80px">انتهاء</th><th style="width:55px">الحالة</th></tr></thead><tbody>' + agenciesRows + '</tbody></table>' +
     '<div class="doc-note"><b>ملاحظة نظامية:</b> يتم إبطال جميع الوكالات تلقائيًا في حالة الوفاة، مع إشعار الطرف الآخر بذلك.</div>' +
 
     '<h2 class="section-title"><span class="num">6.</span> حسابات التواصل الاجتماعي</h2>' +
-    '<table class="doc-table"><thead><tr><th style="width:30px">#</th><th>المنصة</th><th>اسم المستخدم</th><th>الإجراء</th></tr></thead><tbody>' + socialRows + '</tbody></table>' +
+    '<table class="doc-table"><thead><tr><th style="width:30px">#</th><th>المنصة</th><th>اسم المستخدم</th><th>الإجراء بعد الوفاة</th></tr></thead><tbody>' + socialRows + '</tbody></table>' +
+    '<div class="doc-note"><b>ملاحظة PDPL:</b> لا يُخزّن النظام كلمات المرور.</div>' +
 
     '<h2 class="section-title"><span class="num">7.</span> التبرع (إحسان)</h2>' +
-    '<table class="doc-table"><thead><tr><th>البيان</th><th>النوع</th><th style="width:120px">المبلغ</th></tr></thead><tbody>' + charityRows + '</tbody></table>' +
+    '<table class="doc-table"><thead><tr><th>البيان</th><th>النوع</th><th style="width:120px">المبلغ (ر.س)</th></tr></thead><tbody>' + charityRows + '</tbody></table>' +
 
     '<h2 class="section-title"><span class="num">8.</span> وصية الثلث</h2>' +
     '<div class="wasiyya-box">' + wasiyyaText + '</div>' +
@@ -4916,23 +4647,330 @@ function openOfficialPrintDocument(){
 
     '<div class="page-footer">' +
       '<div class="legal">النظام لا يوزّع الإرث بنفسه، بل يجهّز ويسرّع البيانات لمكتب العدل الذي يعتمد التوزيع النهائي رسميًا.</div>' +
-      '<div style="color:#666;font-size:8.5pt;margin-top:2px">أرث — وثيقة رسمية — ' + REPORT_ID + '</div>' +
+      '<div class="pagenum">أرث — وثيقة رسمية — ' + REPORT_ID + '</div>' +
     '</div>' +
 
     '</body></html>';
 
   var win = window.open('', '_blank', 'width=900,height=1100,menubar=yes,toolbar=yes');
-  if(!win || win.closed){ alert('يرجى السماح بالنوافذ المنبثقة.'); return; }
+  if(!win || win.closed || typeof win.closed === 'undefined'){
+    alert('تعذّر فتح نافذة الطباعة. يرجى السماح بالنوافذ المنبثقة.');
+    return;
+  }
   win.document.open();
   win.document.write(doc);
   win.document.close();
-  var triggerPrint = function(){ try { win.focus(); win.print(); } catch(e){} };
+
+  var triggerPrint = function(){
+    try { win.focus(); win.print(); } catch(e){}
+  };
   if(win.document.readyState === 'complete') setTimeout(triggerPrint, 400);
   else win.addEventListener('load', function(){ setTimeout(triggerPrint, 400); });
 }
 
 /* ================================================================
-   الإقلاع
+   14) قالب صك حصر الورثة الرسمي (openHeirsEnumerationDocument)
+   — مستند قضائي مستقل تمامًا عن ملف التركة
+   — لا يحتوي على أي أرقام مالية أو نسب أو قيم
+   — يستخدم نفس آلية QR المحلية
+   ================================================================ */
+function openHeirsEnumerationDocument(){
+  var HEIRS_REF_ID = nextHeirsRefNumber();
+  var VERIFY_BASE = 'https://keysaipro-cmyk.github.io/The_Will/?verify=';
+  var verifyUrl = VERIFY_BASE + HEIRS_REF_ID;
+
+  var now = new Date();
+  var gDate = now.getFullYear() + '/' +
+              String(now.getMonth()+1).padStart(2,'0') + '/' +
+              String(now.getDate()).padStart(2,'0');
+  var hDate = '1446/07/14';
+
+  /* ===== توليد رمز QR محليًا — نفس آلية ملف التركة ===== */
+  var qrSvg = '';
+  var qrGenerated = false;
+
+  try {
+    if(typeof qrcode !== 'undefined'){
+      var qr = qrcode(0, 'M');
+      qr.addData(verifyUrl);
+      qr.make();
+      qrSvg = qr.createSvgTag({ cellSize: 4, margin: 2 });
+      if(qrSvg && qrSvg.indexOf('<svg') !== -1){
+        qrGenerated = true;
+        console.log('✅ QR (HRS) Level 1 - Success');
+      }
+    }
+  } catch(e1){ console.warn('❌ QR (HRS) L1 failed:', e1.message); }
+
+  if(!qrGenerated){
+    try {
+      if(typeof qrcode !== 'undefined'){
+        var qr2 = qrcode(0, 'L');
+        qr2.addData(verifyUrl); qr2.make();
+        qrSvg = qr2.createSvgTag({ cellSize: 4, margin: 2 });
+        if(qrSvg && qrSvg.indexOf('<svg') !== -1){
+          qrGenerated = true;
+          console.log('✅ QR (HRS) Level 2 - Success');
+        }
+      }
+    } catch(e2){ console.warn('❌ QR (HRS) L2 failed:', e2.message); }
+  }
+
+  if(!qrGenerated){
+    console.error('❌ QR failed (HRS) — using external fallback');
+    qrSvg =
+      '<img src="https://api.qrserver.com/v1/create-qr-code/?size=260x260&data=' +
+      encodeURIComponent(verifyUrl) +
+      '" alt="QR Code" style="width:130px;height:130px;display:block" ' +
+      'onerror="this.parentNode.innerHTML=\'<div style=&quot;width:130px;height:130px;border:1px dashed #999;display:flex;align-items:center;justify-content:center;font-size:10px;color:#666;text-align:center;padding:8px&quot;>QR Code<br>(افتح الرابط يدويًا للتحقق)</div>\'" />';
+  }
+
+  var esc = function(s){
+    return String(s == null ? '' : s).replace(/[<>&"']/g, function(c){
+      return {'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  };
+
+  /* ===== جدول الورثة — بدون أي بيانات مالية ===== */
+  var heirsRows = HEIRS.map(function(h, i){
+    return '<tr>' +
+      '<td class="c">' + (i+1) + '</td>' +
+      '<td>' + esc(h.name) + '</td>' +
+      '<td class="c">' + esc(h.rel) + '</td>' +
+      '<td class="mono">' + esc(h.nationalId) + '</td>' +
+    '</tr>';
+  }).join('');
+
+  /* ===== بناء مستند HTML ===== */
+  var doc =
+    '<!DOCTYPE html>' +
+    '<html lang="ar" dir="rtl">' +
+    '<head>' +
+    '<meta charset="utf-8"/>' +
+    '<title>صك حصر ورثة — ' + HEIRS_REF_ID + '</title>' +
+    '<style>' +
+    '@page{size:A4;margin:18mm 16mm 22mm 16mm}' +
+    '*{box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact}' +
+    'html,body{margin:0;padding:0;background:#fff}' +
+    'body{' +
+      'font-family:"Traditional Arabic","Simplified Arabic","Noto Naskh Arabic",' +
+        '"Segoe UI",Tahoma,"Arial",serif;' +
+      'font-size:12pt;line-height:1.7;color:#111;' +
+      'padding:0 0 14mm 0;' +
+    '}' +
+    '.letterhead{' +
+      'text-align:center;' +
+      'padding-bottom:14px;border-bottom:2px solid #0b3d2e;margin-bottom:20px;' +
+    '}' +
+    '.letterhead h1{' +
+      'margin:0;font-size:22pt;font-weight:700;color:#0b3d2e;letter-spacing:-.3px;' +
+    '}' +
+    '.letterhead .subtitle{' +
+      'margin:6px 0 0;font-size:10.5pt;color:#444;' +
+    '}' +
+    '.letterhead .doc-meta{' +
+      'display:flex;justify-content:space-between;align-items:center;' +
+      'margin-top:14px;font-size:10pt;color:#222;' +
+      'border-top:1px dashed #b9c6c0;padding-top:10px;' +
+    '}' +
+    '.letterhead .doc-meta .lbl{color:#666;font-size:9pt}' +
+    '.letterhead .doc-meta .val{font-weight:700;font-family:"Courier New",monospace;letter-spacing:.5px}' +
+    '.preamble{' +
+      'background:#fafbfb;border:1px solid #b9c6c0;border-right:4px solid #0b3d2e;' +
+      'padding:14px 18px;margin:0 0 18px;font-size:11.5pt;line-height:1.9;color:#222;' +
+      'text-align:justify;' +
+    '}' +
+    '.preamble b{color:#0b3d2e}' +
+    'h2.section-title{' +
+      'font-size:12.5pt;font-weight:700;color:#0b3d2e;margin:18px 0 8px;' +
+      'padding-bottom:5px;border-bottom:1px solid #0b3d2e;' +
+      'page-break-after:avoid;break-after:avoid;' +
+    '}' +
+    'table.doc-table{' +
+      'width:100%;border-collapse:collapse;margin:6px 0 16px;font-size:11pt;' +
+    '}' +
+    'table.doc-table thead th{' +
+      'background:#eef2f0;color:#0b3d2e;font-weight:700;' +
+      'border:1px solid #b9c6c0;padding:8px 10px;text-align:right;font-size:10.5pt;' +
+    '}' +
+    'table.doc-table td{' +
+      'border:1px solid #b9c6c0;padding:8px 10px;vertical-align:middle;' +
+      'page-break-inside:avoid;break-inside:avoid;' +
+    '}' +
+    'table.doc-table tr:nth-child(even) td{background:#fafbfb}' +
+    'table.doc-table td.c{text-align:center}' +
+    'table.doc-table td.mono{font-family:"Courier New",monospace;font-size:10.5pt;letter-spacing:.3px}' +
+    '.closing-note{' +
+      'border:1px solid #b9c6c0;border-right:3px solid #0b3d2e;' +
+      'background:#fafbfb;padding:10px 14px;margin:16px 0;font-size:10.5pt;color:#222;' +
+      'line-height:1.8;text-align:justify;' +
+    '}' +
+    '.closing-note b{color:#0b3d2e}' +
+    '.signature-section{' +
+      'display:grid;grid-template-columns:1fr 1fr;gap:24px;' +
+      'margin-top:36px;page-break-inside:avoid;break-inside:avoid;' +
+    '}' +
+    '.signature-box{' +
+      'border:1px solid #b9c6c0;padding:14px 16px;min-height:120px;' +
+      'background:#fff;' +
+    '}' +
+    '.signature-box .title{' +
+      'font-size:11pt;font-weight:700;color:#0b3d2e;margin-bottom:10px;' +
+      'padding-bottom:6px;border-bottom:1px dashed #b9c6c0;' +
+    '}' +
+    '.signature-box .line{' +
+      'border-bottom:1px dotted #888;height:38px;margin-top:14px;' +
+    '}' +
+    '.signature-box .lbl-small{' +
+      'font-size:9pt;color:#666;margin-top:4px;text-align:center;' +
+    '}' +
+    '.approval-section{' +
+      'margin-top:28px;padding-top:14px;border-top:2px solid #0b3d2e;' +
+      'page-break-inside:avoid;break-inside:avoid;' +
+    '}' +
+    '.approval-section h2{font-size:12.5pt;font-weight:700;color:#0b3d2e;margin:0 0 10px}' +
+    '.approval-row{' +
+      'display:flex;align-items:center;gap:16px;' +
+      'border:1px solid #b9c6c0;padding:12px 16px;background:#fff;' +
+    '}' +
+    '.approval-row .qr-box{flex:0 0 auto;width:130px;height:130px;display:flex;align-items:center;justify-content:center}' +
+    '.approval-row .qr-box svg{width:100%;height:100%;display:block}' +
+    '.approval-row .qr-box img{width:130px;height:130px;display:block}' +
+    '.approval-row .info{flex:1;font-size:10.5pt;line-height:1.7}' +
+    '.approval-row .info .title{font-weight:700;color:#0b3d2e;font-size:11.5pt;margin-bottom:4px}' +
+    '.approval-row .info .report-code{' +
+      'font-family:"Courier New",monospace;font-weight:700;' +
+      'background:#eef2f0;padding:2px 8px;border:1px solid #b9c6c0;display:inline-block;' +
+      'margin-top:4px;letter-spacing:1px;' +
+    '}' +
+    '.page-footer{' +
+      'position:fixed;bottom:6mm;right:16mm;left:16mm;' +
+      'font-size:9pt;color:#555;border-top:1px solid #b9c6c0;' +
+      'padding-top:5px;text-align:center;line-height:1.5;' +
+    '}' +
+    '.page-footer .legal{color:#0b3d2e;font-weight:600}' +
+    '.page-footer .pagenum{color:#666;font-size:8.5pt;margin-top:2px}' +
+    '.controls{' +
+      'position:fixed;top:10px;left:10px;z-index:99;display:flex;gap:8px;' +
+      'background:#0b3d2e;padding:8px 10px;border-radius:10px;' +
+      'box-shadow:0 4px 14px rgba(0,0,0,.25);' +
+    '}' +
+    '.controls button{' +
+      'font-family:inherit;font-size:11pt;font-weight:600;' +
+      'padding:7px 14px;border-radius:8px;border:0;cursor:pointer;' +
+    '}' +
+    '.controls .print-btn{background:#8fe0bd;color:#052318}' +
+    '.controls .close-btn{background:rgba(255,255,255,.15);color:#fff}' +
+    '@media print{' +
+      '.controls{display:none !important}' +
+      'body{padding-bottom:16mm}' +
+    '}' +
+    '</style>' +
+    '</head>' +
+    '<body>' +
+
+    /* أزرار التحكم */
+    '<div class="controls">' +
+      '<button class="print-btn" onclick="window.print()">🖨️ طباعة / حفظ PDF</button>' +
+      '<button class="close-btn" onclick="window.close()">إغلاق</button>' +
+    '</div>' +
+
+    /* الترويسة */
+    '<div class="letterhead">' +
+      '<h1>صك حصر ورثة</h1>' +
+      '<p class="subtitle">صادر إلكترونيًا عبر منصة أرث — الوصية الرقمية الذكية</p>' +
+      '<div class="doc-meta">' +
+        '<div><span class="lbl">رقم الصك: </span><span class="val">' + HEIRS_REF_ID + '</span></div>' +
+        '<div><span class="lbl">التاريخ الهجري: </span><span class="val">' + hDate + '</span></div>' +
+        '<div><span class="lbl">التاريخ الميلادي: </span><span class="val">' + gDate + '</span></div>' +
+      '</div>' +
+    '</div>' +
+
+    /* متن الصك — الصيغة القضائية */
+    '<div class="preamble">' +
+      'بناءً على ثبوت وفاة / <b>' + esc(MOCK_DECEASED_NAME) + '</b> / — سجل مدني رقم <b>' + esc(MOCK_DECEASED_ID) + '</b> — ' +
+      'بموجب سجلات الأحوال المدنية الرسمية، وبعد التحقق من بيانات الأحوال المدنية وبيانات الورثة الشرعيين، ' +
+      'فقد ثبت أن ورثته الشرعيين المحصورين هم كل من ذُكر أدناه، دون غيرهم:' +
+    '</div>' +
+
+    /* جدول الورثة */
+    '<h2 class="section-title">قائمة الورثة الشرعيين</h2>' +
+    '<table class="doc-table">' +
+      '<thead><tr>' +
+        '<th style="width:40px">#</th>' +
+        '<th>الاسم الكامل</th>' +
+        '<th style="width:120px">صلة القرابة بالمتوفى</th>' +
+        '<th style="width:160px">رقم الهوية الوطنية</th>' +
+      '</tr></thead>' +
+      '<tbody>' + heirsRows + '</tbody>' +
+    '</table>' +
+
+    /* فقرة ختامية */
+    '<div class="closing-note">' +
+      '<b>تنبيه:</b> هذا الصك يُثبت حصر الورثة الشرعيين فقط، ولا يتضمن أي تفاصيل مالية أو تقسيم للتركة أو قيم للأصول، ' +
+      'والتي تُصدر ضمن مستند منفصل (ملف التركة) بعد اعتماد مكتب العدل. ' +
+      'يُعمل بهذا الصك وفق الأنظمة والتعليمات الشرعية والنظامية المعمول بها في المملكة العربية السعودية.' +
+    '</div>' +
+
+    /* قسم التوقيع والختم */
+    '<div class="signature-section">' +
+      '<div class="signature-box">' +
+        '<div class="title">ختم واعتماد الجهة المصدرة</div>' +
+        '<div class="line"></div>' +
+        '<div class="lbl-small">التاريخ: ...................</div>' +
+      '</div>' +
+      '<div class="signature-box">' +
+        '<div class="title">توقيع المسؤول</div>' +
+        '<div class="line"></div>' +
+        '<div class="lbl-small">الاسم: ...................</div>' +
+      '</div>' +
+    '</div>' +
+
+    /* قسم الاعتماد والتحقق */
+    '<div class="approval-section">' +
+      '<h2>الاعتماد والتحقق</h2>' +
+      '<div class="approval-row">' +
+        '<div class="qr-box">' + qrSvg + '</div>' +
+        '<div class="info">' +
+          '<div class="title">لمسح هذا الرمز والتحقق من صحة الصك</div>' +
+          '<div>يمكنك مسح الرمز بكاميرا الجوال للتأكد من صحة صك حصر الورثة، أو فتح الرابط يدويًا:</div>' +
+          '<div style="font-family:\'Courier New\',monospace;font-size:9pt;margin-top:6px;word-break:break-all;color:#333">' +
+            esc(verifyUrl) +
+          '</div>' +
+          '<div style="margin-top:8px">رقم الصك: <span class="report-code">' + HEIRS_REF_ID + '</span></div>' +
+        '</div>' +
+      '</div>' +
+    '</div>' +
+
+    /* التذييل */
+    '<div class="page-footer">' +
+      '<div class="legal">هذا الصك يُثبت حصر الورثة فقط، ولا يتضمن أي تفاصيل مالية أو تقسيم للتركة.</div>' +
+      '<div class="pagenum">أرث — صك حصر ورثة رسمي — ' + HEIRS_REF_ID + '</div>' +
+    '</div>' +
+
+    '</body>' +
+    '</html>';
+
+  /* ===== فتح النافذة وكتابة المستند ===== */
+  var win = window.open('', '_blank', 'width=900,height=1100,menubar=yes,toolbar=yes');
+  if(!win || win.closed || typeof win.closed === 'undefined'){
+    alert('تعذّر فتح نافذة الطباعة. يرجى السماح بالنوافذ المنبثقة لهذا الموقع.');
+    return;
+  }
+
+  win.document.open();
+  win.document.write(doc);
+  win.document.close();
+
+  var triggerPrint = function(){
+    try { win.focus(); win.print(); } catch(e){ /* تجاهل */ }
+  };
+  if(win.document.readyState === 'complete') setTimeout(triggerPrint, 400);
+  else win.addEventListener('load', function(){ setTimeout(triggerPrint, 400); });
+}
+
+/* ================================================================
+   15) الإقلاع
    ================================================================ */
 (function init(){
   document.getElementById('brandLogo').innerHTML = ic('shield');
@@ -4956,4 +4994,3 @@ function openOfficialPrintDocument(){
 </script>
 </body>
 </html>
-  
