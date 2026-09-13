@@ -198,14 +198,10 @@ main{max-width:1280px;margin:0 auto;padding: 18px 22px 40px;}
 }
 .sum-ic .ic{width:16px;height:16px}
 .sum-ic.net{background:linear-gradient(135deg,#0b3d2e,#14664a);color:#8fe0bd}
-.sum-ic.approved{background:var(--ok-bg);color:var(--ok)}
-.sum-ic.pending{background:var(--amber-bg);color:var(--amber)}
 .sum-body{display:flex;flex-direction:column;justify-content:center;min-width:0;}
 .sum-label{font-size:10.5px;color:var(--muted);font-weight:500;line-height:1.2;}
 .sum-value{font-size:13.5px;font-weight:700;color:var(--text);letter-spacing:-.2px;white-space:nowrap;line-height:1.3;}
 .sum-value small{font-size:10px;font-weight:500;color:var(--muted);margin-inline-start:2px}
-.sum-value.ok{color:var(--ok)}
-.sum-value.pending{color:var(--amber)}
 
 .tab-content{
   background:#fff;border:1px solid var(--line);border-radius: var(--radius);
@@ -231,7 +227,7 @@ main{max-width:1280px;margin:0 auto;padding: 18px 22px 40px;}
 .section-head h3{margin:0;font-size:17px;font-weight:700}
 .section-head p{margin:2px 0 0;font-size:12.5px;color:var(--muted)}
 
-/* Sub Tabs — Scroll Tabs */
+/* Sub Tabs */
 .sub-tabs-wrap{ position: relative; margin-bottom: 18px; }
 .sub-tabs{
   display:flex; gap: 6px;
@@ -301,6 +297,16 @@ main{max-width:1280px;margin:0 auto;padding: 18px 22px 40px;}
     padding-inline-end: 0;
   }
   .sub-tab{ padding: 8px 14px; }
+}
+
+/* ============================================================
+   إصلاح قاطع: التبويبات الفرعية — لا يمكن ظهور أكثر من قسم واحد
+   ============================================================ */
+.sub-panel{ display: none !important; }
+.sub-panel.active{ display: block !important; animation: subFade .3s ease both; }
+@keyframes subFade{
+  from{opacity:0;transform:translateY(4px)}
+  to{opacity:1;transform:translateY(0)}
 }
 
 .collapse-panel{
@@ -527,8 +533,6 @@ label{display:block;font-size:12.5px;font-weight:600;margin-bottom:6px;color:#26
 .note-legal .ic{color:#8fe0bd}
 .note-warn{background:var(--amber-bg);border-color:var(--amber-line);color:var(--amber)}
 .note-warn .ic{color:var(--amber)}
-.note-danger{background:var(--red-bg);border-color:var(--red-line);color:var(--red)}
-.note-danger .ic{color:var(--red)}
 
 .seg{display:flex;gap:4px;background:#f1f4f3;padding:4px;border-radius:11px;margin-bottom:14px}
 .seg button{
@@ -539,6 +543,7 @@ label{display:block;font-size:12.5px;font-weight:600;margin-bottom:6px;color:#26
 }
 .seg button.active{background:#fff;color:var(--green-900);box-shadow:0 1px 3px rgba(0,0,0,.06)}
 
+/* social creds — بدون أي زر أو كلمة مرور */
 .social-creds{display:flex;flex-direction:column;gap:4px;margin-top:6px;}
 .cred-line{display:flex;align-items:center;gap:5px;font-size:11.5px;color:#4a5c56;flex-wrap:wrap;}
 .cred-line .ic{width:12px;height:12px;color:var(--muted);flex:0 0 auto}
@@ -929,6 +934,7 @@ label{display:block;font-size:12.5px;font-weight:600;margin-bottom:6px;color:#26
 </div><!-- /#appRoot -->
 
 <div id="modalRoot"></div>
+
 <script>
 /* ================================================================
    1) الأيقونات
@@ -1114,6 +1120,7 @@ const state = {
   executor:'h3',
   report:'pending',
 
+  /* حسابات التواصل — بدون كلمة مرور (التزامًا بـ PDPL) */
   socialAccounts:[
     { id:1, platform:'x',         username:'@abdullah_m',      action:'close'    },
     { id:2, platform:'instagram', username:'abdullah.otaibi',  action:'memorial' },
@@ -1199,7 +1206,7 @@ function platformShort(id){
 }
 function heirById(id){ return HEIRS.find(h => h.id === id) || null; }
 
-/* تغيير: "سمة" → "سجلي" */
+/* أقسام التنقل — "سجلي" بدل "سمة" */
 const SECTIONS = [
   { id:'heirs',      label:'الورثة',   short:'الورثة',   icon:'users' },
   { id:'wasiyya',    label:'الوصية',   short:'الوصية',   icon:'file'  },
@@ -1219,14 +1226,14 @@ function renderNavBars(){
   const botInner = document.getElementById('bottomNavInner');
 
   topInner.innerHTML = SECTIONS.map(s => `
-    <button class="top-nav-btn" data-nav="${s.id}" onclick="switchSection('${s.id}')">
+    <button type="button" class="top-nav-btn" data-nav="${s.id}" onclick="switchSection('${s.id}')">
       ${ic(s.icon,'ic-sm')}
       <span>${s.label}</span>
     </button>
   `).join('');
 
   botInner.innerHTML = SECTIONS.map(s => `
-    <button class="bottom-nav-btn" data-nav="${s.id}" onclick="switchSection('${s.id}')">
+    <button type="button" class="bottom-nav-btn" data-nav="${s.id}" onclick="switchSection('${s.id}')">
       <span class="bn-ic">${ic(s.icon,'ic-sm')}</span>
       <span class="bn-label">${s.short}</span>
     </button>
@@ -1268,25 +1275,18 @@ function switchSection(sectionId){
   window.scrollTo({top: 0, behavior:'smooth'});
 }
 
-/* إصلاح: هذه الدالة الآن تُفعّل الأزرار بشكل صحيح */
+/* التبويبات الفرعية — الاعتماد على CSS الصارم `!important` */
 function switchAssetsSub(subId){
   state.activeAssetsSub = subId;
 
-  const allBtns = document.querySelectorAll('[data-assets-sub]');
-  const allPanels = document.querySelectorAll('[data-assets-panel]');
-
-  allBtns.forEach(btn=>{
+  document.querySelectorAll('[data-assets-sub]').forEach(btn=>{
     btn.classList.toggle('active', btn.dataset.assetsSub === subId);
   });
 
-  allPanels.forEach(p=>{
-    const match = p.dataset.assetsPanel === subId;
-    p.classList.toggle('active', match);
-    /* ضمان العرض/الإخفاء المباشر */
-    p.style.display = match ? 'block' : 'none';
+  document.querySelectorAll('[data-assets-panel]').forEach(p=>{
+    p.classList.toggle('active', p.dataset.assetsPanel === subId);
   });
 
-  /* إذا مرّرنا لأول مرة، بعض البطاقات قد تحتاج إعادة رسم */
   if(subId === 'social') renderSocial();
   if(subId === 'banks' || subId === 'vehicles' || subId === 'subs') renderAssets();
 }
@@ -1305,7 +1305,7 @@ function togglePanel(panelKey){
 }
 
 /* ================================================================
-   6) الشاشة
+   6) الشاشة الرئيسية
    ================================================================ */
 function renderSetupScreen(){
   document.getElementById('screen-setup').innerHTML = `
@@ -1358,9 +1358,9 @@ function renderSetupScreen(){
         </div>
 
         <div class="sub-panel active" data-assets-panel="banks"    id="assetsPanelBanks"></div>
-        <div class="sub-panel"        data-assets-panel="vehicles" id="assetsPanelVehicles" style="display:none"></div>
-        <div class="sub-panel"        data-assets-panel="subs"     id="assetsPanelSubs" style="display:none"></div>
-        <div class="sub-panel"        data-assets-panel="social"   id="assetsPanelSocial" style="display:none"></div>
+        <div class="sub-panel"        data-assets-panel="vehicles" id="assetsPanelVehicles"></div>
+        <div class="sub-panel"        data-assets-panel="subs"     id="assetsPanelSubs"></div>
+        <div class="sub-panel"        data-assets-panel="social"   id="assetsPanelSocial"></div>
       </div>
 
       <div class="tab-panel" data-panel="properties" id="cardProperties"></div>
@@ -1390,9 +1390,7 @@ function renderSetupScreen(){
   }
 }
 
-/* ================================================================
-   شريط الملخص — تم حذف بطاقة "مكتب العدل" + إصلاح القوس الناقص
-   ================================================================ */
+/* شريط الملخص — بدون بطاقة "مكتب العدل" */
 function renderSummaryBar(){
   const el = document.getElementById('summaryBar');
   if(!el) return;
@@ -1587,7 +1585,7 @@ function renderAssets(){
 }
 
 /* ================================================================
-   قسم حسابات التواصل — بدون كلمة مرور (PDPL)
+   قسم حسابات التواصل — بدون أي زر إظهار كلمة مرور
    ================================================================ */
 function renderSocial(){
   const el = document.getElementById('assetsPanelSocial');
@@ -1688,6 +1686,7 @@ function renderSocial(){
   bindSocialEvents();
 }
 
+/* ربط أحداث حسابات التواصل — بدون أي معالج لكلمة المرور */
 function bindSocialEvents(){
   const card = document.getElementById('assetsPanelSocial');
   if(!card) return;
@@ -1847,7 +1846,7 @@ function renderProperties(){
 }
 
 /* ================================================================
-   قسم سجلي — عنوان بدون "سجلات المتوفى"
+   قسم سجلي (بدل "سمة") — بدون "سجلات المتوفى"
    ================================================================ */
 function renderSimah(){
   const el = document.getElementById('cardSimah');
@@ -3363,7 +3362,7 @@ function bindHeirEvents(){
 }
 
 /* ================================================================
-   9) التنقل
+   9) التنقل بين الشاشات
    ================================================================ */
 function switchScreen(name){
   state.screen = name;
