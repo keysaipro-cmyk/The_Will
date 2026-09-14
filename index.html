@@ -1661,7 +1661,8 @@ const ICONS = {
   info:'<circle cx="12" cy="12" r="9"/><path d="M12 8h.01"/><path d="M11 12h1v4h1"/>',
   scroll2:'<path d="M5 3h12a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/><path d="M7 7h8"/><path d="M7 11h8"/><path d="M7 15h5"/>',
   stamp:'<path d="M5 21h14"/><path d="M6 17h12v-2a3 3 0 0 0-3-3H9a3 3 0 0 0-3 3v2Z"/><path d="M9 12V6a3 3 0 0 1 6 0v6"/>',
-  signature:'<path d="M3 19c3-3 6-6 9-6s6 3 9 3"/><path d="M3 12h4c2 0 3-1 3-3V6"/><path d="M14 4l6 6"/>'
+  signature:'<path d="M3 19c3-3 6-6 9-6s6 3 9 3"/><path d="M3 12h4c2 0 3-1 3-3V6"/><path d="M14 4l6 6"/>',
+  diamond:'<path d="M6 3h12l4 6-10 12L2 9l4-6Z"/><path d="M2 9h20"/><path d="M12 21 8 9l4-6 4 6-4 12Z"/>'
 };
 
 function ic(name, cls){
@@ -1764,10 +1765,10 @@ const PROPERTIES = [
 ];
 
 const WORKERS = [
-  { id:'w1', name:'محمد أشرف علي', nationality:'باكستانية', occupation:'سائق خاص', iqama:'2324567890', salary:2500, iqamaExpiry:'1447/08/12', residenceStatus:'valid', commitment:'committed', note:'سائق خاص — ملتزم بالسداد' },
-  { id:'w2', name:'فاطمة بيبي', nationality:'بنغلاديشية', occupation:'عاملة منزلية', iqama:'2411223344', salary:1800, iqamaExpiry:'1446/09/30', residenceStatus:'soon', commitment:'committed', note:'إقامة قريبة الانتهاء — تحتاج تجديد' },
-  { id:'w3', name:'راجيش كومار', nationality:'هندية', occupation:'طباخ', iqama:'2244556677', salary:3200, iqamaExpiry:'1447/03/20', residenceStatus:'valid', commitment:'committed', note:'طباخ عائلي — ملتزم' },
-  { id:'w4', name:'أحمد حسن إبراهيم', nationality:'مصرية', occupation:'مزارع', iqama:'2177889900', salary:2000, iqamaExpiry:'1446/05/10', residenceStatus:'expired', commitment:'late', dueAmount:6000, note:'إقامة منتهية — متأخرات رواتب 3 أشهر' }
+  { id:'w1', name:'محمد أشرف علي', nationality:'باكستاني', occupation:'سائق خاص', iqama:'2324567890', salary:2500, iqamaExpiry:'1447/08/12', residenceStatus:'valid', commitment:'committed', note:'سائق خاص — ملتزم بالسداد' },
+  { id:'w2', name:'فاطمة بيبي', nationality:'بنغلاديشي', occupation:'عاملة منزلية', iqama:'2411223344', salary:1800, iqamaExpiry:'1446/09/30', residenceStatus:'soon', commitment:'committed', note:'إقامة قريبة الانتهاء — تحتاج تجديد' },
+  { id:'w3', name:'راجيش كومار', nationality:'هندي', occupation:'طباخ', iqama:'2244556677', salary:3200, iqamaExpiry:'1447/03/20', residenceStatus:'valid', commitment:'committed', note:'طباخ عائلي — ملتزم' },
+  { id:'w4', name:'أحمد حسن إبراهيم', nationality:'مصري', occupation:'مزارع', iqama:'2177889900', salary:2000, iqamaExpiry:'1446/05/10', residenceStatus:'expired', commitment:'late', dueAmount:6000, note:'إقامة منتهية — متأخرات رواتب 3 أشهر' }
 ];
 
 const COMPANIES = [
@@ -1841,6 +1842,16 @@ const CHARITY_TYPES = {
 
 const CHARITY_PRESETS = [5000, 10000, 25000, 50000];
 
+/* أنواع الممتلكات الثمينة */
+const VALUABLE_TYPES = {
+  gold:      { label:'ذهب',          icon:'coin' },
+  silver:    { label:'فضة',          icon:'coin' },
+  jewelry:   { label:'مجوهرات',      icon:'diamond' },
+  watch:     { label:'ساعات فاخرة',  icon:'clock' },
+  art:       { label:'قطع فنية',     icon:'sparkles' },
+  other:     { label:'أخرى',         icon:'wallet' }
+};
+
 /* ================================================================
    3) الحالة
    ================================================================ */
@@ -1879,6 +1890,16 @@ const state = {
     open:false,
     name:'', nationality:'', occupation:'', iqama:'', salary:'', iqamaExpiry:'',
     residenceStatus:'valid', commitment:'committed'
+  },
+
+  valuables:[
+    { id:'v1', name:'طقم ذهب عيار 21', type:'gold', weight:'120', value:28000, note:'طقم كامل — عيار 21' },
+    { id:'v2', name:'ساعة رولكس', type:'watch', weight:'—', value:45000, note:'ساعة فاخرة — موديل 2020' },
+    { id:'v3', name:'خاتم ألماس', type:'jewelry', weight:'5', value:32000, note:'خاتم ألماس — 5 قيراط' }
+  ],
+  valuableForm:{
+    open:false,
+    name:'', type:'gold', weight:'', value:'', note:''
   },
 
   deletion:{
@@ -1933,13 +1954,16 @@ const workersLateTotal     = () => state.workers.filter(w => w.commitment === 'l
 const workersExpiredCount  = () => state.workers.filter(w => w.residenceStatus === 'expired').length;
 const workersSoonCount     = () => state.workers.filter(w => w.residenceStatus === 'soon').length;
 
+const valuablesTotal = () => state.valuables.reduce((s,v)=>s + (v.value || 0), 0);
+const valuablesCount = () => state.valuables.length;
+
 const ledgerDebitTotal  = () => state.ledger.filter(e=>e.type==='debit').reduce((s,e)=>s+e.amount,0);
 const ledgerCreditTotal = () => state.ledger.filter(e=>e.type==='credit').reduce((s,e)=>s+e.amount,0);
 
 const assetsTotal = () =>
   banksTotal() + vehiclesTotal() + ledgerCreditTotal() +
   propertiesOwnedTotal() + propertiesDueFromTenantsTotal() +
-  ewalletsTotal() + stocksTotal();
+  ewalletsTotal() + stocksTotal() + valuablesTotal();
 
 const simahTotal = () => SIMAH_DEBTS.reduce((s,d)=>s+d.amount,0);
 const debtsTotal = () => simahTotal() + ledgerDebitTotal() + propertiesLateTotal() + workersLateTotal();
@@ -1971,12 +1995,14 @@ function platformShort(id){
 }
 function heirById(id){ return HEIRS.find(h => h.id === id) || null; }
 function charityTypeLabel(key){ return (CHARITY_TYPES[key]||{}).label || key; }
+function valuableTypeLabel(key){ return (VALUABLE_TYPES[key]||{}).label || key; }
 
 const SECTIONS = [
   { id:'heirs',      label:'الورثة',   short:'الورثة',   icon:'users' },
   { id:'salary',     label:'راتب',     short:'راتب',     icon:'coin'  },
   { id:'wasiyya',    label:'الوصية',   short:'الوصية',   icon:'file'  },
   { id:'assets',     label:'الأصول',   short:'الأصول',   icon:'wallet'},
+  { id:'valuables',  label:'ممتلكاتي', short:'ممتلكاتي', icon:'diamond'},
   { id:'properties', label:'العقارات', short:'العقارات', icon:'home'  },
   { id:'simah',      label:'سجلي',     short:'سجلي',     icon:'landmark'},
   { id:'workers',    label:'العمالة',  short:'العمالة',  icon:'hardHat'},
@@ -2039,6 +2065,7 @@ function switchSection(sectionId){
   updateNavActive();
 
   if(sectionId === 'assets')     renderAssets();
+  if(sectionId === 'valuables')  renderValuables();
   if(sectionId === 'debts')      renderDebts();
   if(sectionId === 'perms')      renderPerms();
   if(sectionId === 'heirs')      renderHeirs();
@@ -2153,6 +2180,7 @@ function renderSetupScreen(){
         <div class="sub-panel"        data-assets-panel="social"   id="assetsPanelSocial"></div>
       </div>
 
+      <div class="tab-panel" data-panel="valuables" id="cardValuables"></div>
       <div class="tab-panel" data-panel="properties" id="cardProperties"></div>
       <div class="tab-panel" data-panel="simah"      id="cardSimah"></div>
       <div class="tab-panel" data-panel="workers"    id="cardWorkers"></div>
@@ -2167,6 +2195,7 @@ function renderSetupScreen(){
   renderSalary();
   renderWasiyya();
   renderAssets();
+  renderValuables();
   renderProperties();
   renderSimah();
   renderWorkers();
@@ -2213,6 +2242,13 @@ function renderSummaryBar(){
       <div class="sum-body">
         <div class="sum-label">راتب التأمينات</div>
         <div class="sum-value">${fmt(GOSI_PENSION.totalToDistribute)}<small>ر.س</small></div>
+      </div>
+    </div>
+    <div class="sum-item">
+      <div class="sum-ic">${ic('diamond','ic-sm')}</div>
+      <div class="sum-body">
+        <div class="sum-label">ممتلكاتي</div>
+        <div class="sum-value">${valuablesCount()} <small>قطعة</small></div>
       </div>
     </div>
     <div class="sum-item">
@@ -2615,6 +2651,135 @@ function renderStocks(){
       </a>
     </div>
   `;
+}
+
+/* ================================================================
+   قسم الممتلكات الثمينة (ممتلكاتي)
+   ================================================================ */
+function renderValuables(){
+  const el = document.getElementById('cardValuables');
+  if(!el) return;
+
+  const list = state.valuables;
+  const f = state.valuableForm;
+  const total = valuablesTotal();
+  const count = valuablesCount();
+
+  const typeOptions = Object.entries(VALUABLE_TYPES).map(([k,v]) =>
+    `<option value="${k}" ${f.type===k?'selected':''}>${v.label}</option>`
+  ).join('');
+
+  el.innerHTML = `
+    <div class="section-head">
+      <div class="sh-ic">${ic('diamond')}</div>
+      <div>
+        <h3>ممتلكاتي الثمينة</h3>
+        <p>الذهب، الفضة، المجوهرات، الساعات الفاخرة، والقطع الفنية — تُحتسب ضمن الأصول</p>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
+      <span class="chip chip-ok">${ic('diamond','ic-sm')} ${count} قطعة</span>
+      <span class="chip chip-info">${ic('coin','ic-sm')} القيمة الإجمالية: ${fmt(total)} ر.س</span>
+    </div>
+
+    <div class="list">
+      ${list.length ? list.map(v => {
+        const vt = VALUABLE_TYPES[v.type] || VALUABLE_TYPES.other;
+        return `
+          <div class="row">
+            <div class="row-ic" style="background:linear-gradient(135deg,#b8860b,#ffd700);color:#fff">
+              ${ic(vt.icon,'ic-sm')}
+            </div>
+            <div class="row-body">
+              <div class="row-title">
+                ${v.name}
+                <span class="chip chip-sm" style="background:#f1f4f3;color:#4a5c56">${vt.label}</span>
+              </div>
+              <div class="row-sub">
+                ${v.weight && v.weight !== '—' ? `الوزن: ${v.weight} جم • ` : ''}
+                القيمة التقديرية: ${fmt(v.value)} ر.س
+                ${v.note ? ` • ${v.note}` : ''}
+              </div>
+            </div>
+            <div class="row-val">
+              <button type="button" class="btn btn-ghost btn-sm" data-remove-valuable="${v.id}">${ic('trash','ic-sm')}</button>
+            </div>
+          </div>
+        `;
+      }).join('') : '<div class="note-box" style="margin-top:0">لا توجد ممتلكات مسجّلة حتى الآن.</div>'}
+    </div>
+
+    ${!f.open ? `
+      <button type="button" class="btn btn-primary" id="btnValuableAdd" style="margin-top:14px">
+        ${ic('plus','ic-sm')} إضافة ممتلكات جديدة
+      </button>
+    ` : `
+      <div class="social-form">
+        <label style="font-size:13px;font-weight:700;color:var(--green-900);margin-bottom:12px;display:block">إضافة ممتلكات ثمينة</label>
+        <div class="social-form-grid">
+          <div><label>الاسم / الوصف</label><input id="valName" value="${f.name}" placeholder="مثال: طقم ذهب عيار 21" /></div>
+          <div>
+            <label>النوع</label>
+            <select id="valType">${typeOptions}</select>
+          </div>
+        </div>
+        <div class="social-form-grid three">
+          <div><label>الوزن (جم) — اختياري</label><input id="valWeight" value="${f.weight}" placeholder="مثال: 120" /></div>
+          <div><label>القيمة التقديرية (ر.س)</label><input id="valValue" type="number" min="0" value="${f.value}" placeholder="مثال: 28000" /></div>
+          <div><label>ملاحظة — اختياري</label><input id="valNote" value="${f.note}" placeholder="مثال: طقم كامل" /></div>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
+          <button type="button" class="btn btn-primary btn-sm" id="btnValuableSave">${ic('check','ic-sm')} حفظ الممتلكات</button>
+          <button type="button" class="btn btn-ghost btn-sm" id="btnValuableCancel">إلغاء</button>
+        </div>
+      </div>
+    `}
+
+    <div class="note-box note-warn">
+      ${ic('alert','ic-sm')}
+      <span>تُحتسب الممتلكات الثمينة ضمن الأصول وتدخل في حساب صافي التركة.</span>
+    </div>
+  `;
+
+  bindValuableEvents();
+}
+
+function bindValuableEvents(){
+  const card = document.getElementById('cardValuables');
+  if(!card || card.dataset.valBound === '1') return;
+  card.dataset.valBound = '1';
+
+  card.addEventListener('click', e => {
+    const rm = e.target.closest('[data-remove-valuable]');
+    if(rm){
+      state.valuables = state.valuables.filter(v => v.id !== rm.dataset.removeValuable);
+      renderValuables(); renderSummaryBar(); return;
+    }
+    if(e.target.closest('#btnValuableAdd')){
+      state.valuableForm = { open:true, name:'', type:'gold', weight:'', value:'', note:'' };
+      renderValuables(); return;
+    }
+    if(e.target.closest('#btnValuableCancel')){
+      state.valuableForm = { open:false, name:'', type:'gold', weight:'', value:'', note:'' };
+      renderValuables(); return;
+    }
+    if(e.target.closest('#btnValuableSave')){
+      const name = (document.getElementById('valName')?.value || '').trim();
+      const type = document.getElementById('valType')?.value || 'gold';
+      const weight = (document.getElementById('valWeight')?.value || '').trim();
+      const value = parseFloat(document.getElementById('valValue')?.value || '0');
+      const note = (document.getElementById('valNote')?.value || '').trim();
+
+      if(!name || !value || value <= 0){ alert('يرجى إدخال الاسم والقيمة التقديرية بشكل صحيح.'); return; }
+
+      state.valuables.push({
+        id: 'v' + Date.now(), name, type, weight: weight || '—', value, note
+      });
+      state.valuableForm = { open:false, name:'', type:'gold', weight:'', value:'', note:'' };
+      renderValuables(); renderSummaryBar(); return;
+    }
+  });
 }
 
 /* ================================================================
@@ -3290,7 +3455,7 @@ function renderWorkers(){
         <label style="font-size:13px;font-weight:700;color:var(--green-900);margin-bottom:12px;display:block">إضافة عامل / مقيم جديد</label>
         <div class="social-form-grid">
           <div><label>الاسم الكامل</label><input id="workerName" value="${f.name}" placeholder="مثال: محمد أشرف علي" /></div>
-          <div><label>الجنسية</label><input id="workerNationality" value="${f.nationality}" placeholder="مثال: باكستانية" /></div>
+          <div><label>الجنسية</label><input id="workerNationality" value="${f.nationality}" placeholder="مثال: باكستاني" /></div>
         </div>
         <div class="social-form-grid three">
           <div><label>المهنة</label><input id="workerOccupation" value="${f.occupation}" placeholder="مثال: سائق خاص" /></div>
@@ -4125,10 +4290,26 @@ function fullFile(){
       <div class="mini-row"><span>محافظ إلكترونية (SAMA)</span><b>${fmt(ewalletsTotal())} ر.س</b></div>
       <div class="mini-row"><span>أسهم وتداول (إيداع)</span><b>${fmt(stocksTotal())} ر.س</b></div>
       <div class="mini-row"><span>مركبات</span><b>${fmt(vehiclesTotal())} ر.س</b></div>
+      <div class="mini-row"><span>ممتلكات ثمينة</span><b>${fmt(valuablesTotal())} ر.س</b></div>
       ${creditTotal > 0 ? `<div class="mini-row"><span>ديون لك على الآخرين</span><b style="color:var(--ok)">${fmt(creditTotal)} ر.س</b></div>` : ''}
       ${ownedTotal > 0 ? `<div class="mini-row"><span>عقارات مملوكة</span><b style="color:var(--ok)">${fmt(ownedTotal)} ر.س</b></div>` : ''}
       ${dueFromTenants > 0 ? `<div class="mini-row"><span>إيجارات مستحقة لك</span><b style="color:var(--purple)">${fmt(dueFromTenants)} ر.س</b></div>` : ''}
       <div class="mini-row"><span>إجمالي الالتزامات</span><b style="color:var(--red)">(${fmt(debtsTotal())}) ر.س</b></div>
+
+      <h4 style="font-size:13.5px;margin-top:18px">${ic('diamond','ic-sm')} الممتلكات الثمينة</h4>
+      ${state.valuables.length ? state.valuables.map(v => {
+        const vt = VALUABLE_TYPES[v.type] || VALUABLE_TYPES.other;
+        return `
+          <div class="mini-row" style="display:block;padding:7px 0">
+            <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap">
+              <b style="font-size:12.5px">${v.name}</b>
+              <b style="color:var(--green-800)">${fmt(v.value)} ر.س</b>
+            </div>
+            <div style="font-size:11px;color:var(--muted);margin-top:3px">
+              ${vt.label} ${v.weight && v.weight !== '—' ? `• الوزن: ${v.weight} جم` : ''} ${v.note ? `• ${v.note}` : ''}
+            </div>
+          </div>`;
+      }).join('') : '<div class="mini-row"><span>لا توجد ممتلكات مسجّلة</span></div>'}
 
       <h4 style="font-size:13.5px;margin-top:18px">${ic('landmark','ic-sm')} الشركات والوكالات والأرقام</h4>
       <div style="font-size:12px;font-weight:700;margin-top:6px;color:var(--green-800)">الشركات والمؤسسات + مدير بديل</div>
@@ -4472,6 +4653,9 @@ function openOfficialPrintDocument(){
   PROPERTIES.filter(function(p){ return p.role === 'owner' || p.role === 'landlord'; }).forEach(function(p){
     assetsRows += '<tr><td>عقار — ' + esc(p.type) + '</td><td>' + esc(p.address) + '</td><td class="num">' + money(p.value || 0) + '</td></tr>';
   });
+  state.valuables.forEach(function(v){
+    assetsRows += '<tr><td>ممتلكات ثمينة — ' + esc(v.name) + '</td><td>' + esc(valuableTypeLabel(v.type)) + (v.weight && v.weight !== '—' ? ' • الوزن: ' + esc(v.weight) + ' جم' : '') + '</td><td class="num">' + money(v.value) + '</td></tr>';
+  });
   if(ledgerCreditTotal() > 0){
     assetsRows += '<tr><td>ديون لك على الآخرين</td><td>دفتر الإقرارات</td><td class="num">' + money(ledgerCreditTotal()) + '</td></tr>';
   }
@@ -4800,12 +4984,6 @@ function openHeirsEnumerationDocument(){
     'table.doc-table tr:nth-child(even) td{background:#fafbfb}' +
     'table.doc-table td.c{text-align:center}' +
     'table.doc-table td.mono{font-family:"Courier New",monospace;font-size:10.5pt;letter-spacing:.3px}' +
-    '.closing-note{' +
-      'border:1px solid #b9c6c0;border-right:3px solid #0b3d2e;' +
-      'background:#fafbfb;padding:10px 14px;margin:16px 0;font-size:10.5pt;color:#222;' +
-      'line-height:1.8;text-align:justify;' +
-    '}' +
-    '.closing-note b{color:#0b3d2e}' +
     '.approval-section{' +
       'margin-top:28px;padding-top:14px;border-top:2px solid #0b3d2e;' +
       'page-break-inside:avoid;break-inside:avoid;' +
@@ -4902,6 +5080,7 @@ function openHeirsEnumerationDocument(){
 
     /* التذييل */
     '<div class="page-footer">' +
+      '<div class="legal">هذه صك إلكتروني موثق ولا يحتاج توقيع.</div>' +
       '<div class="pagenum">أرث — صك حصر ورثة رسمي — ' + HEIRS_REF_ID + '</div>' +
     '</div>' +
 
