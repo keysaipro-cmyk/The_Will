@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>أرث — منصة الوصية الرقمية الذكية</title>
+<title>إرث — منصة الوصية الرقمية الذكية</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1008,7 +1008,7 @@ label{display:block;font-size:12.5px;font-weight:600;margin-bottom:6px;color:#26
     <div class="brand">
       <div class="brand-logo" id="brandLogo"></div>
       <div>
-        <h1>أرث</h1>
+        <h1>إرث</h1>
         <p>منصة الوصية الرقمية الذكية — لتصفية التركات</p>
       </div>
     </div>
@@ -1521,12 +1521,12 @@ label{display:block;font-size:12.5px;font-weight:600;margin-bottom:6px;color:#26
     var isHeirsEnum = /^HRS-/i.test(String(verifyId));
     var docTitle    = isHeirsEnum ? 'هذا صك حصر ورثة أصلي' : 'هذا التقرير أصلي';
     var docMessage  = isHeirsEnum
-      ? 'صادر فعليًا من منصة أرث — الوصية الرقمية الذكية'
-      : 'تم إصداره فعليًا من منصة أرث';
+      ? 'صادر فعليًا من منصة إرث — الوصية الرقمية الذكية'
+      : 'تم إصداره فعليًا من منصة إرث';
     var docLabel    = isHeirsEnum ? 'رقم صك حصر الورثة الموثّق' : 'رقم التقرير الموثّق';
     var docBrand    = isHeirsEnum
-      ? '<b>أرث</b> — منصة الوصية الرقمية الذكية لتصفية التركات • صك حصر ورثة'
-      : '<b>أرث</b> — منصة الوصية الرقمية الذكية لتصفية التركات';
+      ? '<b>إرث</b> — منصة الوصية الرقمية الذكية لتصفية التركات • صك حصر ورثة'
+      : '<b>إرث</b> — منصة الوصية الرقمية الذكية لتصفية التركات';
 
     var html =
       '<!DOCTYPE html>' +
@@ -1534,7 +1534,7 @@ label{display:block;font-size:12.5px;font-weight:600;margin-bottom:6px;color:#26
       '<head>' +
       '<meta charset="utf-8"/>' +
       '<meta name="viewport" content="width=device-width, initial-scale=1"/>' +
-      '<title>التحقق من صحة الوثيقة — أرث</title>' +
+      '<title>التحقق من صحة الوثيقة — إرث</title>' +
       '<style>' +
       '*{box-sizing:border-box}' +
       'html,body{margin:0;padding:0;min-height:100vh}' +
@@ -1737,10 +1737,15 @@ const EWALLETS = [
 
 /* الأسهم — إيداع */
 const STOCKS = [
-  { id:'st1', symbol:'2222', name:'أرامكو السعودية', shares:1200, price:28.45, sector:'طاقة', depository:'إيداع', portfolioId:'SA-ED-8842-11' },
-  { id:'st2', symbol:'1120', name:'الراجحي', shares:450, price:88.30, sector:'بنوك', depository:'إيداع', portfolioId:'SA-ED-8842-11' },
-  { id:'st3', symbol:'7010', name:'الاتصالات السعودية', shares:300, price:38.75, sector:'اتصالات', depository:'إيداع', portfolioId:'SA-ED-8842-11' },
-  { id:'st4', symbol:'4013', name:'مجموعة الدكتور سليمان الحبيب', shares:180, price:245.50, sector:'صحة', depository:'إيداع', portfolioId:'SA-ED-8842-11' }
+  /* محلي */
+  { id:'st1', symbol:'2222', name:'أرامكو السعودية', shares:1200, price:28.45, sector:'طاقة', market:'محلي', exchange:'تداول', portfolioId:'SA-ED-8842-11' },
+  { id:'st2', symbol:'1120', name:'الراجحي', shares:450, price:88.30, sector:'بنوك', market:'محلي', exchange:'تداول', portfolioId:'SA-ED-8842-11' },
+  { id:'st3', symbol:'7010', name:'الاتصالات السعودية', shares:300, price:38.75, sector:'اتصالات', market:'محلي', exchange:'تداول', portfolioId:'SA-ED-8842-11' },
+  { id:'st4', symbol:'4013', name:'مجموعة الدكتور سليمان الحبيب', shares:180, price:245.50, sector:'صحة', market:'محلي', exchange:'تداول', portfolioId:'SA-ED-8842-11' },
+  /* عالمي */
+  { id:'st5', symbol:'AAPL', name:'Apple Inc.', shares:50, price:185.20, sector:'تقنية', market:'عالمي', exchange:'NASDAQ', portfolioId:'SA-ED-8842-11' },
+  { id:'st6', symbol:'MSFT', name:'Microsoft Corp.', shares:30, price:420.50, sector:'تقنية', market:'عالمي', exchange:'NASDAQ', portfolioId:'SA-ED-8842-11' },
+  { id:'st7', symbol:'TSLA', name:'Tesla Inc.', shares:25, price:245.80, sector:'سيارات', market:'عالمي', exchange:'NASDAQ', portfolioId:'SA-ED-8842-11' }
 ];
 
 const BANKS = [
@@ -1828,8 +1833,10 @@ const DELETION_REASONS = {
 };
 
 const SIMAH_DEBTS = [
-  { name:'دين بنكي — مصرف الراجحي', ref:'SM-2025-4471902', amount:82500 },
-  { name:'تمويل مركبة — البنك الأهلي السعودي', ref:'SM-2025-4471903', amount:42000 }
+  { name:'دين بنكي — مصرف الراجحي', ref:'SM-2025-4471902', amount:82500, type:'debit' },
+  { name:'تمويل مركبة — البنك الأهلي السعودي', ref:'SM-2025-4471903', amount:42000, type:'debit' },
+  { name:'دين لك على سعد الحربي', ref:'SM-2025-4471904', amount:20000, type:'credit' },
+  { name:'دين لك على أحمد الغامدي', ref:'SM-2025-4471905', amount:35000, type:'credit' }
 ];
 
 /* أنواع التبرعات (إحسان) */
@@ -1860,7 +1867,7 @@ const state = {
   tab:'simah',
   activeSection: 'heirs',
   activeAssetsSub: 'banks',
-  openPanels: { companies: true, agencies: false, numbers: false },
+  openPanels: { companies: true, agencies: false, numbers: false, stocksLocal: true, stocksGlobal: true },
   managerForm:{
     openCompanyId: null,
     managerType:'heir', managerId:'', managerName:'', managerNationalId:'', managerRelation:'',
@@ -1960,13 +1967,15 @@ const valuablesCount = () => state.valuables.length;
 const ledgerDebitTotal  = () => state.ledger.filter(e=>e.type==='debit').reduce((s,e)=>s+e.amount,0);
 const ledgerCreditTotal = () => state.ledger.filter(e=>e.type==='credit').reduce((s,e)=>s+e.amount,0);
 
+const simahDebitTotal  = () => SIMAH_DEBTS.filter(d=>d.type==='debit').reduce((s,d)=>s+d.amount,0);
+const simahCreditTotal = () => SIMAH_DEBTS.filter(d=>d.type==='credit').reduce((s,d)=>s+d.amount,0);
+
 const assetsTotal = () =>
   banksTotal() + vehiclesTotal() + ledgerCreditTotal() +
   propertiesOwnedTotal() + propertiesDueFromTenantsTotal() +
   ewalletsTotal() + stocksTotal() + valuablesTotal();
 
-const simahTotal = () => SIMAH_DEBTS.reduce((s,d)=>s+d.amount,0);
-const debtsTotal = () => simahTotal() + ledgerDebitTotal() + propertiesLateTotal() + workersLateTotal();
+const debtsTotal = () => simahDebitTotal() + ledgerDebitTotal() + propertiesLateTotal() + workersLateTotal();
 
 const netEstate  = () => assetsTotal() - debtsTotal();
 const heirAmount = pct => netEstate() * pct / 100;
@@ -1999,14 +2008,14 @@ function valuableTypeLabel(key){ return (VALUABLE_TYPES[key]||{}).label || key; 
 
 const SECTIONS = [
   { id:'heirs',      label:'الورثة',   short:'الورثة',   icon:'users' },
-  { id:'salary',     label:'راتب',     short:'راتب',     icon:'coin'  },
+  { id:'salary',     label:'الإيرادات', short:'الإيرادات', icon:'coin'  },
   { id:'wasiyya',    label:'الوصية',   short:'الوصية',   icon:'file'  },
   { id:'assets',     label:'الأصول',   short:'الأصول',   icon:'wallet'},
   { id:'valuables',  label:'ممتلكاتي', short:'ممتلكاتي', icon:'diamond'},
   { id:'properties', label:'العقارات', short:'العقارات', icon:'home'  },
-  { id:'simah',      label:'سجلي',     short:'سجلي',     icon:'landmark'},
+  { id:'simah',      label:'سجل الأعمال', short:'سجل الأعمال', icon:'landmark'},
   { id:'workers',    label:'العمالة',  short:'العمالة',  icon:'hardHat'},
-  { id:'debts',      label:'الديون',   short:'الديون',   icon:'file'  },
+  { id:'debts',      label:'الإقرارات', short:'الإقرارات', icon:'file'  },
   { id:'perms',      label:'الصلاحيات',short:'الصلاحيات',icon:'key'   }
 ];
 
@@ -2105,7 +2114,8 @@ function updateSubTabsShadow(){
 
 function togglePanel(panelKey){
   state.openPanels[panelKey] = !state.openPanels[panelKey];
-  renderSimah();
+  if(panelKey === 'stocksLocal' || panelKey === 'stocksGlobal') renderStocks();
+  else renderSimah();
 }
 
 /* ================================================================
@@ -2240,7 +2250,7 @@ function renderSummaryBar(){
     <div class="sum-item">
       <div class="sum-ic">${ic('coin','ic-sm')}</div>
       <div class="sum-body">
-        <div class="sum-label">راتب التأمينات</div>
+        <div class="sum-label">الإيرادات</div>
         <div class="sum-value">${fmt(GOSI_PENSION.totalToDistribute)}<small>ر.س</small></div>
       </div>
     </div>
@@ -2261,7 +2271,7 @@ function renderSummaryBar(){
     <div class="sum-item">
       <div class="sum-ic">${ic('landmark','ic-sm')}</div>
       <div class="sum-body">
-        <div class="sum-label">سجلي</div>
+        <div class="sum-label">سجل الأعمال</div>
         <div class="sum-value">${companiesCount() + agenciesOutCount() + agenciesInCount() + numbersCount()} <small>سجل</small></div>
       </div>
     </div>
@@ -2311,7 +2321,7 @@ function renderHeirs(){
 }
 
 /* ================================================================
-   قسم راتب (التأمينات)
+   قسم الإيرادات (التأمينات)
    ================================================================ */
 function renderSalary(){
   const el = document.getElementById('cardSalary');
@@ -2321,7 +2331,7 @@ function renderSalary(){
     <div class="section-head">
       <div class="sh-ic">${ic('coin')}</div>
       <div>
-        <h3>راتب التأمينات الاجتماعية</h3>
+        <h3>الإيرادات — راتب التأمينات الاجتماعية</h3>
         <p>الراتب التقاعدي المتاح للتوزيع على الورثة — مصدره: المؤسسة العامة للتأمينات الاجتماعية</p>
       </div>
     </div>
@@ -2600,46 +2610,75 @@ function renderStocks(){
   const el = document.getElementById('assetsPanelStocks');
   if(!el) return;
 
-  const total = stocksTotal();
+  const localStocks  = STOCKS.filter(s => s.market === 'محلي');
+  const globalStocks = STOCKS.filter(s => s.market === 'عالمي');
+
+  const renderStockList = (list) => list.length ? list.map(st => {
+    const value = st.shares * st.price;
+    return `
+      <div class="asset-card stocks">
+        <div class="asset-card-top">
+          <div class="asset-card-ic stocks">
+            <span style="font-size:11px;font-weight:700">${st.symbol}</span>
+          </div>
+          <div class="asset-card-name">
+            ${st.name}
+            <div style="font-size:11px;color:var(--muted);font-weight:500;margin-top:2px">
+              قطاع: ${st.sector} • السوق: ${st.exchange}
+            </div>
+          </div>
+          <div class="asset-card-value">${fmt(value)} ر.س</div>
+        </div>
+        <div class="asset-card-meta">
+          <span class="kv">${ic('chart','ic-sm')} <span class="lbl">السعر:</span> <b>${st.price.toFixed(2)} ر.س</b></span>
+          <span class="kv">${ic('trending','ic-sm')} <span class="lbl">الأسهم:</span> <b>${fmt(st.shares)}</b></span>
+          <span class="kv">${ic('idCard','ic-sm')} <span class="lbl">المحفظة:</span> <b>${st.portfolioId}</b></span>
+          <span class="chip chip-info">${ic('checkCircle','ic-sm')} ${st.market}</span>
+        </div>
+      </div>
+    `;
+  }).join('') : '<div class="note-box" style="margin-top:0">لا توجد أسهم مسجّلة في هذه القائمة.</div>';
 
   el.innerHTML = `
     <div class="note-box note-blue" style="margin-top:0;margin-bottom:14px">
       ${ic('shield','ic-sm')}
       <span>
         جميع الأسهم مُسجَّلة في <b>شركة مركز إيداع الأوراق المالية (إيداع)</b>.
-        الأسعار محدَّثة من السوق المالية السعودية (تداول).
+        الأسعار محدَّثة من الأسواق المالية.
       </span>
     </div>
 
-    ${STOCKS.map(st => {
-      const value = st.shares * st.price;
-      return `
-        <div class="asset-card stocks">
-          <div class="asset-card-top">
-            <div class="asset-card-ic stocks">
-              <span style="font-size:11px;font-weight:700">${st.symbol}</span>
-            </div>
-            <div class="asset-card-name">
-              ${st.name}
-              <div style="font-size:11px;color:var(--muted);font-weight:500;margin-top:2px">
-                قطاع: ${st.sector}
-              </div>
-            </div>
-            <div class="asset-card-value">${fmt(value)} ر.س</div>
-          </div>
-          <div class="asset-card-meta">
-            <span class="kv">${ic('chart','ic-sm')} <span class="lbl">السعر:</span> <b>${st.price.toFixed(2)} ر.س</b></span>
-            <span class="kv">${ic('trending','ic-sm')} <span class="lbl">الأسهم:</span> <b>${fmt(st.shares)}</b></span>
-            <span class="kv">${ic('idCard','ic-sm')} <span class="lbl">المحفظة:</span> <b>${st.portfolioId}</b></span>
-            <span class="chip chip-info">${ic('checkCircle','ic-sm')} ${st.depository}</span>
-          </div>
+    <div class="collapse-panel ${state.openPanels.stocksLocal?'open':''}">
+      <div class="collapse-head" onclick="togglePanel('stocksLocal')">
+        <div class="collapse-ic">${ic('trending')}</div>
+        <div class="collapse-title">
+          <h4>الأسهم المحلية <span class="chip chip-ok">${localStocks.length} سهم</span></h4>
+          <p>الأسهم المدرجة في السوق المالية السعودية (تداول)</p>
         </div>
-      `;
-    }).join('')}
+        <div class="collapse-chevron">${ic('chevronDown','ic-sm')}</div>
+      </div>
+      <div class="collapse-body">
+        ${renderStockList(localStocks)}
+      </div>
+    </div>
+
+    <div class="collapse-panel ${state.openPanels.stocksGlobal?'open':''}">
+      <div class="collapse-head" onclick="togglePanel('stocksGlobal')">
+        <div class="collapse-ic">${ic('chart')}</div>
+        <div class="collapse-title">
+          <h4>الأسهم العالمية <span class="chip chip-info">${globalStocks.length} سهم</span></h4>
+          <p>الأسهم المدرجة في الأسواق العالمية (NASDAQ وغيرها)</p>
+        </div>
+        <div class="collapse-chevron">${ic('chevronDown','ic-sm')}</div>
+      </div>
+      <div class="collapse-body">
+        ${renderStockList(globalStocks)}
+      </div>
+    </div>
 
     <div class="note-box">
       ${ic('trending','ic-sm')}
-      <span>إجمالي قيمة الأسهم: <b>${fmt(total)} ر.س</b> • ${STOCKS.length} شركات</span>
+      <span>إجمالي قيمة الأسهم: <b>${fmt(stocksTotal())} ر.س</b> • ${STOCKS.length} شركات</span>
     </div>
 
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">
@@ -3015,7 +3054,7 @@ function renderProperties(){
 }
 
 /* ================================================================
-   قسم سجلي
+   قسم سجل الأعمال
    ================================================================ */
 function renderSimah(){
   const el = document.getElementById('cardSimah');
@@ -3031,7 +3070,7 @@ function renderSimah(){
     <div class="section-head">
       <div class="sh-ic">${ic('landmark')}</div>
       <div>
-        <h3>سجلي</h3>
+        <h3>سجل الأعمال</h3>
         <p>بيانات الشركات، الوكالات، والأرقام المسجّلة في منصة سمة</p>
       </div>
     </div>
@@ -3526,40 +3565,63 @@ function bindWorkerEvents(){
 }
 
 /* ================================================================
-   قسم الديون
+   قسم الإقرارات
    ================================================================ */
 function renderDebts(){
   const el = document.getElementById('cardDebts');
   if(!el) return;
-  const lateRent  = propertiesLateTotal();
-  const lateSalary = workersLateTotal();
 
   el.innerHTML = `
     <div class="section-head">
       <div class="sh-ic">${ic('file')}</div>
       <div>
-        <h3>الالتزامات والديون</h3>
-        <p>
-          دين عليّ: <b>${fmt(debtsTotal())}</b> ر.س | دين لي: <b>${fmt(ledgerCreditTotal())}</b> ر.س
-          ${lateRent > 0 ? ` | <span style="color:var(--red)">إيجارات: ${fmt(lateRent)} ر.س</span>` : ''}
-          ${lateSalary > 0 ? ` | <span style="color:var(--red)">رواتب: ${fmt(lateSalary)} ر.س</span>` : ''}
-        </p>
+        <h3>الإقرارات والالتزامات</h3>
+        <p>إدارة الديون والإقرارات — من سمة ومن دفتر الإقرارات</p>
       </div>
     </div>
 
-    <div class="seg">
-      <button type="button" data-tab="simah" class="${state.tab==='simah'?'active':''}">من سمة</button>
-      <button type="button" data-tab="ledger" class="${state.tab==='ledger'?'active':''}">دفتر الإقرارات</button>
+    <div class="sub-tabs-wrap">
+      <div class="sub-tabs">
+        <button type="button" class="sub-tab ${state.tab==='simah'?'active':''}" onclick="switchDebtsTab('simah')">
+          ${ic('landmark','ic-sm')}
+          <span class="full-label">من سمة</span>
+          <span class="short-label">سمة</span>
+        </button>
+        <button type="button" class="sub-tab ${state.tab==='ledger'?'active':''}" onclick="switchDebtsTab('ledger')">
+          ${ic('file','ic-sm')}
+          <span class="full-label">دفتر الإقرارات</span>
+          <span class="short-label">دفتر</span>
+        </button>
+      </div>
     </div>
 
     <div id="debtsBody">${ state.tab==='simah' ? simahBody() : ledgerBody() }</div>
   `;
 }
 
+function switchDebtsTab(tab){
+  state.tab = tab;
+  renderDebts();
+}
+
 function simahBody(){
-  const lateRent  = propertiesLateTotal();
-  const lateSalary = workersLateTotal();
-  const dueFromTenants = propertiesDueFromTenantsTotal();
+  const debitTotal  = simahDebitTotal();
+  const creditTotal = simahCreditTotal();
+  const isDebit     = state.ledgerType === 'debit';
+
+  const debitItems  = SIMAH_DEBTS.filter(d => d.type === 'debit');
+  const creditItems = SIMAH_DEBTS.filter(d => d.type === 'credit');
+
+  const renderSimahList = (items) => items.length ? items.map(d => `
+    <div class="row">
+      <div class="row-ic">${ic('bank','ic-sm')}</div>
+      <div class="row-body">
+        <div class="row-title">${d.name}</div>
+        <div class="row-sub">رقم المرجع: ${d.ref}</div>
+      </div>
+      <div class="row-val ${d.type==='debit'?'late':''}"><b>${d.type==='debit'?'−':'+'}${fmt(d.amount)} ر.س</b></div>
+    </div>
+  `).join('') : '<div class="note-box" style="margin-top:0">لا توجد بيانات.</div>';
 
   return `
     <div class="mini-row" style="border:0;padding:0 0 12px">
@@ -3567,50 +3629,17 @@ function simahBody(){
       <span class="chip chip-info">${ic('link','ic-sm')} مربوط</span>
     </div>
 
+    <div class="seg" style="margin-bottom:14px">
+      <button type="button" class="${isDebit?'active':''}" onclick="switchSimahType('debit')">
+        ${ic('arrowLeft','ic-sm')} مدين (عليّ): ${fmt(debitTotal)} ر.س
+      </button>
+      <button type="button" class="${!isDebit?'active':''}" onclick="switchSimahType('credit')">
+        ${ic('arrowRight','ic-sm')} دائن (لي): ${fmt(creditTotal)} ر.س
+      </button>
+    </div>
+
     <div class="list">
-      ${SIMAH_DEBTS.map(d=>`
-        <div class="row">
-          <div class="row-ic">${ic('bank','ic-sm')}</div>
-          <div class="row-body">
-            <div class="row-title">${d.name}</div>
-            <div class="row-sub">رقم المرجع: ${d.ref}</div>
-          </div>
-          <div class="row-val"><b>${fmt(d.amount)} ر.س</b></div>
-        </div>
-      `).join('')}
-
-      ${lateRent > 0 ? `
-        <div class="row warn">
-          <div class="row-ic warn">${ic('home','ic-sm')}</div>
-          <div class="row-body">
-            <div class="row-title">إيجارات متأخرة</div>
-            <div class="row-sub">مستخرجة آليًا</div>
-          </div>
-          <div class="row-val late"><b>${fmt(lateRent)} ر.س</b></div>
-        </div>
-      ` : ''}
-
-      ${lateSalary > 0 ? `
-        <div class="row warn">
-          <div class="row-ic warn">${ic('hardHat','ic-sm')}</div>
-          <div class="row-body">
-            <div class="row-title">رواتب متأخرة</div>
-            <div class="row-sub">مستخرجة آليًا</div>
-          </div>
-          <div class="row-val late"><b>${fmt(lateSalary)} ر.س</b></div>
-        </div>
-      ` : ''}
-
-      ${dueFromTenants > 0 ? `
-        <div class="row landlord">
-          <div class="row-ic landlord">${ic('key','ic-sm')}</div>
-          <div class="row-body">
-            <div class="row-title">إيجارات متأخرة لصالحك</div>
-            <div class="row-sub">على المستأجرين</div>
-          </div>
-          <div class="row-val landlord"><b>${fmt(dueFromTenants)} ر.س</b></div>
-        </div>
-      ` : ''}
+      ${isDebit ? renderSimahList(debitItems) : renderSimahList(creditItems)}
     </div>
 
     <div class="note-box">
@@ -3620,43 +3649,53 @@ function simahBody(){
   `;
 }
 
+function switchSimahType(type){
+  state.ledgerType = type;
+  renderDebts();
+}
+
 function ledgerBody(){
   const debitTotal  = ledgerDebitTotal();
   const creditTotal = ledgerCreditTotal();
   const isDebit     = state.ledgerType === 'debit';
 
+  const debitItems  = state.ledger.filter(e => e.type === 'debit');
+  const creditItems = state.ledger.filter(e => e.type === 'credit');
+
+  const renderLedgerList = (items) => items.length ? items.map(e => {
+    const d = e.type === 'debit';
+    return `
+      <div class="row ${d?'warn':'ok'}">
+        <div class="row-ic ${d?'warn':'ok'}">${ic(d ? 'arrowLeft' : 'arrowRight','ic-sm')}</div>
+        <div class="row-body">
+          <div class="row-title">${e.creditor}</div>
+          <div class="row-sub">
+            <span class="chip ${d?'chip-warn':'chip-ok'}">${d ? 'دين عليّ' : 'دين لي'}</span>
+            &nbsp; ${e.date}${e.proof ? ' • ✅ مرفق' : ''}
+          </div>
+        </div>
+        <div class="row-val ${d?'late':''}"><b>${d ? '−' : '+'}${fmt(e.amount)} ر.س</b></div>
+        <button type="button" class="btn btn-ghost btn-sm" data-remove="${e.id}">${ic('trash','ic-sm')}</button>
+      </div>
+    `;
+  }).join('') : '<div class="note-box" style="margin-top:0">لا توجد إقرارات مسجّلة في هذا القسم.</div>';
+
   return `
-    <div style="display:flex;gap:8px;flex-wrap:wrap;padding-bottom:12px;border-bottom:1px dashed var(--line);margin-bottom:14px">
-      <span class="chip chip-warn">${ic('arrowLeft','ic-sm')} دين عليّ: ${fmt(debitTotal)} ر.س</span>
-      <span class="chip chip-ok">${ic('arrowRight','ic-sm')} دين لي: ${fmt(creditTotal)} ر.س</span>
+    <div class="seg" style="margin-bottom:14px">
+      <button type="button" class="${isDebit?'active':''}" onclick="switchLedgerType('debit')">
+        ${ic('arrowLeft','ic-sm')} مدين (عليّ): ${fmt(debitTotal)} ر.س
+      </button>
+      <button type="button" class="${!isDebit?'active':''}" onclick="switchLedgerType('credit')">
+        ${ic('arrowRight','ic-sm')} دائن (لي): ${fmt(creditTotal)} ر.س
+      </button>
     </div>
 
     <div class="list">
-      ${state.ledger.length ? state.ledger.map(e => {
-        const d = e.type === 'debit';
-        return `
-          <div class="row ${d?'warn':'ok'}">
-            <div class="row-ic ${d?'warn':'ok'}">${ic(d ? 'arrowLeft' : 'arrowRight','ic-sm')}</div>
-            <div class="row-body">
-              <div class="row-title">${e.creditor}</div>
-              <div class="row-sub">
-                <span class="chip ${d?'chip-warn':'chip-ok'}">${d ? 'دين عليّ' : 'دين لي'}</span>
-                &nbsp; ${e.date}${e.proof ? ' • ✅ مرفق' : ''}
-              </div>
-            </div>
-            <div class="row-val ${d?'late':''}"><b>${d ? '−' : '+'}${fmt(e.amount)} ر.س</b></div>
-            <button type="button" class="btn btn-ghost btn-sm" data-remove="${e.id}">${ic('trash','ic-sm')}</button>
-          </div>
-        `;
-      }).join('') : '<div class="note-box" style="margin-top:0">لا توجد إقرارات مسجّلة حتى الآن.</div>'}
+      ${isDebit ? renderLedgerList(debitItems) : renderLedgerList(creditItems)}
     </div>
 
     <div style="margin-top:18px;padding-top:18px;border-top:1px dashed var(--line)">
       <label>إضافة إقرار جديد</label>
-      <div class="seg" style="margin-bottom:12px">
-        <button type="button" data-ledger-type="debit" class="${isDebit?'active':''}">${ic('arrowLeft','ic-sm')} دين عليّ</button>
-        <button type="button" data-ledger-type="credit" class="${!isDebit?'active':''}">${ic('arrowRight','ic-sm')} دين لي</button>
-      </div>
       <div class="form-row">
         <input id="ledName" placeholder="${isDebit ? 'اسم الدائن (لك)' : 'اسم المدين (لك)'}" />
         <input id="ledAmount" type="number" min="1" placeholder="المبلغ (ر.س)" />
@@ -3670,6 +3709,11 @@ function ledgerBody(){
       </div>
     </div>
   `;
+}
+
+function switchLedgerType(type){
+  state.ledgerType = type;
+  renderDebts();
 }
 
 /* ================================================================
@@ -3815,7 +3859,7 @@ function renderDeletionModal(){
           </div>
           <label class="checkbox-row">
             <input type="checkbox" id="delConfirm" />
-            <span>أُقرّ بأنني قرأت الإشعار أعلاه، وأرغب في حذف بياناتي من منصة أرث.</span>
+            <span>أُقرّ بأنني قرأت الإشعار أعلاه، وأرغب في حذف بياناتي من منصة إرث.</span>
           </label>
         </div>
         <div class="modal-footer">
@@ -4281,7 +4325,7 @@ function fullFile(){
         </div>
       `).join('')}
 
-      <h4 style="font-size:13.5px;margin-top:18px">${ic('coin','ic-sm')} راتب التأمينات</h4>
+      <h4 style="font-size:13.5px;margin-top:18px">${ic('coin','ic-sm')} الإيرادات</h4>
       <div class="mini-row"><span>المصدر</span><b>${GOSI_PENSION.paidBy}</b></div>
       <div class="mini-row"><span>إجمالي الراتب</span><b>${fmt(GOSI_PENSION.totalToDistribute)} ر.س</b></div>
 
@@ -4311,7 +4355,7 @@ function fullFile(){
           </div>`;
       }).join('') : '<div class="mini-row"><span>لا توجد ممتلكات مسجّلة</span></div>'}
 
-      <h4 style="font-size:13.5px;margin-top:18px">${ic('landmark','ic-sm')} الشركات والوكالات والأرقام</h4>
+      <h4 style="font-size:13.5px;margin-top:18px">${ic('landmark','ic-sm')} سجل الأعمال</h4>
       <div style="font-size:12px;font-weight:700;margin-top:6px;color:var(--green-800)">الشركات والمؤسسات + مدير بديل</div>
       ${COMPANIES.map(c => {
         let mgr = '—';
@@ -4442,7 +4486,7 @@ function renderLoginGate(){
     inner = `
       <div class="login-card">
         <div class="login-logo">${ic('shield')}</div>
-        <h2>أرث</h2>
+        <h2>إرث</h2>
         <p class="sub">منصة الوصية الرقمية الذكية لتصفية التركات</p>
 
         <div class="nafath-badge">${ic('lock','ic-sm')} تسجيل دخول آمن عبر النفاذ الوطني الموحد</div>
@@ -4529,7 +4573,7 @@ function backToGate(){
   state.heir = { deceasedId:'', heirId:'', error:'', result:null, deniedHeir:null, fileOpen:false };
   state.activeSection = 'heirs';
   state.activeAssetsSub = 'banks';
-  state.openPanels = { companies:true, agencies:false, numbers:false };
+  state.openPanels = { companies:true, agencies:false, numbers:false, stocksLocal:true, stocksGlobal:true };
   state.managerForm = { openCompanyId: null, managerType:'heir', managerId:'', managerName:'', managerNationalId:'', managerRelation:'', managementMode:'full' };
   state.deletion = { modalOpen: false, reason:'no_longer_needed', confirmed:false, requestId:null, requestDate:null };
   state.charity = { modalOpen:false, amount:0, type:'sadaqah', note:'', confirmed:false, receiptId:null, receiptDate:null };
@@ -4645,7 +4689,7 @@ function openOfficialPrintDocument(){
     assetsRows += '<tr><td>محفظة إلكترونية — ' + esc(ew.providerAr) + ' (SAMA)</td><td>ترخيص: ' + esc(ew.license) + '</td><td class="num">' + money(ew.balance) + '</td></tr>';
   });
   STOCKS.forEach(function(st){
-    assetsRows += '<tr><td>أسهم — ' + esc(st.name) + ' (' + esc(st.symbol) + ')</td><td>' + fmt(st.shares) + ' سهم × ' + st.price.toFixed(2) + ' ر.س • ' + esc(st.depository) + '</td><td class="num">' + money(st.shares * st.price) + '</td></tr>';
+    assetsRows += '<tr><td>أسهم — ' + esc(st.name) + ' (' + esc(st.symbol) + ')</td><td>' + fmt(st.shares) + ' سهم × ' + st.price.toFixed(2) + ' ر.س • ' + esc(st.exchange) + ' • ' + esc(st.market) + '</td><td class="num">' + money(st.shares * st.price) + '</td></tr>';
   });
   VEHICLES.forEach(function(v){
     assetsRows += '<tr><td>مركبة — ' + esc(v.name) + (v.financed ? ' (ممولة)' : '') + '</td><td>' + esc(v.note) + '</td><td class="num">' + money(v.amount) + '</td></tr>';
@@ -4663,7 +4707,7 @@ function openOfficialPrintDocument(){
 
   /* ===== 4) الالتزامات ===== */
   var debtsRows = '';
-  SIMAH_DEBTS.forEach(function(d){
+  SIMAH_DEBTS.filter(function(d){ return d.type === 'debit'; }).forEach(function(d){
     debtsRows += '<tr><td>' + esc(d.name) + '</td><td class="mono">' + esc(d.ref) + '</td><td class="num">' + money(d.amount) + '</td></tr>';
   });
   state.ledger.filter(function(e){ return e.type === 'debit'; }).forEach(function(e){
@@ -4709,6 +4753,20 @@ function openOfficialPrintDocument(){
 
   /* ===== 9) الوصية ===== */
   var wasiyyaText = state.wasiyya ? esc(state.wasiyya) : 'لم تُسجَّل وصية.';
+
+  /* ===== 10) العمالة ===== */
+  var workersRows = state.workers.length ? state.workers.map(function(w, i){
+    return '<tr>' +
+      '<td class="c">' + (i+1) + '</td>' +
+      '<td>' + esc(w.name) + '</td>' +
+      '<td class="c">' + esc(w.nationality) + '</td>' +
+      '<td>' + esc(w.occupation) + '</td>' +
+      '<td class="mono">' + esc(w.iqama) + '</td>' +
+      '<td class="num">' + money(w.salary) + '</td>' +
+      '<td class="mono">' + esc(w.iqamaExpiry) + '</td>' +
+      '<td class="c">' + esc(RESIDENCE_LABELS[w.residenceStatus] || '—') + '</td>' +
+    '</tr>';
+  }).join('') : '<tr><td colspan="8" class="c">لا توجد عمالة مسجّلة.</td></tr>';
 
   /* ===== بناء مستند HTML ===== */
   var doc =
@@ -4769,8 +4827,8 @@ function openOfficialPrintDocument(){
 
     '<div class="letterhead">' +
       '<div class="brand-block">' +
-        '<h1>أرث</h1>' +
-        '<p class="subtitle">وثيقة صادرة رسميًا من منصة أرث — ملف التركة الرقمي</p>' +
+        '<h1>إرث</h1>' +
+        '<p class="subtitle">وثيقة صادرة رسميًا من منصة إرث — ملف التركة الرقمي</p>' +
       '</div>' +
       '<div class="meta-block">' +
         '<div class="row"><span class="lbl">رقم التقرير: </span><span class="val">' + REPORT_ID + '</span></div>' +
@@ -4782,13 +4840,13 @@ function openOfficialPrintDocument(){
     '<div class="kpi-grid">' +
       '<div class="kpi"><span class="lbl">عدد الورثة</span><span class="val">' + HEIRS.length + ' وارث</span></div>' +
       '<div class="kpi"><span class="lbl">صافي التركة</span><span class="val">' + fmt(netEstate()) + ' ر.س</span></div>' +
-      '<div class="kpi"><span class="lbl">راتب التأمينات</span><span class="val">' + fmt(GOSI_PENSION.totalToDistribute) + ' ر.س</span></div>' +
+      '<div class="kpi"><span class="lbl">الإيرادات</span><span class="val">' + fmt(GOSI_PENSION.totalToDistribute) + ' ر.س</span></div>' +
     '</div>' +
 
     '<h2 class="section-title"><span class="num">1.</span> الورثة والأنصبة الشرعية</h2>' +
     '<table class="doc-table"><thead><tr><th style="width:30px">#</th><th>الاسم</th><th style="width:60px">صلة القرابة</th><th style="width:110px">رقم الهوية</th><th style="width:60px">النسبة</th><th>الأصل الشرعي</th><th style="width:110px">المبلغ</th></tr></thead><tbody>' + heirsRows + '</tbody></table>' +
 
-    '<h2 class="section-title"><span class="num">2.</span> راتب التأمينات الاجتماعية</h2>' +
+    '<h2 class="section-title"><span class="num">2.</span> الإيرادات — راتب التأمينات الاجتماعية</h2>' +
     '<table class="doc-table"><thead><tr><th style="width:30px">#</th><th>الاسم</th><th style="width:60px">صلة القرابة</th><th style="width:60px">النسبة</th><th style="width:130px">المستحق من الراتب</th></tr></thead><tbody>' + gosiRows + '</tbody></table>' +
     '<div class="doc-note"><b>المصدر:</b> ' + esc(GOSI_PENSION.paidBy) + ' — المرجع: ' + esc(GOSI_PENSION.gosiRef) + '</div>' +
     '<div class="doc-note"><b>ملاحظة:</b> في حال الوفاة، سيتم إرسال رابط لمتابعة البيانات اللازمة لاستلام المبلغ.</div>' +
@@ -4815,14 +4873,16 @@ function openOfficialPrintDocument(){
     '<div class="wasiyya-box">' + wasiyyaText + '</div>' +
     '<div class="doc-note"><b>الحد الأقصى شرعًا:</b> ' + fmt(netEstate()/3) + ' ر.س</div>' +
 
+    '<h2 class="section-title"><span class="num">9.</span> العمالة والمقيمين</h2>' +
+    '<table class="doc-table"><thead><tr><th style="width:30px">#</th><th>الاسم</th><th style="width:60px">الجنسية</th><th>المهنة</th><th style="width:100px">رقم الإقامة</th><th style="width:90px">الراتب الشهري</th><th style="width:80px">انتهاء الإقامة</th><th style="width:60px">الحالة</th></tr></thead><tbody>' + workersRows + '</tbody></table>' +
+
     '<div class="approval-section">' +
       '<h2>الاعتماد والتحقق</h2>' +
       '<div class="approval-row">' +
         '<div class="qr-box">' + qrSvg + '</div>' +
         '<div class="info">' +
           '<div class="title">لمسح هذا الرمز والتحقق من صحة الوثيقة</div>' +
-          '<div>يمكنك مسح الرمز بكاميرا الجوال للتأكد من صحة التقرير، أو فتح الرابط يدويًا:</div>' +
-          '<div style="font-family:\'Courier New\',monospace;font-size:9pt;margin-top:6px;word-break:break-all;color:#333">' + esc(verifyUrl) + '</div>' +
+          '<div>يمكنك مسح الرمز بكاميرا الجوال للتأكد من صحة التقرير.</div>' +
           '<div style="margin-top:8px">رقم التقرير: <span class="report-code">' + REPORT_ID + '</span></div>' +
         '</div>' +
       '</div>' +
@@ -4831,7 +4891,7 @@ function openOfficialPrintDocument(){
 
     '<div class="page-footer">' +
       '<div class="legal">النظام لا يوزّع الإرث بنفسه، بل يجهّز ويسرّع البيانات لمكتب العدل الذي يعتمد التوزيع النهائي رسميًا.</div>' +
-      '<div class="pagenum">أرث — وثيقة رسمية — ' + REPORT_ID + '</div>' +
+      '<div class="pagenum">إرث — وثيقة رسمية — ' + REPORT_ID + '</div>' +
     '</div>' +
 
     '</body></html>';
@@ -5038,7 +5098,7 @@ function openHeirsEnumerationDocument(){
     /* الترويسة */
     '<div class="letterhead">' +
       '<h1>صك حصر ورثة</h1>' +
-      '<p class="subtitle">صادر إلكترونيًا عبر منصة أرث — الوصية الرقمية الذكية</p>' +
+      '<p class="subtitle">صادر إلكترونيًا عبر منصة إرث — الوصية الرقمية الذكية</p>' +
       '<div class="doc-meta">' +
         '<div><span class="lbl">رقم الصك: </span><span class="val">' + HEIRS_REF_ID + '</span></div>' +
         '<div><span class="lbl">التاريخ الهجري: </span><span class="val">' + hDate + '</span></div>' +
@@ -5081,7 +5141,7 @@ function openHeirsEnumerationDocument(){
     /* التذييل */
     '<div class="page-footer">' +
       '<div class="legal">هذه صك إلكتروني موثق ولا يحتاج توقيع.</div>' +
-      '<div class="pagenum">أرث — صك حصر ورثة رسمي — ' + HEIRS_REF_ID + '</div>' +
+      '<div class="pagenum">إرث — صك حصر ورثة رسمي — ' + HEIRS_REF_ID + '</div>' +
     '</div>' +
 
     '</body>' +
@@ -5125,7 +5185,7 @@ function openHeirsEnumerationDocument(){
   switchScreen('setup');
   renderLoginGate();
 
-  console.log('✅ أرث — التطبيق جاهز');
+  console.log('✅ إرث — التطبيق جاهز');
 })();
 </script>
 </body>
